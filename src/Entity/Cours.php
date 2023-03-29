@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\CoursRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -22,6 +24,17 @@ class Cours
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $date_fin = null;
+
+    #[ORM\OneToMany(mappedBy: 'presence_cours', targetEntity: Presence::class)]
+    private Collection $presence_cours;
+
+    public function __construct()
+    {
+        $this->presence_cours = new ArrayCollection();
+    }
+
+    
+
 
     public function getId(): ?int
     {
@@ -60,6 +73,36 @@ class Cours
     public function setDateFin(\DateTimeInterface $date_fin): self
     {
         $this->date_fin = $date_fin;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Presence>
+     */
+    public function getPresenceCours(): Collection
+    {
+        return $this->presence_cours;
+    }
+
+    public function addPresenceCour(Presence $presenceCour): self
+    {
+        if (!$this->presence_cours->contains($presenceCour)) {
+            $this->presence_cours->add($presenceCour);
+            $presenceCour->setPresenceCours($this);
+        }
+
+        return $this;
+    }
+
+    public function removePresenceCour(Presence $presenceCour): self
+    {
+        if ($this->presence_cours->removeElement($presenceCour)) {
+            // set the owning side to null (unless already changed)
+            if ($presenceCour->getPresenceCours() === $this) {
+                $presenceCour->setPresenceCours(null);
+            }
+        }
 
         return $this;
     }

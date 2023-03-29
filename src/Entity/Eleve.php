@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\EleveRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: EleveRepository::class)]
@@ -30,6 +32,14 @@ class Eleve
 
     #[ORM\Column(length: 255)]
     private ?string $email = null;
+
+    #[ORM\OneToMany(mappedBy: 'presence_eleve', targetEntity: Presence::class)]
+    private Collection $presence_eleve;
+
+    public function __construct()
+    {
+        $this->presence_eleve = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -104,6 +114,36 @@ class Eleve
     public function setEmail(string $email): self
     {
         $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Presence>
+     */
+    public function getPresenceEleve(): Collection
+    {
+        return $this->presence_eleve;
+    }
+
+    public function addPresenceEleve(Presence $presenceEleve): self
+    {
+        if (!$this->presence_eleve->contains($presenceEleve)) {
+            $this->presence_eleve->add($presenceEleve);
+            $presenceEleve->setPresenceEleve($this);
+        }
+
+        return $this;
+    }
+
+    public function removePresenceEleve(Presence $presenceEleve): self
+    {
+        if ($this->presence_eleve->removeElement($presenceEleve)) {
+            // set the owning side to null (unless already changed)
+            if ($presenceEleve->getPresenceEleve() === $this) {
+                $presenceEleve->setPresenceEleve(null);
+            }
+        }
 
         return $this;
     }
