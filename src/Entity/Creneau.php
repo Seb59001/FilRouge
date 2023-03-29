@@ -29,6 +29,9 @@ class Creneau
     #[ORM\Column]
     private ?\DateInterval $annee_scolaire = null;
 
+    #[ORM\ManyToOne(inversedBy: 'creneau_cours')]
+    private ?Cours $appartient_cours = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -90,6 +93,18 @@ class Creneau
     public function setAnneeScolaire(\DateInterval $annee_scolaire): self
     {
         $this->annee_scolaire = $annee_scolaire;
+
+        return $this;
+    }
+
+    public function getAppartientCours(): ?Cours
+    {
+        return $this->appartient_cours;
+    }
+
+    public function setAppartientCours(?Cours $appartient_cours): self
+    {
+        $this->appartient_cours = $appartient_cours;
 
         return $this;
     }

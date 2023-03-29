@@ -36,9 +36,13 @@ class Eleve
     #[ORM\OneToMany(mappedBy: 'presence_eleve', targetEntity: Presence::class)]
     private Collection $presence_eleve;
 
+    #[ORM\ManyToMany(targetEntity: Cours::class, mappedBy: 'eleve_inscrit')]
+    private Collection $cours;
+
     public function __construct()
     {
         $this->presence_eleve = new ArrayCollection();
+        $this->cours = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -143,6 +147,33 @@ class Eleve
             if ($presenceEleve->getPresenceEleve() === $this) {
                 $presenceEleve->setPresenceEleve(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Cours>
+     */
+    public function getCours(): Collection
+    {
+        return $this->cours;
+    }
+
+    public function addCour(Cours $cour): self
+    {
+        if (!$this->cours->contains($cour)) {
+            $this->cours->add($cour);
+            $cour->addEleveInscrit($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCour(Cours $cour): self
+    {
+        if ($this->cours->removeElement($cour)) {
+            $cour->removeEleveInscrit($this);
         }
 
         return $this;

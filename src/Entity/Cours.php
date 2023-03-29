@@ -28,9 +28,21 @@ class Cours
     #[ORM\OneToMany(mappedBy: 'presence_cours', targetEntity: Presence::class)]
     private Collection $presence_cours;
 
+    #[ORM\OneToMany(mappedBy: 'appartient_cours', targetEntity: Creneau::class)]
+    private Collection $creneau_cours;
+
+    #[ORM\ManyToOne(inversedBy: 'cours')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user_cours = null;
+
+    #[ORM\ManyToMany(targetEntity: Eleve::class, inversedBy: 'cours')]
+    private Collection $eleve_inscrit;
+
     public function __construct()
     {
         $this->presence_cours = new ArrayCollection();
+        $this->creneau_cours = new ArrayCollection();
+        $this->eleve_inscrit = new ArrayCollection();
     }
 
     
@@ -103,6 +115,72 @@ class Cours
                 $presenceCour->setPresenceCours(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Creneau>
+     */
+    public function getCreneauCours(): Collection
+    {
+        return $this->creneau_cours;
+    }
+
+    public function addCreneauCour(Creneau $creneauCour): self
+    {
+        if (!$this->creneau_cours->contains($creneauCour)) {
+            $this->creneau_cours->add($creneauCour);
+            $creneauCour->setAppartientCours($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCreneauCour(Creneau $creneauCour): self
+    {
+        if ($this->creneau_cours->removeElement($creneauCour)) {
+            // set the owning side to null (unless already changed)
+            if ($creneauCour->getAppartientCours() === $this) {
+                $creneauCour->setAppartientCours(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getUserCours(): ?User
+    {
+        return $this->user_cours;
+    }
+
+    public function setUserCours(?User $user_cours): self
+    {
+        $this->user_cours = $user_cours;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Eleve>
+     */
+    public function getEleveInscrit(): Collection
+    {
+        return $this->eleve_inscrit;
+    }
+
+    public function addEleveInscrit(Eleve $eleveInscrit): self
+    {
+        if (!$this->eleve_inscrit->contains($eleveInscrit)) {
+            $this->eleve_inscrit->add($eleveInscrit);
+        }
+
+        return $this;
+    }
+
+    public function removeEleveInscrit(Eleve $eleveInscrit): self
+    {
+        $this->eleve_inscrit->removeElement($eleveInscrit);
 
         return $this;
     }
