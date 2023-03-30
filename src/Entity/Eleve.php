@@ -6,6 +6,7 @@ use App\Repository\EleveRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: EleveRepository::class)]
 class Eleve
@@ -15,21 +16,28 @@ class Eleve
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Assert\NotBlank]
     #[ORM\Column(length: 255)]
     private ?string $nom = null;
 
+    #[Assert\NotBlank]
     #[ORM\Column(length: 255)]
     private ?string $prenom = null;
 
+    #[Assert\NotBlank]
     #[ORM\Column(length: 255)]
     private ?string $telephone = null;
 
+    #[Assert\Choice(['Masculin', 'Féminin'])]
+    #[Assert\NotBlank]
     #[ORM\Column(length: 255)]
     private ?string $sexe = null;
 
+    #[Assert\NotBlank]
     #[ORM\Column(length: 255)]
     private ?string $niveau_etude = null;
 
+    #[Assert\NotBlank]
     #[ORM\Column(length: 255)]
     private ?string $email = null;
 

@@ -26,8 +26,6 @@ class Creneau
     #[ORM\Column]
     private ?int $numero_semaine = null;
 
-    #[ORM\Column]
-    private ?\DateInterval $annee_scolaire = null;
 
     #[ORM\ManyToOne(inversedBy: 'creneau_cours')]
     private ?Cours $appartient_cours = null;
