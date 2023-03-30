@@ -9,9 +9,17 @@ use Symfony\Component\Routing\Annotation\Route;
 class UserController extends AbstractController
 {
     #[Route('/user', name: 'app_user' , methods:'GET')]
-    public function index(): Response
+    public function listeUser(): Response
     {
-        return $this->render('user/index.html.twig', [
+
+
+
+
+
+
+
+        
+        return $this->render('user/user.html.twig', [
             'controller_name' => 'UserController',
         ]);
     }
