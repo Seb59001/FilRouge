@@ -65,12 +65,12 @@ class Cours
         return $this;
     }
 
-    public function getDateDebut(): ?string
+    public function getDateDebut(): ?\DateTimeInterface
     {
         return $this->date_debut;
     }
 
-    public function setDateDebut(string $date_debut): self
+    public function setDateDebut(\DateTimeInterface $date_debut): self
     {
         $this->date_debut = $date_debut;
 
