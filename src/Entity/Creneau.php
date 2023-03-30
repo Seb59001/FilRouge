@@ -83,18 +83,6 @@ class Creneau
         return $this;
     }
 
-    public function getAnneeScolaire(): ?\DateInterval
-    {
-        return $this->annee_scolaire;
-    }
-
-    public function setAnneeScolaire(\DateInterval $annee_scolaire): self
-    {
-        $this->annee_scolaire = $annee_scolaire;
-
-        return $this;
-    }
-
     public function getAppartientCours(): ?Cours
     {
         return $this->appartient_cours;
