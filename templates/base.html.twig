@@ -13,9 +13,7 @@
 		{% block stylesheets %}
 			{{ encore_entry_link_tags('app') }}
 
-			<link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
 			<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
-
 			<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 			<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 			<link rel="stylesheet" href="{{asset ('assets/css/style.css') }}">
@@ -28,10 +26,22 @@
 
 		{% endblock %}
 		{% block javascripts %}
+			
 			{{ encore_entry_script_tags('app') }}
 			<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 			<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<<<<<<< HEAD
 			<script type="text/javascript" src="{{asset ('assets/js/script.js') }}"></script>
 		{% endblock %}
+=======
+		<script rel="stylesheet" type="text/javascript" src="{{asset ('assets/js/script.js') }}"></script>
+		
+		{% endblock %}
+	</head>
+	<body>
+
+	
+		{% block body %}{% endblock %}
+>>>>>>> UserController
 	</body>
 </html>
