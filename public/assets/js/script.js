@@ -1,6 +1,6 @@
 (function () {
-   ("#msbo").on("click", function () {
-      ("body").toggleClass("msb-x");
+   $("#msbo").on("click", function () {
+      $("body").toggleClass("msb-x");
     });
   })();
   
