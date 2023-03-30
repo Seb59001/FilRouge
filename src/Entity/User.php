@@ -2,10 +2,12 @@
 
 namespace App\Entity;
 
-use App\Repository\UserRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\UserRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 class User
@@ -15,7 +17,10 @@ class User
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 50)]
+    //Les conditions pour l'adresse mail : Que ce soit une adresse mail, qu'elle soit unique dans la BDD
+    #[ORM\Column(type: 'string', length: 180, unique: TRUE)]
+    #[Assert\Email()]
+    #[Assert\Length(min: 2 , max: 180)]
     private ?string $adress_mail = null;
 
     #[ORM\Column(length: 255)]
