@@ -8,6 +8,7 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Constraints\Type;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 class User
@@ -17,32 +18,46 @@ class User
     #[ORM\Column]
     private ?int $id = null;
 
-    //Les conditions pour l'adresse mail : Que ce soit une adresse mail, qu'elle soit unique dans la BDD
-    #[ORM\Column(type: 'string', length: 180, unique: TRUE)]
+    //Que ce soit une adresse mail, qu'elle soit unique dans la BDD
+    #[ORM\Column(length: 180, unique: TRUE)]
     #[Assert\Email()]
     #[Assert\Length(min: 2 , max: 180)]
     private ?string $adress_mail = null;
 
+// Ne peut pas être vide 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank()]
     private ?string $password = null;
 
+
     #[ORM\Column(length: 50)]
+    #[Assert\NotBlank()]
     private ?string $nom = null;
 
     #[ORM\Column(length: 50)]
+    #[Assert\NotBlank()]
     private ?string $prenom = null;
 
     #[ORM\Column(length: 50)]
+    #[Assert\NotBlank()]
+    #[Assert\Choice(['Femme', 'Homme', 'Non-binaire'])]
     private ?string $sexe = null;
 
     #[ORM\Column(length: 50)]
+    #[Assert\NotBlank()]
+
     private ?string $telephone = null;
 
     #[ORM\Column(length: 50)]
+    #[Assert\NotBlank()]
+    #[Assert\Choice(['Secretaire', 'Professeur', 'Autre'])]
     private ?string $emploi = null;
 
+
+    // J'ai suivi le musclé mais il faudra peut être revoir 
     #[ORM\Column(length: 50)]
-    private ?string $role = null;
+    #[Assert\NotNull()]
+    private ?string $role = null ;
 
     #[ORM\OneToMany(mappedBy: 'user_cours', targetEntity: Cours::class)]
     private Collection $cours;
