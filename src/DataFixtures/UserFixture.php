@@ -20,12 +20,8 @@ class UserFixture extends Fixture
             $user->setTelephone('0606060606');
             $user->setEmploi('Professeur');
             $user->setRole('ROLE_USER');
-            
-
-
 
             $manager->persist($user);
-
         }
         $manager->flush();
     }
