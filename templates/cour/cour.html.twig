@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello CourController!{% endblock %}
+{% block title %}Tableau Cours{% endblock %}
 
 {% block body %}
     <!--main content wrapper-->
@@ -9,14 +9,44 @@
             <div class="container">
                 <!-- Content here -->
                 <div class="example-wrapper">
-                    <h1>Hello {{ controller_name }}! ✅</h1>
-
-                    This friendly message is coming from:
-                    <ul>
-                        <li>Your controller at <code><a href="{{ 'C:/Users/zerzo/OneDrive/Bureau/FilleRouge/FilRouge/src/Controller/CourController.php'|file_link(0) }}">src/Controller/CourController.php</a></code></li>
-                        <li>Your template at <code><a href="{{ 'C:/Users/zerzo/OneDrive/Bureau/FilleRouge/FilRouge/templates/cour/cour.html.twig'|file_link(0) }}">templates/cour/index.html.twig</a></code></li>
-                    </ul>
+                    <h1>✅Liste des cours </h1>
                 </div>
+                <div class="cv"> <div>
+                        <div class="inbox">
+                            <div class="inbox-sb"></div>
+                            <div class="inbox-bx container-fluid">
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        <table class="table table-stripped">
+                                            <tbody>
+                                            <tr>
+                                                <th><input class="class-checkboxes" type="checkbox" id ="select-all" name="select-all"/></th>
+                                                <th>Libelee de Cour</th>
+                                                <th>Date de debut</th>
+                                                <th>Date de FIn </th>
+                                            </tr>
+
+                                            {% for cour in courListe %}
+                                                <tr>
+                                                    <td><input class="class-checkboxes" type="checkbox"/></td>
+                                                    <td id="gh"> {{ cour.libeleeCour }}</td>
+                                                    <td> {{ cour.dateDebut|date("m/d/Y") }}</td>
+                                                    <td> {{ cour.dateFin|date("m/d/Y") }}</td>
+                                                </tr>
+                                            {% endfor %}
+
+                                            </tbody>
+                                        </table>
+{#                                        <div class="navigation">#}
+{#                                            {{ knp_pagination_render(users) }}#}
+{#                                        </div>#}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
     </div>
 
