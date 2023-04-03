@@ -2,11 +2,14 @@
 
 namespace App\Entity;
 
-use App\Repository\UsersRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\UsersRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UsersRepository::class)]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
@@ -19,21 +22,57 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
+    #[Assert\Email()]
+    #[Assert\Length(min: 2 , max: 180)]
     private ?string $email = null;
 
 
 
-    #[ORM\Column]
-    private array $roles = [];
+    #[ORM\Column(length: 50)]
+    #[Assert\NotNull()]
+    private array $roles = ["ROLE_USER"];
 
     /**
      * @var string The hashed password
      */
-    #[ORM\Column]
+    #[ORM\Column(length: 255)]
+    #[Assert\NotBlank()]
     private ?string $password = null;
 
     #[ORM\Column(type: 'boolean')]
     private $isVerified = false;
+
+    #[ORM\Column(length: 50)]
+    #[Assert\NotBlank()]
+    private ?string $nom = null;
+
+    #[ORM\Column(length: 50)]
+    #[Assert\NotBlank()]
+    private ?string $prenom = null;
+
+    #[ORM\Column(length: 50)]
+    #[Assert\NotBlank()]
+    #[Assert\Choice(['Femme', 'Homme', 'Non-binaire'])]
+    private ?string $sexe = null;
+
+    #[ORM\Column(length: 50)]
+    #[Assert\NotBlank()]
+
+    private ?string $telephone = null;
+
+    #[ORM\Column(length: 50)]
+    #[Assert\NotBlank()]
+    #[Assert\Choice(['Secretaire', 'Professeur', 'Autre'])]
+    private ?string $emploi = null;
+
+    #[ORM\OneToMany(mappedBy: 'user_cours', targetEntity: Cours::class)]
+    private Collection $cours;
+
+    public function __construct()
+    {
+        $this->cours = new ArrayCollection();
+    }
+
 
     public function getId(): ?int
     {
@@ -116,4 +155,67 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+
+
+    public function getNom(): ?string
+    {
+        return $this->nom;
+    }
+
+    public function setNom(string $nom): self
+    {
+        $this->nom = $nom;
+
+        return $this;
+    }
+
+    public function getPrenom(): ?string
+    {
+        return $this->prenom;
+    }
+
+    public function setPrenom(string $prenom): self
+    {
+        $this->prenom = $prenom;
+
+        return $this;
+    }
+
+    public function getSexe(): ?string
+    {
+        return $this->sexe;
+    }
+
+    public function setSexe(string $sexe): self
+    {
+        $this->sexe = $sexe;
+
+        return $this;
+    }
+
+    public function getTelephone(): ?string
+    {
+        return $this->telephone;
+    }
+
+    public function setTelephone(string $telephone): self
+    {
+        $this->telephone = $telephone;
+
+        return $this;
+    }
+
+    public function getEmploi(): ?string
+    {
+        return $this->emploi;
+    }
+
+    public function setEmploi(string $emploi): self
+    {
+        $this->emploi = $emploi;
+
+        return $this;
+    }
+
 }
