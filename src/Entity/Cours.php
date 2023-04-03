@@ -2,12 +2,11 @@
 
 namespace App\Entity;
 
-use App\Entity\Users;
+use App\Repository\CoursRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use App\Repository\CoursRepository;
-use Doctrine\Common\Collections\Collection;
-use Doctrine\Common\Collections\ArrayCollection;
 
 #[ORM\Entity(repositoryClass: CoursRepository::class)]
 class Cours
@@ -34,7 +33,7 @@ class Cours
 
     #[ORM\ManyToOne(inversedBy: 'cours')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Users $user_cours = null;
+    private ?User $user_cours = null;
 
     #[ORM\ManyToMany(targetEntity: Eleve::class, inversedBy: 'cours')]
     private Collection $eleve_inscrit;
@@ -150,12 +149,12 @@ class Cours
         return $this;
     }
 
-    public function getUsersCours(): ?Users
+    public function getUserCours(): ?User
     {
         return $this->user_cours;
     }
 
-    public function setUsersCours(?Users $user_cours): self
+    public function setUserCours(?User $user_cours): self
     {
         $this->user_cours = $user_cours;
 

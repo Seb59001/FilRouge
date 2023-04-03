@@ -2,24 +2,22 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\User;
 use App\Entity\Cours;
-use App\Entity\Users;
+use App\Entity\User;
 use App\Repository\UserRepository;
-use App\Repository\UsersRepository;
-use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Persistence\ObjectManager;
 
 class CourFixtures extends Fixture
 {
-    private $usersRepository;
+    private $userRepository;
 
-    public function __construct(UsersRepository $userRepository)
+    public function __construct(UserRepository $userRepository)
     {
-        $this->usersRepository = $userRepository;
+        $this->userRepository = $userRepository;
     }
 
-    public function load(ObjectManager $manager): void
+    public function load(ObjectManager  $manager): void
     {
 
         // $product = new Product();
@@ -35,17 +33,17 @@ class CourFixtures extends Fixture
 
 
 
-            $user = new Users();
-            $user->setemail("Adressemails" . $i . "@KJST.fr");
-            $user->setPassword("MDP" . $i);
-            $user->setNom("Luffy" . $i);
-            $user->setPrenom("Pirate" . $i);
+            $user = new User();
+            $user->setAdressMail("Adressemail".$i."@KJST.fr");
+            $user->setPassword("MDP".$i);
+            $user->setNom("Luffy".$i);
+            $user->setPrenom("Pirate".$i);
             $user->setSexe('Femme');
             $user->setTelephone('0606060606');
             $user->setEmploi('Professeur');
-            $user->setRoles(['ROLE_USER']);
+            $user->setRole('ROLE_USER');
 
-            $cour->setUsersCours($user);
+            $cour->setUserCours($user);
             $manager->persist($user);
 
             $manager->persist($cour);
