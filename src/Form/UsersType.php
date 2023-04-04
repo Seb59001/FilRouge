@@ -137,33 +137,33 @@ class UsersType extends AbstractType
                     'class' => 'form-label mt-4'
                 ],
                 'constraints' => [
-                    new Assert\Length(['min' => 2, 'max' => 50]),
+                    new Assert\Length(['min' => 2, 'max' => 50 ]),
                     new Assert\NotBlank()
                 ]
             ])
 
-            ->add('roles', CollectionType::class, [
-                'entry_type' => ChoiceType::class,
-                'entry_options' => [
-                    'choices' => [
-                        'Admin' => 'ROLE_ADMIN',
-                        'User' => 'ROLE_USER',
-                    ],
-                ],
-                'attr' => [
-                    'class' => 'form-control',
-                    'minlength' => '2',
-                    'maxlength' => '50'
-                ],
-                'label' => 'Rôle',
-                'label_attr' => [
-                    'class' => 'form-label mt-4'
-                ],
-                'constraints' => [
-                    new Assert\Length(['min' => 2, 'max' => 50]),
-                    new Assert\NotNull()
-                ]
-            ])
+            // ->add('roles', CollectionType::class, [
+            //     'entry_type' => ChoiceType::class,
+            //     'entry_options' => [
+            //         'choices' => [
+            //             'Admin' => "ROLE_ADMIN",
+            //             'User' => "ROLE_USER",
+            //         ],
+            //     ],
+            //     'attr' => [
+            //         'class' => 'form-control',
+            //         'minlength' => '2',
+            //         'maxlength' => '50'
+            //     ],
+            //     'label' => 'Rôle',
+            //     'label_attr' => [
+            //         'class' => 'form-label mt-4'
+            //     ],
+            //     'constraints' => [
+            //         new Assert\Length(['min' => 2, 'max' => 50]),
+            //         new Assert\NotNull()
+            //     ]
+            // ])
             
             ->add('submit', SubmitType::class, [
                 'attr' => [
