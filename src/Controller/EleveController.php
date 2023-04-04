@@ -90,7 +90,7 @@ class EleveController extends AbstractController
         if(!$eleve) {
             $this->addFlash(
                 'success',
-                "L'ingrédient en question n'a pas été trouvé"
+                "L'élève en question n'a pas été trouvé"
             );
 
             return $this->redirectToroute('app_eleve');

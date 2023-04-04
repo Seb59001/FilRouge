@@ -1,0 +1,59 @@
+{% extends "base.html.twig" %}
+
+{% block body
+ %}
+	<div class="container">
+
+
+		<h1>Nouveau Créneau</h1>
+
+		{% for message in app.flashes('success') %}
+			<div class="alert alert-success">
+				{{message}}
+			</div>
+
+		{% endfor %}
+		{{form_start(form)}}
+
+
+		<div class="form-group">
+			{{form_label(form.libelle_jour)}}
+			{{form_widget(form.libelle_jour)}}
+			<div class="form-error">
+				{{form_errors(form.libelle_jour)}}
+			</div>
+		</div>
+
+		<div class="form-group">
+			{{form_label(form.heure_debut)}}
+			{{form_widget(form.heure_debut)}}
+			<div class="form-error">
+				{{form_errors(form.heure_debut)}}
+			</div>
+		</div>
+
+		<div class="form-group">
+			{{form_label(form.heure_fin)}}
+			{{form_widget(form.heure_fin)}}
+			<div class="form-error">
+				{{form_errors(form.heure_fin)}}
+			</div>
+		</div>
+
+		<div class="form-group">
+			{{form_label(form.numero_semaine)}}
+			{{form_widget(form.numero_semaine)}}
+			<div class="form-error">
+				{{form_errors(form.numero_semaine)}}
+			</div>
+		</div>
+
+		<div class="form-group">
+			{{form_row(form.submit)}}
+		</div>
+
+		{{form_end(form)}}
+	</div>
+
+
+{% endblock %}
