@@ -5,6 +5,7 @@ namespace App\Form;
 use Assert\length;
 use App\Entity\Eleve;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -58,16 +59,19 @@ class EleveType extends AbstractType
                     new Assert\NotBlank
                 ]
             ])
-            ->add('sexe', TextType::class, [
+            ->add('sexe', ChoiceType::class, [
                 'attr' => [
                     'class' => 'form-control'
+                ],
+                'choices' => [
+                    'Féminin' => "Féminin",
+                    'Masculin' => "Masculin"
                 ],
                 'label' => 'Sexe',
                 'label_attr' => [
                     'class' => 'form-label mt-4'
                 ], 
                 'constraints' => [
-                    new Assert\Length(['min' => 2, 'max' => 50]),
                     new Assert\NotBlank
                 ]
             ])
@@ -101,7 +105,7 @@ class EleveType extends AbstractType
                 'attr' => [
                     'class' => 'btn btn-primary mt-5'
                 ],
-                'label' => 'Inscrire un nouvel élève'
+                'label' => 'Valider'
             ])
         ;
     }
