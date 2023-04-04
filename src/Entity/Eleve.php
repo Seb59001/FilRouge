@@ -6,9 +6,11 @@ use App\Repository\EleveRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: EleveRepository::class)]
+#[UniqueEntity('email')]
 class Eleve
 {
     #[ORM\Id]
@@ -51,6 +53,11 @@ class Eleve
     {
         $this->presence_eleve = new ArrayCollection();
         $this->cours = new ArrayCollection();
+    }
+
+    public function __toString()
+    {
+        return $this->nom;
     }
 
     public function getId(): ?int
