@@ -6,6 +6,7 @@ use Assert\length;
 use App\Entity\Eleve;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -95,6 +96,12 @@ class EleveType extends AbstractType
                     new Assert\Length(['min' => 2, 'max' => 50]),
                     new Assert\NotBlank
                 ]
+            ])
+            ->add('submit', SubmitType::class, [
+                'attr' => [
+                    'class' => 'btn btn-primary mt-5'
+                ],
+                'label' => 'Inscrire un nouvel élève'
             ])
         ;
     }
