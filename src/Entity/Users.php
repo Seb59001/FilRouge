@@ -57,7 +57,6 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 50)]
     #[Assert\NotBlank()]
-
     private ?string $telephone = null;
 
     #[ORM\Column(length: 50)]
@@ -74,6 +73,9 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
 
+
+
+    
     public function getId(): ?int
     {
         return $this->id;
