@@ -13,7 +13,7 @@ class PresenceFixtures extends Fixture
             public function load(ObjectManager $manager)
             {
 
-                for ($i=0; $i<20;$i++)
+                for ($i=1; $i<20;$i++)
                 {
                     $eleve1 = new Eleve();
                     $eleve1->setNom('Dupont');

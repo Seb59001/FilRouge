@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modification un cour
+{% endblock %}
+
+{% block body %}
+    <div class="mcw container">
+        <h1 class="mt-4">Modification cour</h1>
+        {{ form_start(form)}}
+        <div class="c">
+            {{ form_label(form.libelee_cour) }}
+            {{ form_widget(form.libelee_cour) }}
+            <div class="form-error">
+                {{ form_errors(form.libelee_cour) }}
+            </div>
+        </div>
+        <div class="form-group">
+            {{ form_label(form.date_debut) }}
+            {{ form_widget(form.date_debut) }}
+            <div class="form-error">
+                {{ form_errors(form.date_debut) }}
+            </div>
+            {{ form_label(form.date_fin) }}
+            {{ form_widget(form.date_fin) }}
+            <div class="form-error">
+                {{ form_errors(form.date_fin) }}
+            </div>
+            <div class="form-group">
+                {{ form_label(form.usersCours) }}
+                {{ form_widget(form.usersCours) }}
+                <div class="form-error">
+                    {{ form_errors(form.usersCours) }}
+                </div>
+            </div>
+            <div class="form-group">
+                {{ form_row(form.submit) }}
+            </div>
+
+        </div>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

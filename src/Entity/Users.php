@@ -218,4 +218,20 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    /**
+     * @return Collection
+     */
+    public function getCours(): Collection
+    {
+        return $this->cours;
+    }
+
+    /**
+     * @param Collection $cours
+     */
+    public function setCours(Collection $cours): void
+    {
+        $this->cours = $cours;
+    }
+
 }
