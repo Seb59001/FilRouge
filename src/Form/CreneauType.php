@@ -2,7 +2,9 @@
 
 namespace App\Form;
 
+use App\Entity\Cours;
 use App\Entity\Creneau;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
@@ -37,6 +39,11 @@ class CreneauType extends AbstractType
                 'attr' => [
                     'class' => 'form-control'
             ]
+            ])
+
+            ->add('appartientcours', EntityType::class, [
+                'class' => Cours::class,
+                'choice_label' => 'libelee_cour',
             ])
             ->add('submit', SubmitType::class, [
                 'attr' => [
