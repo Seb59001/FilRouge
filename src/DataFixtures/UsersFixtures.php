@@ -1,5 +1,4 @@
 <?php
-
 namespace App\DataFixtures;
 
 use App\Entity\Users;
@@ -10,21 +9,18 @@ class UsersFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
-
-for ($i = 1; $i <= 10; $i++) {
-    $user = new Users();
-    $user->setemail("Adressemail" . $i . "@KJST.fr");
-    $user->setPassword("MDP" . $i);
-    $user->setNom("Luffy" . $i);
-    $user->setPrenom("Pirate" . $i);
-    $user->setSexe('Femme');
-    $user->setTelephone('0606060606');
-    $user->setEmploi('Professeur');
-    $user->setRoles(['ROLE_USER']);
-
-
-    $manager->persist($user);
-}
+        for ($i = 1; $i <= 10; $i++) {
+            $user = new Users();
+            $user->setemail("Adressemail" . $i . "@KJST.fr")
+                ->setPlainPassword('password')
+                ->setNom("Luffy" . $i)
+                ->setPrenom("Pirate" . $i)
+                ->setSexe('Femme')
+                ->setTelephone('0606060606')
+                ->setEmploi('Professeur')
+                ->setRoles(['ROLE_USER']);
+            $manager->persist($user);
+        }
         $manager->flush();
     }
 }

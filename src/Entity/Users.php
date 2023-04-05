@@ -15,6 +15,8 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 #[ORM\Entity(repositoryClass: UsersRepository::class)]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
+
+#[ORM\EntityListeners(['App\EntityListener\UserListener'])]
 class Users implements UserInterface, PasswordAuthenticatedUserInterface, TwoFactorInterface
 {
     #[ORM\Id]
@@ -24,10 +26,8 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface, TwoFac
 
     #[ORM\Column(length: 180, unique: true)]
     #[Assert\Email()]
-    #[Assert\Length(min: 2 , max: 180)]
+    #[Assert\Length(min: 2, max: 180)]
     private ?string $email = null;
-
-
 
     #[ORM\Column(length: 50)]
     #[Assert\NotNull()]
@@ -78,10 +78,20 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface, TwoFac
         $this->cours = new ArrayCollection();
     }
 
+    private $plainPassword;
 
+    public function getPlainPassword(): ?string
+    {
+        return $this->plainPassword;
+    }
 
+    public function setPlainPassword(string $plainPassword): self
+    {
+        $this->email = $plainPassword;
 
-    
+        return $this;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -228,6 +238,7 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface, TwoFac
 
 
 
+
     // [...]
 
     public function isGoogleAuthenticatorEnabled(): bool
@@ -251,3 +262,6 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface, TwoFac
     }
 
 }
+
+
+
