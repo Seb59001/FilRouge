@@ -137,7 +137,7 @@ class UsersType extends AbstractType
                     'class' => 'form-label mt-4'
                 ],
                 'constraints' => [
-                    new Assert\Length(['min' => 2, 'max' => 50]),
+                    new Assert\Length(['min' => 2, 'max' => 50 ]),
                     new Assert\NotBlank()
                 ]
             ])
@@ -146,8 +146,8 @@ class UsersType extends AbstractType
                 'entry_type' => ChoiceType::class,
                 'entry_options' => [
                     'choices' => [
-                        'Admin' => 'ROLE_ADMIN',
-                        'User' => 'ROLE_USER',
+                        'Admin' => "ROLE_ADMIN",
+                        'User' => "ROLE_USER",
                     ],
                 ],
                 'attr' => [
@@ -166,6 +166,7 @@ class UsersType extends AbstractType
             ])
             
             ->add('submit', SubmitType::class, [
+                'label' => 'Valider',
                 'attr' => [
                     'class' => 'btn btn-primary mt-4'
                 ]

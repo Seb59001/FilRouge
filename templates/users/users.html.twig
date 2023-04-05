@@ -4,49 +4,67 @@
 {% endblock %}
 
 {% block body %}
-	<div class="mcw">
-		<!--navigation here-->
-		<!--main content view-->
-			<div class="cv"> <div>
-				<div class="inbox">
-					<div class="inbox-sb"></div>
-					<div class="inbox-bx container-fluid">
-						<div class="row">
-							<div class="col-md-10">
-								<table class="table table-stripped">
-									<tbody>
-										<tr>
-											<th><input type="checkbox"/></th>
-											<th>Nom</th>
-											<th>Prénom</th>
-											<th>Sexe</th>
-											<th>E-mail</th>
-											<th>Téléphone</th>
-											<th>Emploi</th>
-											<th>Rôle</th>
-										</tr>
-
-										{% for users in users %}
+	<div class="container">
+		<div class="mcw">
+			<!--navigation here-->
+			<!--main content view-->
+				<div class="cv"> <div>
+					<div class="inbox">
+						<div class="inbox-sb"></div>
+						<div class="inbox-bx container-fluid">
+							<div class="row">
+								<div class="col-md-10">
+									<table class="table table-stripped">
+										<tbody>
 											<tr>
-												<td><input type="checkbox"/></td>
-												<td>{{users.nom}}</td>
-												<td>{{users.prenom}}</td>
-												<td>{{users.sexe}}</td>
-												<td>{{users.email}}</td>
-												<td>{{users.telephone}}</td>
-												<td>{{users.emploi}}</td>
-												{% for roles in users.roles %}
-													<td>{{roles}}</td>
+												<h1 class="mt-4">La liste des utilisateurs</h1>
+												<a href="{{path('user.new')}}" class="btn btn-primary ">Ajouter</a>
+												{% for message in app.flashes('success') %}
+													<div class="alert-success">
+														{{ message }}
+													</div>
 												{% endfor %}
-
+												<th><input type="checkbox"/></th>
+												<th>Nom</th>
+												<th>Prénom</th>
+												<th>Sexe</th>
+												<th>E-mail</th>
+												<th>Téléphone</th>
+												<th>Emploi</th>
+												<th>Rôle</th>
+												<th>Edition</th>
+												<th>Suppression</th>
 											</tr>
-										{% endfor %}
+
+											{% for users in users %}
+												<tr>
+													<td><input type="checkbox"/></td>
+													<td>{{users.nom}}</td>
+													<td>{{users.prenom}}</td>
+													<td>{{users.sexe}}</td>
+													<td>{{users.email}}</td>
+													<td>{{users.telephone}}</td>
+													<td>{{users.emploi}}</td>
+													{% for roles in users.roles %}
+														<td>{{roles}}</td>
+													{% endfor %}
+													<td>
+														<a href="{{path('users.edit',{id: users.id}) }}" class="btn btn-info">Modifier</a>
+													</td>
+													<td>
+														<a href="{{path('users.delete',{id: users.id}) }}" class="btn btn-warning">Supprimer</a>
+													</td>
 
 
-									</tbody>
-								</table>
-								<div class="navigation">
-									{{ knp_pagination_render(users) }}
+												</tr>
+											{% endfor %}
+
+
+										</tbody>
+									</table>
+									<div class="navigation">
+										{{ knp_pagination_render(users) }}
+									</div>
 								</div>
 							</div>
 						</div>
