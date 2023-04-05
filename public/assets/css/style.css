@@ -264,3 +264,12 @@ body.msb-x .msb {
     margin-left: 0;
   }
 }
+
+#btn{
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+}
+#abtn{
+  margin: 10px;
+}

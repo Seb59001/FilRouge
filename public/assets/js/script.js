@@ -8,8 +8,10 @@
   $('#select-all').on('change', function()
   {
       if ($(this).is(':checked')) {
-          $('.class-checkboxes').attr('checked', 'checked')
+          $('.class-checkboxes').attr('checked', 'checked');
+
       }
+
   });
 
   $(document).ready(function () {
@@ -18,4 +20,20 @@
     });
 });
 
-  
+$('#check-button').on('change', function() {
+    // var ids = [];
+    var id;
+    $('input[name="id"]:checked').each(function() {
+        // ids.push($(this).val());
+        id=$(this).val();
+
+    });
+
+    console.log(id);
+
+    $.ajax({
+        type: 'POST',
+        url: '/cour/edit/{id}',
+        data: {id: id}
+    });
+});
