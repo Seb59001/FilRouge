@@ -18,12 +18,12 @@
 										<tbody>
 											<tr>
 												<h1 class="mt-4">La liste des utilisateurs</h1>
+												<a href="{{path('user.new')}}" class="btn btn-primary ">Ajouter</a>
 												{% for message in app.flashes('success') %}
 													<div class="alert-success">
 														{{ message }}
 													</div>
 												{% endfor %}
-
 												<th><input type="checkbox"/></th>
 												<th>Nom</th>
 												<th>Prénom</th>
@@ -32,6 +32,8 @@
 												<th>Téléphone</th>
 												<th>Emploi</th>
 												<th>Rôle</th>
+												<th>Edition</th>
+												<th>Suppression</th>
 											</tr>
 
 											{% for users in users %}
@@ -46,6 +48,13 @@
 													{% for roles in users.roles %}
 														<td>{{roles}}</td>
 													{% endfor %}
+													<td>
+														<a href="{{path('users.edit',{id: users.id}) }}" class="btn btn-info">Modifier</a>
+													</td>
+													<td>
+														<a href="{{path('users.delete',{id: users.id}) }}" class="btn btn-warning">Supprimer</a>
+													</td>
+
 
 												</tr>
 											{% endfor %}
