@@ -250,4 +250,18 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface, TwoFac
         $this->cours = $cours;
     }
 
+    public function isGoogleAuthenticatorEnabled(): bool
+    {
+        // TODO: Implement isGoogleAuthenticatorEnabled() method.
+    }
+
+    public function getGoogleAuthenticatorUsername(): string
+    {
+        // TODO: Implement getGoogleAuthenticatorUsername() method.
+    }
+
+    public function getGoogleAuthenticatorSecret(): ?string
+    {
+        // TODO: Implement getGoogleAuthenticatorSecret() method.
+    }
 }
