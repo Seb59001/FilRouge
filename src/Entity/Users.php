@@ -25,7 +25,6 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface, TwoFac
     private ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
-    #[Assert\Email()]
     #[Assert\Length(min: 2 , max: 180)]
     private ?string $email = null;
 
@@ -85,7 +84,7 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface, TwoFac
 
     public function setPlainPassword(string $plainPassword): self
     {
-        $this->email = $plainPassword;
+        $this->plainPassword = $plainPassword;
 
         return $this;
     }
