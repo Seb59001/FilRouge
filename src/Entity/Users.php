@@ -7,7 +7,6 @@ use App\Repository\UsersRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Scheb\TwoFactorBundle\Model\Google\TwoFactorInterface;
-
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -16,8 +15,8 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 #[ORM\Entity(repositoryClass: UsersRepository::class)]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
-#[ORM\EntityListeners(['App\EntityListener\UserListener'])]
 #[UniqueEntity('email')]
+#[ORM\EntityListeners(['App\EntityListener\UserListener'])]
 class Users implements UserInterface, PasswordAuthenticatedUserInterface, TwoFactorInterface
 {
     #[ORM\Id]
@@ -27,8 +26,10 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface, TwoFac
 
     #[ORM\Column(length: 180, unique: true)]
     #[Assert\Email()]
-    #[Assert\Length(min: 2, max: 180)]
+    #[Assert\Length(min: 2 , max: 180)]
     private ?string $email = null;
+
+
 
     #[ORM\Column(length: 50)]
     #[Assert\NotNull()]
@@ -40,11 +41,6 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface, TwoFac
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank()]
     private ?string $password = null;
-
-
-     #[ORM\Column(type: "string", nullable:true)]
-    
-    private ?string $googleAuthenticatorSecret;
 
     #[ORM\Column(type: 'boolean')]
     private $isVerified = false;
@@ -64,6 +60,7 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface, TwoFac
 
     #[ORM\Column(length: 50)]
     #[Assert\NotBlank()]
+
     private ?string $telephone = null;
 
     #[ORM\Column(length: 50)]
@@ -88,7 +85,7 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface, TwoFac
 
     public function setPlainPassword(string $plainPassword): self
     {
-        $this->plainPassword = $plainPassword;
+        $this->email = $plainPassword;
 
         return $this;
     }
@@ -237,32 +234,20 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface, TwoFac
         return $this;
     }
 
-
-
-
-    // [...]
-
-    public function isGoogleAuthenticatorEnabled(): bool
+    /**
+     * @return Collection
+     */
+    public function getCours(): Collection
     {
-        return null !== $this->googleAuthenticatorSecret;
+        return $this->cours;
     }
 
-    public function getGoogleAuthenticatorUsername(): string
+    /**
+     * @param Collection $cours
+     */
+    public function setCours(Collection $cours): void
     {
-        return $this->email;
-    }
-
-    public function getGoogleAuthenticatorSecret(): ?string
-    {
-        return $this->googleAuthenticatorSecret;
-    }
-
-    public function setGoogleAuthenticatorSecret(?string $googleAuthenticatorSecret): void
-    {
-        $this->googleAuthenticatorSecret = $googleAuthenticatorSecret;
+        $this->cours = $cours;
     }
 
 }
-
-
-
