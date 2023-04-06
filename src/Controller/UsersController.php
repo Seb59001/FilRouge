@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 
 class UsersController extends AbstractController
@@ -74,13 +75,14 @@ class UsersController extends AbstractController
     }
 
     #[Route('/users/edition/{id}', 'users.edit', methods: ['GET', 'POST'])]
-    public function edit(Users $user, Request $request, EntityManagerInterface $manager): Response
+    public function edit(Users $user, Request $request, EntityManagerInterface $manager, UserPasswordHasherInterface $hasher): Response
     {
         $form = $this->createForm(UsersType::class, $user);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $user = $form->getData();
+
             $manager->persist($user);
             $manager->flush();
             $this->addFlash(

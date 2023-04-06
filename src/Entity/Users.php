@@ -79,19 +79,9 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface, TwoFac
         $this->cours = new ArrayCollection();
     }
 
-    private $plainPassword;
+    private ?string $plainPassword = null;
 
-    public function getPlainPassword(): ?string
-    {
-        return $this->plainPassword;
-    }
 
-    public function setPlainPassword(string $plainPassword): self
-    {
-        $this->plainPassword = $plainPassword;
-
-        return $this;
-    }
 
     public function getId(): ?int
     {
@@ -271,5 +261,25 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface, TwoFac
     public function setGoogleAuthenticatorSecret(?string $googleAuthenticatorSecret): void
     {
         $this->googleAuthenticatorSecret = $googleAuthenticatorSecret;
+    }
+
+    /**
+     * Get the value of plainPassword
+     */ 
+    public function getPlainPassword()
+    {
+        return $this->plainPassword;
+    }
+
+    /**
+     * Set the value of plainPassword
+     *
+     * @return  self
+     */ 
+    public function setPlainPassword($plainPassword)
+    {
+        $this->plainPassword = $plainPassword;
+
+        return $this;
     }
 }
