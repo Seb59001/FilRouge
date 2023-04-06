@@ -41,6 +41,10 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface, TwoFac
     #[Assert\NotBlank()]
     private ?string $password = null;
 
+    #[ORM\Column(type: "string", nullable:true)]
+
+    private ?string $googleAuthenticatorSecret;
+
     #[ORM\Column(type: 'boolean')]
     private $isVerified = false;
 
@@ -251,16 +255,21 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface, TwoFac
 
     public function isGoogleAuthenticatorEnabled(): bool
     {
-        // TODO: Implement isGoogleAuthenticatorEnabled() method.
+        return null !== $this->googleAuthenticatorSecret;
     }
 
     public function getGoogleAuthenticatorUsername(): string
     {
-        // TODO: Implement getGoogleAuthenticatorUsername() method.
+        return $this->email;
     }
 
     public function getGoogleAuthenticatorSecret(): ?string
     {
-        // TODO: Implement getGoogleAuthenticatorSecret() method.
+        return $this->googleAuthenticatorSecret;
+    }
+
+    public function setGoogleAuthenticatorSecret(?string $googleAuthenticatorSecret): void
+    {
+        $this->googleAuthenticatorSecret = $googleAuthenticatorSecret;
     }
 }
