@@ -4,7 +4,7 @@
 namespace App\EntityListener;
 
 use App\Entity\Users;
-use App\EntityListener;
+
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserListener
@@ -16,14 +16,14 @@ class UserListener
         $this->hasher = $hasher;
     }
 
-    public function prePersist(Users $users)
+    public function prePersist(Users $user)
     {
-        $this->encodePassword($users);
+        $this->encodePassword($user);
     }
 
-    public function preUpdate(Users $users)
+    public function preUpdate(Users $user)
     {
-        $this->encodePassword($users);
+        $this->encodePassword($user);
     }
 
     /**
@@ -32,17 +32,17 @@ class UserListener
      * @param Users $user
      * @return void
      */
-    public function encodePassword(Users $users)
+    public function encodePassword(Users $user)
     {
-        if ($users->getPlainPassword() === null) {
+        if ($user->getPlainPassword() === null) {
             return;
         }
-        $users->setPassword(
+        $user->setPassword(
             $this->hasher->hashPassword(
-                $users,
-                $users->getPlainPassword()
+                $user,
+                $user->getPlainPassword()
             )
         );
-       
+
     }
 }

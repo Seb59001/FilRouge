@@ -56,7 +56,7 @@ class EleveType extends AbstractType
                 ], 
                 'constraints' => [
                     new Assert\Length(['min' => 2, 'max' => 50]),
-                    new Assert\NotBlank
+                    new Assert\NotBlank()
                 ]
             ])
             ->add('sexe', ChoiceType::class, [
@@ -72,7 +72,7 @@ class EleveType extends AbstractType
                     'class' => 'form-label mt-4'
                 ], 
                 'constraints' => [
-                    new Assert\NotBlank
+                    new Assert\NotBlank()
                 ]
             ])
             ->add('niveau_etude', TextType::class, [
@@ -85,7 +85,7 @@ class EleveType extends AbstractType
                 ], 
                 'constraints' => [
                     new Assert\Length(['min' => 2, 'max' => 50]),
-                    new Assert\NotBlank
+                    new Assert\NotBlank()
                 ]
             ])
             ->add('email', EmailType::class, [
@@ -98,7 +98,8 @@ class EleveType extends AbstractType
                 ], 
                 'constraints' => [
                     new Assert\Length(['min' => 2, 'max' => 50]),
-                    new Assert\NotBlank
+                    new Assert\NotBlank(),
+                    new Assert\Unique()
                 ]
             ])
             ->add('submit', SubmitType::class, [

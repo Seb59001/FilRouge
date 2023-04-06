@@ -18,7 +18,7 @@ class EleveFixtures extends Fixture
             ->setTelephone('Telephone'. $i)
             ->setSexe('Masculin')
             ->setNiveauEtude('Debutant' .$i)
-            ->setEmail('Email' . $i);
+            ->setEmail('Email' . $i . '@hotmail.com');
 
 
         $manager->persist($eleve);

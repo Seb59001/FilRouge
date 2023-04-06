@@ -40,6 +40,7 @@ class Eleve
     private ?string $niveau_etude = null;
 
     #[Assert\NotBlank]
+    #[Assert\Email()]
     #[ORM\Column(length: 255)]
     private ?string $email = null;
 
