@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Users;
+use App\Form\UpdatePasswordType;
 use App\Form\UsersType;
 use App\Repository\UsersRepository;
 
@@ -17,7 +18,6 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UsersController extends AbstractController
 {
-
     /**
      * La vue de tous les users
      *
@@ -29,7 +29,6 @@ class UsersController extends AbstractController
     #[Route('/users', name: 'app_users', methods: ['GET'])]
     public function index(UsersRepository $repository, PaginatorInterface $paginator, Request $request): Response
     {
-
         $users = $paginator->paginate(
             $repository->findAll(),
             $request->query->getInt('page', 1),
@@ -46,20 +45,29 @@ class UsersController extends AbstractController
 
 
     /**
-     * Créer un nouvel utilisateur 
+     * Créer un nouvel utilisateur
      *
      * @param Request $request
      * @param EntityManagerInterface $manager
      * @return Response
      */
     #[Route('/users/new', 'user.new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $manager): Response
+    public function new(Request $request, EntityManagerInterface $manager, UserPasswordHasherInterface $hasher): Response
     {
         $user = new Users();
         $form = $this->createForm(UsersType::class, $user);
 
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
+
+        if ($form->isSubmitted()) {
+            $user->setPassword(
+                $hasher->hashPassword(
+                    $user,
+                    $form->get('plainPassword')->getData()
+                )
+            );
+
+
             $user = $form->getData();
             $manager->persist($user);
             $manager->flush();
@@ -95,13 +103,11 @@ class UsersController extends AbstractController
         return $this->render('users/edit.html.twig', [
             'form' => $form->createView()
         ]);
-
     }
 
     #[Route('/users/suppression/{id}', 'users.delete', methods: ['GET'])]
     public function delete(EntityManagerInterface $manager, Users $user): Response
     {
-
         if (!$user) {
             $this->addFlash(
                 'success',
@@ -109,14 +115,50 @@ class UsersController extends AbstractController
             );
             return $this->redirectToRoute('app_users');
         }
-
         $manager->remove($user);
         $manager->flush();
         $this->addFlash(
             'success',
             'L\'utilisateur a bien été supprimé de la liste'
         );
-
         return $this->redirectToRoute('app_users');
     }
+
+    #[Route('/profil/modificationMdp/{id}', 'user.edit.password', methods: ['GET', 'POST'])]
+    public function editPassword(Users $user, Request $request, UserPasswordHasherInterface $hasher, EntityManagerInterface $manager): Response
+    {
+        $form = $this->createForm(UpdatePasswordType::class);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($hasher->isPasswordValid($user, $form->getData()['plainPassword'])) {
+                $user->setPassword(
+                    $hasher->hashPassword(
+                        $user,
+                        $form->getData()['newPassword']
+                    )
+                );
+
+                $this->addFlash(
+                    'success',
+                    'Le mot de passe a été modifié.'
+                );
+
+                $manager->persist($user);
+                $manager->flush();
+
+                return $this->redirectToRoute('user.edit.password');
+
+            } else {
+                $this->addFlash(
+                    'warning',
+                    'Le mot de passe renseigné est incorrect.'
+                );
+
+            }
+
+        }
+        return $this->render('profil/updatePassword.html.twig', ['form' => $form->createView()]);
+    }
+
 }

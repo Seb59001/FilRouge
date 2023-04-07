@@ -21,10 +21,7 @@ class UserListener
         $this->encodePassword($user);
     }
 
-    public function preUpdate(Users $user)
-    {
-        $this->encodePassword($user);
-    }
+ 
 
     /**
      * encoder le mot de passe en se basant sur un mot de passe simple

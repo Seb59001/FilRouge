@@ -13,7 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+
 
 class UsersType extends AbstractType
 {
@@ -37,7 +37,7 @@ class UsersType extends AbstractType
                 ]
             ])
 
-            ->add('password', PasswordType::class, [
+            ->add('plainPassword', PasswordType::class, [
                 'attr' => [
                     'class' => 'form-control',
                     'minlength' => '2',
@@ -52,6 +52,7 @@ class UsersType extends AbstractType
                     new Assert\NotBlank()
                 ]
             ])
+
 
             ->add('nom', TextType::class, [
                 'attr' => [

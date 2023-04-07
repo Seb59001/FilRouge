@@ -19,11 +19,13 @@
 											<tr>
 												<h1 class="mt-4">La liste des utilisateurs</h1>
 												<a href="{{path('user.new')}}" class="btn btn-primary ">Ajouter</a>
+												
 												{% for message in app.flashes('success') %}
 													<div class="alert-success">
 														{{ message }}
 													</div>
 												{% endfor %}
+												
 												<th><input type="checkbox"/></th>
 												<th>Nom</th>
 												<th>Prénom</th>
