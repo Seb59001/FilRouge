@@ -130,13 +130,10 @@ class UsersController extends AbstractController
         $form = $this->createForm(UpdatePasswordType::class);
 
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            if ($hasher->isPasswordValid($user, $form->getData()['plainPassword'])) {
-                $user->setPassword(
-                    $hasher->hashPassword(
-                        $user,
-                        $form->getData()['newPassword']
-                    )
+        if ($form->isSubmitted()) {
+            if ($hasher->isPasswordValid($user, $form->getData()->getPlainPassword())) {
+                $user->setPlainPassword(
+                $form->getData()->getNewPassword()
                 );
 
                 $this->addFlash(
@@ -154,11 +151,9 @@ class UsersController extends AbstractController
                     'warning',
                     'Le mot de passe renseigné est incorrect.'
                 );
-
-            }
-
+            } 
         }
-        return $this->render('profil/updatePassword.html.twig', ['form' => $form->createView()]);
+        return $this->render('profil/UpdatePassword.html.twig', ['form' => $form->createView()]);
     }
 
 }
