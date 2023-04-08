@@ -1,6 +1,9 @@
 <nav class="mnb navbar navbar-default navbar-fixed-top">
     <div class="container-fluid">
+
+        {%if app.user%}
         <div class="navbar-header">
+
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                 <span class="sr-only">Toggle navigation</span>
                 <i class="ic fa fa-bars"></i>
@@ -8,30 +11,33 @@
             <div style="padding: 15px 0;">
                 <a href="#" id="msbo"><i class="ic fa fa-bars"></i></a>
             </div>
-        </div>
 
+        </div>
+        {% endif %}
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#">En</a></li>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Thibaut Saudemont<span class="caret"></span></a>
+                    {% if app.user %}
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ app.user.nom }} {{ app.user.prenom }}<span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="#">Paramètres</a></li>
-                        <li><a href="#">Upgrade</a></li>
-                        <li><a href="#">Help</a></li>
+                        <li><a href="{{ path('users.edit',{id: app.user.id}) }}"><i class="glyphicon glyphicon-user"></i> Edit profile</a></li>
+                        <li><a href="{{ path('user.edit.password',{id: app.user.id}) }}"><i class="glyphicon glyphicon-pencil"></i> Edit mot de Passe </a></li>
                         <li role="separator" class="divider"></li>
-                        <li><a href="#">Se déconnecter</a></li>
+
+                        <li><a href="{{ path('app_logout') }}"><i class="glyphicon glyphicon-off"></i> Se déconnecter</a></li>
                     </ul>
+                    {% endif %}
                 </li>
                 <li><a href="#"><i class="fa fa-bell-o"></i></a></li>
-                <li><a href="#"><i class="fa fa-comment-o"></i></a></li>
             </ul>
+
             <form class="navbar-form navbar-right">
                 <input type="text" class="form-control" placeholder="Rechercher...">
             </form>
         </div>
     </div>
 </nav>
+{% if app.user %}
 <!--msb: main sidebar-->
 <div class="msb" id="msb">
     <nav class="navbar navbar-default" role="navigation">
@@ -94,8 +100,10 @@
                 <li><a href="#"><span class="fa fa-regular fa-calendar"></span> Emploi du temps</a></li>
             </ul>
         </div><!-- /.navbar-collapse -->
+
     </nav>
 </div>
+{% endif %}
 <!--main content wrapper-->
 <div class="mcw">
     <!--navigation here-->

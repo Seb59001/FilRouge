@@ -26,17 +26,26 @@ class RegistrationFormType extends AbstractType
     {
         $builder
             ->add('email', EmailType::class, [
-                'label' => 'Adresse mail',
-            'attr' => [
-                'class' => 'form-control'
-            ]
-        ])
+
+                'required' => true,
+                'empty_data' => 'Your@Email.com',
+                "attr" => [
+                    'class' => 'form-control'
+                ],
+                'label' => 'Adress Mail',
+                'label_attr' => [
+                    'class' => 'form-label mt-4'
+                ],
+                'constraints' => [
+                    new Assert\NotBlank()
+                ]
+            ])
             ->add('agreeTerms', CheckboxType::class, [
                 'label' => 'Accepter les termes ',
                 'mapped' => false,
                 'constraints' => [
                     new IsTrue([
-                        'message' => 'You should agree to our terms.',
+                        'message' => 'Acceptez les termes.',
                     ]),
                 ],
             ])
@@ -44,10 +53,13 @@ class RegistrationFormType extends AbstractType
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
                 'mapped' => false,
-                'label' => 'Mot de passe',
+                'label' => 'Mot de Pass',
+                'label_attr' => [
+                    'class' => 'form-label mt-4'
+                ],
                 'attr' => [
                     
-                        'class' => 'form-control',
+                        'class' => 'form-control mt-4',
                     'autocomplete' => 'new-password'],
                 'constraints' => [
                     new NotBlank([
@@ -63,7 +75,7 @@ class RegistrationFormType extends AbstractType
             ])
             ->add('nom', TextType::class, [
                 'attr' => [
-                    'class' => 'form-control',
+                    'class' => 'form-control mt-4',
                     'minlength' => '2',
                     'maxlength' => '50'
                 ],
@@ -79,7 +91,7 @@ class RegistrationFormType extends AbstractType
 
             ->add('prenom', TextType::class, [
                 'attr' => [
-                    'class' => 'form-control',
+                    'class' => 'form-control mt-4',
                     'minlength' => '2',
                     'maxlength' => '50'
                 ],
@@ -100,7 +112,7 @@ class RegistrationFormType extends AbstractType
                     'Non-binaire' => 'Non-binaire',
                 ],
                 'attr' => [
-                    'class' => 'form-control',
+                    'class' => 'form-control  mt-4',
                     'minlength' => '2',
                     'maxlength' => '50'
                 ],
@@ -116,7 +128,7 @@ class RegistrationFormType extends AbstractType
 
             ->add('telephone', TelType::class, [
                 'attr' => [
-                    'class' => 'form-control',
+                    'class' => 'form-control  mt-4',
                     'minlength' => '2',
                     'maxlength' => '50'
                 ],
@@ -137,7 +149,7 @@ class RegistrationFormType extends AbstractType
                     'Autre' => 'Autre',
                 ],
                 'attr' => [
-                    'class' => 'form-control',
+                    'class' => 'form-control  mt-4',
                     'minlength' => '2',
                     'maxlength' => '50'
                 ],
@@ -158,15 +170,13 @@ class RegistrationFormType extends AbstractType
                         'Admin' => 'ROLE_ADMIN',
                         'User' => 'ROLE_USER',
                     ],
-                ],
-                'attr' => [
-                    'class' => 'form-control',
-                    'minlength' => '2',
-                    'maxlength' => '50'
-                ],
-                'label' => 'Rôle',
-                'label_attr' => [
-                    'class' => 'form-label mt-4'
+                    'attr' => [
+                        'class' => 'form-control mt-4'
+                    ],
+                    'label' => 'Roles',
+                    'label_attr' => [
+                        'class' => 'form-label mt-4'
+                    ],
                 ],
                 'constraints' => [
                     new Assert\Length(['min' => 2, 'max' => 50]),

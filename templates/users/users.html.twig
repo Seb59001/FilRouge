@@ -47,9 +47,11 @@
 													<td>{{users.email}}</td>
 													<td>{{users.telephone}}</td>
 													<td>{{users.emploi}}</td>
+													<td>
 													{% for roles in users.roles %}
-														<td>{{roles}}</td>
+														{{roles}}
 													{% endfor %}
+													</td>
 													<td>
 														<a href="{{path('users.edit',{id: users.id}) }}" class="btn btn-info">Modifier</a>
 													</td>

@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Cours;
+use App\Entity\Presence;
 use App\Form\CourType;
 use App\Repository\CoursRepository;
 use App\Repository\UsersRepository;
@@ -112,13 +113,24 @@ class CourController extends AbstractController
     {
         if (!$cour) {
             $this->addFlash(
-                'success',
+                'danger',
                 'Le cour n\'existe pas !'
             );
 
             return $this->redirectToRoute('app_cour');
         }
+        $courPresence= $cour->getPresenceCours();
+        if($courPresence){
+            $this->addFlash(
+                'danger',
+                'Le cour contien des présences !'
+            );
+
+            return $this->redirectToRoute('app_cour');
+        }
+
         $manager->remove($cour);
+
         $manager->flush();
 
         $this->addFlash(

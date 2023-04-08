@@ -17,6 +17,11 @@
                             {{ message }}
                         </div>
                     {% endfor %}
+                    {% for message in app.flashes('info') %}
+                        <div class="alert  alert-danger mt-4">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
                 </div>
                 <div class="cv"> <div>
                         <div class="inbox">
@@ -51,7 +56,7 @@
                                                     <td>Non Attribuer </td>
                                                 {% endif %}
                                                 <td><a id="edit-button"  href="{{ path('app_cour_edit', {'id': cour.id }) }}" class="btn btn-warning" type="button">Modifier</a></td>
-                                                <td><a id="delete-button" href="{{ path('app_cour_delete', {'id': cour.id}) }}" class="btn btn-danger" onclick="confirm('Etes-vous sûre de vouloire supprimer ce cours?')" type="button">Supprimer</a></td>
+                                                <td><a id="delete-button myModal" href="{{ path('app_cour_delete', {'id': cour.id}) }}"  class="btn btn-danger" onclick="confirm('Etes-vous sûre de vouloire supprimer ce cours?')" type="button">Supprimer</a></td>
                                                 {% endfor %}
                                             </tr>
                                             </tbody>

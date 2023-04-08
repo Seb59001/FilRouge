@@ -27,10 +27,11 @@
             </tr>
         </tbody>
     </table>
+        <button type="button" class="btn btn-light"><a href="{{ path('app_presence') }}">back to list</a></button>
+        <button type="button" class="btn btn-light"><a href="{{ path('app_presence_edit', {'id': presence.id}) }}">edit</a></button>
 
-    <a href="{{ path('app_presence') }}">back to list</a>
 
-    <a href="{{ path('app_presence_edit', {'id': presence.id}) }}">edit</a>
+
 
     {{ include('presence/_delete_form.html.twig') }}
     </div>
