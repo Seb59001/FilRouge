@@ -2,10 +2,9 @@
 
 {% block body
  %}
-	<div class="container">
-
-
-		<h1>Modifier un créneau</h1>
+<div class="container">
+	<div class="mcw">
+	<h1>Modifier un créneau</h1>
 
 		{% for message in app.flashes('success') %}
 			<div class="alert alert-success">
@@ -62,6 +61,6 @@
 
 		{{form_end(form)}}
 	</div>
-
+</div>
 
 {% endblock %}

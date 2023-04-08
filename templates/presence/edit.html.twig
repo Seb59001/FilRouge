@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Presence{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="mcw">
+    <h1>Edit Presence</h1>
+        {{ form_start(form) }}
+
+        <div class="form-group">
+            {{ form_label(form.presenceEleve) }}
+            {{ form_widget(form.presenceEleve) }}
+            <div class="form-error">
+                {{ form_errors(form.presenceEleve) }}
+            </div>
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.date_presence) }}
+            {{ form_widget(form.date_presence) }}
+            <div class="form-error">
+                {{ form_errors(form.date_presence) }}
+            </div>
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.description) }}
+            <br>
+            {{ form_widget(form.description) }}
+            <div class="form-error">
+                {{ form_errors(form.description) }}
+            </div>
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.presence_cours) }}
+            {{ form_widget(form.presence_cours) }}
+            <div class="form-error">
+                {{ form_errors(form.presence_cours) }}
+            </div>
+        </div>
+        <div class="form-group">
+            {{ form_label(form.present) }}
+            {{ form_widget(form.present) }}
+            <div class="form-error">
+                {{ form_errors(form.present) }}
+            </div>
+        </div>
+        <div class="form-group">
+            {{ form_row(form.submit, { 'label': 'Valider' }) }}
+        </div>
+
+
+    </div>
+</div>
+{% endblock %}

@@ -5,10 +5,15 @@
 
 {% block body %}
 
-	<div class="container mt-4">
+<div class="container">
+	<div class="mcw">
+				<div class="inbox">
+					<div class="inbox-bx container-fluid">
+						<div class="row">
+							<div class="col-md-10">
 		<h1>Les élèves</h1>
 
-        <a href="{{path ('new_eleve')}}" class="btn btn-primary">Inscrire un nouvel élève</a>
+        <a href="{{path ('new_eleve')}}" id="abtn" class="btn btn-primary">Inscrire un nouvel élève</a>
 
 		{% for message in app.flashes('success') %}
 			<div class="alert alert-success mt-4">
@@ -27,7 +32,7 @@
 					<th scope="col">Sexe</th>
 					<th scope="col">Niveau d'étude</th>
 					<th scope="col">Adresse mail</th>
-                    <th scope"col">Edition</th>
+                    <th scope="col">Edition</th>
                     <th scope="col">Suppression</th>
 				</tr>
 			</thead>
@@ -48,12 +53,16 @@
 					</tr>
 
 				{% endfor %}
+
 			</tbody>
-		</tbody>
-	</table>
-
-	<div class="navigation">
-		{{ knp_pagination_render(eleves) }}
-	</div>
-
-</div>{% endblock %}
+		</table>
+										<div class="navigation">
+											{{ knp_pagination_render(eleves) }}
+										</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+{% endblock %}

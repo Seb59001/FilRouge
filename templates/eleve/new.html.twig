@@ -3,19 +3,14 @@
 {% block body
  %}
 	<div class="container">
-
-
+		<div class="mcw">
 		<h1>Inscrire un nouvel élève</h1>
-
 		{% for message in app.flashes('success') %}
 			<div class="alert alert-success">
 				{{message}}
 			</div>
-
 		{% endfor %}
 		{{form_start(form)}}
-
-
 		<div class="form-group">
 			{{form_label(form.nom)}}
 			{{form_widget(form.nom)}}
@@ -70,6 +65,6 @@
 
 		{{form_end(form)}}
 	</div>
-
+	</div>
 
 {% endblock %}
