@@ -3,67 +3,73 @@
 {% block title %}Presence index{% endblock %}
 
 {% block body %}
-<div class="container">
-    <div class="mcw">
-        <div class="example-wrapper">
-            <h1>Liste des présences </h1>
-            {% for message in app.flashes('success') %}
-                <div class="alert  alert-success mt-4">
-                    {{ message }}
-                </div>
-            {% endfor %}
-        </div>
-        <!--navigation here-->
-        <!--main content view-->
-        <div class="cv"> <div>
-                <div class="inbox">
-                    <div class="inbox-sb"></div>
-                    <div class="inbox-bx container-fluid">
-                        <div class="row">
-                            <div id="btn">
-                                <a id="abtn" href="{{ path('app_presence_new') }}" class="btn btn-info" type="button">Ajouter</a>
-                            </div>
-                            <div class="col-md-10">
-    <table class="table table-stripped">
-        <thead>
-            <tr>
+    <div class="container">
+        <div class="mcw">
+            <div class="example-wrapper">
+                <h1>Liste des présences </h1>
+                {% for message in app.flashes('success') %}
+                    <div class="alert  alert-success mt-4">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+            <!--navigation here-->
+            <!--main content view-->
+            <div class="cv">
+                <div>
+                    <div class="inbox">
+                        <div class="inbox-sb"></div>
+                        <div class="inbox-bx container-fluid">
+                            <div class="row">
+                                <div id="btn">
+                                    <a id="abtn" href="{{ path('app_presence_new') }}" class="btn btn-info"
+                                       type="button">Ajouter</a>
+                                </div>
+                                <div class="col-md-10">
+                                    <table class="table table-stripped">
+                                        <thead>
+                                        <tr>
 
-                <th>Nom & Prenom</th>
-                <th> Cour </th>
-                <th>Date_presence</th>
-                <th>Present</th>
-                <th>Description</th>
-                <th>Modifier</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for presence in presences %}
-            <tr>
-                <td>{{ presence.presenceEleve.nom }}  {{ presence.presenceEleve.prenom }}</td>
-                {% if presence.presenceCours   %}
-                    <td>{{ presence.presenceCours.libeleeCour }}</td>
-                {% else %}
-                    <td> cours non trouver </td>
-                {% endif %}
-                <td>{{ presence.datePresence ? presence.datePresence|date('d-m-Y') : '' }}</td>
-                <td>{{ presence.present ? 'Yes' : 'No' }}</td>
-                <td>{{ presence.description }}</td>
-                <td><a id="edit-button"  href="{{ path('app_presence_edit', {'id': presence.id}) }}" class="btn btn-warning" type="button">Modifier</a></td>
-                <td>
-                    <a href="{{ path('app_presence_show', {'id': presence.id}) }}"><i class="glyphicon glyphicon-eye-open"></i></a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="5">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+                                            <th>Nom & Prenom</th>
+                                            <th> Cour</th>
+                                            <th>Date_presence</th>
+                                            <th>Present</th>
+                                            <th>Description</th>
+                                            <th>Modifier</th>
+                                            <th>actions</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for presence in presences %}
+                                            <tr>
+                                                <td>{{ presence.presenceEleve.nom }}  {{ presence.presenceEleve.prenom }}</td>
+                                                {% if presence.presenceCours %}
+                                                    <td>{{ presence.presenceCours.libeleeCour }}</td>
+                                                {% else %}
+                                                    <td> cours non trouver</td>
+                                                {% endif %}
+                                                <td>{{ presence.datePresence ? presence.datePresence|date('d-m-Y') : '' }}</td>
+                                                <td>{{ presence.present ? 'Yes' : 'No' }}</td>
+                                                <td>{{ presence.description }}</td>
+                                                <td><a id="edit-button"
+                                                       href="{{ path('app_presence_edit', {'id': presence.id}) }}"
+                                                       class="btn btn-warning" type="button">Modifier</a></td>
+                                                <td>
+                                                    <a href="{{ path('app_presence_show', {'id': presence.id}) }}"><i
+                                                                class="glyphicon glyphicon-eye-open"></i></a>
+                                                </td>
+                                            </tr>
+                                        {% else %}
+                                            <tr>
+                                                <td colspan="5">no records found</td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
 
-                                <div class="navigation">
-                                    {{ knp_pagination_render(presences) }}
+                                    <div class="navigation">
+                                        {{ knp_pagination_render(presences) }}
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -72,5 +78,4 @@
             </div>
         </div>
     </div>
-</div>
 {% endblock %}

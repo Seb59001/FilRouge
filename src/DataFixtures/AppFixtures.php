@@ -56,7 +56,6 @@ class AppFixtures extends Fixture
             $manager->persist($cour);
 
 
-
             for ($j=1 ; $j<5; $j++)
             {
                 $creneau = new Creneau();

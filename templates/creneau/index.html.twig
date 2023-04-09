@@ -3,63 +3,65 @@
 {% block title %}Creneaux{% endblock %}
 
 {% block body %}
-<div class="container">
-	<div class="mcw">
-       <h1>Les créneaux de cours </h1>
+    <div class="container">
+        <div class="mcw">
+            <h1>Les créneaux de cours </h1>
 
-        <a href="{{path ('new_creneau')}}" id="abtn" class="btn btn-primary">Insérer un nouveau créneau</a>
+            <a href="{{ path ('new_creneau') }}" id="abtn" class="btn btn-primary">Insérer un nouveau créneau</a>
 
-		{% for message in app.flashes('success') %}
-			<div class="alert alert-success mt-4">
-				{{message}}
-			</div>
+            {% for message in app.flashes('success') %}
+                <div class="alert alert-success mt-4">
+                    {{ message }}
+                </div>
 
-		{% endfor %}
+            {% endfor %}
 
-		<table class="table table-hover mt-4">
-			<thead>
-				<tr>
-					<th scope="col">ID</th>
-					<th scope="col">Jour</th>
-					<th scope="col">Heure de début du cours</th>
-					<th scope="col">Heure de fin du cours</th>
-					<th scope="col">Numéro de semaine</th>
-					<th scope="col">Appartient au cours</th>
+            <table class="table table-hover mt-4">
+                <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Jour</th>
+                    <th scope="col">Heure de début du cours</th>
+                    <th scope="col">Heure de fin du cours</th>
+                    <th scope="col">Numéro de semaine</th>
+                    <th scope="col">Appartient au cours</th>
                     <th scope="col">Edition</th>
                     <th scope="col">Suppression</th>
-				</tr>
-			</thead>
-			<tbody>
+                </tr>
+                </thead>
+                <tbody>
 
 
-				{% for creneau in creneaux %}
-					<tr class="table-light mt-4">
-						<th scope="row">{{creneau.id}}</th>
-						<td>{{creneau.libellejour}}</td>
-						<td>{{creneau.heuredebut|date('H:i:s')}}</td>
-						<td>{{creneau.heurefin|date('H:i:s')}}</td>
-						<td>{{creneau.numerosemaine}}</td>
-						{% if creneau.appartientcours is not null %}
-						
-						<td>{{creneau.appartientcours.libeleecour}}</td>
+                {% for creneau in creneaux %}
+                    <tr class="table-light mt-4">
+                        <th scope="row">{{ creneau.id }}</th>
+                        <td>{{ creneau.libellejour }}</td>
+                        <td>{{ creneau.heuredebut|date('H:i:s') }}</td>
+                        <td>{{ creneau.heurefin|date('H:i:s') }}</td>
+                        <td>{{ creneau.numerosemaine }}</td>
+                        {% if creneau.appartientcours is not null %}
 
-						{% else %}
-							<td>Cours non attribué</td>
+                            <td>{{ creneau.appartientcours.libeleecour }}</td>
 
-						{% endif %}
-                        <td><a href="{{path('edit_creneau', {id: creneau.id})}}" class="btn btn-info">Modifier</a></td>
-                        <td><a href="{{path('delete_creneau', {id: creneau.id})}}" class="btn btn-warning">Supprimer</a></td>
-					</tr>
+                        {% else %}
+                            <td>Cours non attribué</td>
 
-				   {% endfor %}
-			    </tbody>
-		    </tbody>
-		</table>
+                        {% endif %}
+                        <td><a href="{{ path('edit_creneau', {id: creneau.id}) }}" class="btn btn-info">Modifier</a>
+                        </td>
+                        <td><a href="{{ path('delete_creneau', {id: creneau.id}) }}"
+                               class="btn btn-warning">Supprimer</a></td>
+                    </tr>
 
-	    <div class="navigation">
-		{{ knp_pagination_render(creneaux) }}
-	    </div>
+                {% endfor %}
+                </tbody>
+                </tbody>
+            </table>
 
-	</div>
-</div>
+            <div class="navigation">
+                {{ knp_pagination_render(creneaux) }}
+            </div>
+
+        </div>
+    </div>
 {% endblock %}

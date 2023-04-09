@@ -23,40 +23,54 @@
                         </div>
                     {% endfor %}
                 </div>
-                <div class="cv"> <div>
+                <div class="cv">
+                    <div>
                         <div class="inbox">
                             <div class="inbox-sb"></div>
                             <div class="inbox-bx container-fluid">
                                 <div class="row">
                                     <div id="btn">
-                                        <a id="abtn" href="{{ path('app_cour_new') }}" class="btn btn-info" type="button">Ajouter</a>
+                                        {% if is_granted('ROLE_ADMIN') %}
+                                        <a id="abtn" href="{{ path('app_cour_new') }}" class="btn btn-info"
+                                           type="button">Ajouter</a>
+                                        {% endif %}
+                                        <a id="abtn" href="{{ path('app_cour_add') }}" class="btn btn-info"
+                                           type="button">Ajouter</a>
                                     </div>
                                     <div class="col-md-10">
                                         <table class="table table-stripped">
                                             <tbody>
                                             <tr>
-                                                <th><input class="class-checkboxes" type="checkbox" id ="select-all" name="select-all"/></th>
+                                                <th><input class="class-checkboxes" type="checkbox" id="select-all"
+                                                           name="select-all"/></th>
                                                 <th>Libelee de Cour</th>
                                                 <th>Date de debut</th>
-                                                <th>Date de FIn </th>
+                                                <th>Date de FIn</th>
                                                 <th>Formateur</th>
-                                                <th> Modifier </th>
+                                                <th> Modifier</th>
                                                 <th>Supprimer</th>
                                             </tr>
 
                                             {% for cour in courListe %}
                                             <tr>
-                                                <td><input id="check-button" class="class-checkboxes" type="checkbox" name="id" value="{{cour.id}}"/></td>
+                                                <td><input id="check-button" class="class-checkboxes" type="checkbox"
+                                                           name="id" value="{{ cour.id }}"/></td>
                                                 <td id="gh"> {{ cour.libeleeCour }}</td>
                                                 <td> {{ cour.dateDebut|date('j F/ Y') }}</td>
                                                 <td> {{ cour.dateFin|date('j F/ Y') }}</td>
                                                 {% if cour.usersCours is not null %}
                                                     <td>{{ cour.usersCours.nom }}, {{ cour.usersCours.prenom }} </td>
                                                 {% else %}
-                                                    <td>Non Attribuer </td>
+                                                    <td>Non Attribuer</td>
                                                 {% endif %}
-                                                <td><a id="edit-button"  href="{{ path('app_cour_edit', {'id': cour.id }) }}" class="btn btn-warning" type="button">Modifier</a></td>
-                                                <td><a id="delete-button myModal" href="{{ path('app_cour_delete', {'id': cour.id}) }}"  class="btn btn-danger" onclick="confirm('Etes-vous sûre de vouloire supprimer ce cours?')" type="button">Supprimer</a></td>
+                                                <td><a id="edit-button"
+                                                       href="{{ path('app_cour_edit', {'id': cour.id }) }}"
+                                                       class="btn btn-warning" type="button">Modifier</a></td>
+                                                <td><a id="delete-button myModal"
+                                                       href="{{ path('app_cour_delete', {'id': cour.id}) }}"
+                                                       class="btn btn-danger"
+                                                       onclick="confirm('Etes-vous sûre de vouloire supprimer ce cours?')"
+                                                       type="button">Supprimer</a></td>
                                                 {% endfor %}
                                             </tr>
                                             </tbody>

@@ -9,33 +9,35 @@ use App\Repository\CoursRepository;
 use App\Repository\UsersRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 
 class CourController extends AbstractController
 {
     /**
      *
-     * Fuunction READ Cour
+     * ce controlleur ne permet de voir tout les cours
      *
      * @param CoursRepository $repository
      * @param PaginatorInterface $paginator
      * @param Request $request
      * @return Response
      */
+
+    #[IsGranted('ROLE_USER')]
     #[Route('/cour', name: 'app_cour', methods: ['GET', 'POST'])]
     public function index(CoursRepository $repository, PaginatorInterface $paginator, Request $request): Response
     {
         $listeCour=$paginator->paginate(
-            $repository->findAll(),
+            $repository->findBy(['user_cours'=>$this->getUser()]),
             $request->query->getInt('page', 1),
             10
         );
-
-
         return $this->render('cour/cour.html.twig', [
             'controller_name' => 'Cours',
             'courListe'=>$listeCour
@@ -44,12 +46,14 @@ class CourController extends AbstractController
 
     /**
      *
-     * Function CREAT cours
+     * Ce controlleur nous permet de crees des cours
+     * ROLE_ADMIN
      *
      * @param Request $request
      * @param EntityManagerInterface $manager
      * @return Response
      */
+    #[IsGranted('ROLE_USER')]
     #[Route('/cour/new', name: 'app_cour_new', methods: ['GET', 'POST'])]
     public function new (Request $request, EntityManagerInterface $manager):Response
     {
@@ -59,13 +63,13 @@ class CourController extends AbstractController
         if($form->isSubmitted() && $form->isValid())
         {
             $cour= $form->getData();
-
             $manager->persist($cour);
             $manager->flush();
             $this->addFlash(
                 'success',
                 'Cour Ajouter avec succés!'
             );
+
             return $this->redirectToRoute('app_cour');
         }
 
@@ -75,9 +79,46 @@ class CourController extends AbstractController
 
     }
 
+
     /**
      *
-     * Function UPDATE cour
+     * Ce controlleur nous permet de crees des cours
+     * ROLE_USER
+     *
+     * @param Request $request
+     * @param EntityManagerInterface $manager
+     * @return Response
+     */
+    #[IsGranted('ROLE_USER')]
+    #[Route('/cour/add', name: 'app_cour_add', methods: ['GET', 'POST'])]
+    public function add (Request $request, EntityManagerInterface $manager):Response
+    {
+        $cour= new Cours();
+        $form= $this->createForm(CourType::class, $cour);
+        $form->handleRequest($request);
+
+
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $cour= $form->getData();
+            $cour->setUsersCours($this->getUser());
+            $manager->persist($cour);
+            $manager->flush();
+            $this->addFlash(
+                'success',
+                'Cour Ajouter avec succés!'
+            );
+            return $this->redirectToRoute('app_cour');
+        }
+        return  $this->render('cour/add.html.twig',[
+            'form'=> $form->createView()
+        ]);
+
+    }
+
+    /**
+     *
+     * Ce Controller permet de modifier un cour
      *
      * @param Cours $cour
      * @param Request $request
@@ -85,6 +126,7 @@ class CourController extends AbstractController
      * @return Response
      *
      */
+    #[Security("is_granted('ROLE_USER') and user === cour.getUsersCours()")]
     #[Route('/cour/edit/{id}', name: 'app_cour_edit', methods: ['POST', 'GET'])]
     public function edit(Cours $cour,Request $request, EntityManagerInterface $manager): Response
     {
@@ -108,6 +150,17 @@ class CourController extends AbstractController
         ]);
 
     }
+
+    /**
+     *
+     * ce controler permet de supprimer un cour
+     *
+     * @param EntityManagerInterface $manager
+     * @param Cours $cour
+     * @return Response
+     */
+
+    #[Security("is_granted('ROLE_USER') and user === cour.getUsersCours()")]
     #[Route('cour/delete/{id}', name: 'app_cour_delete', methods: ['POST', 'GET'])]
     public function delete (EntityManagerInterface $manager, Cours $cour):Response
     {

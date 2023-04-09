@@ -5,64 +5,65 @@
 
 {% block body %}
 
-<div class="container">
-	<div class="mcw">
-				<div class="inbox">
-					<div class="inbox-bx container-fluid">
-						<div class="row">
-							<div class="col-md-10">
-		<h1>Les élèves</h1>
+    <div class="container">
+        <div class="mcw">
+            <div class="inbox">
+                <div class="inbox-bx container-fluid">
+                    <div class="row">
+                        <div class="col-md-10">
+                            <h1>Les élèves</h1>
 
-        <a href="{{path ('new_eleve')}}" id="abtn" class="btn btn-primary">Inscrire un nouvel élève</a>
+                            <a href="{{ path ('new_eleve') }}" id="abtn" class="btn btn-primary">Inscrire un nouvel
+                                élève</a>
 
-		{% for message in app.flashes('success') %}
-			<div class="alert alert-success mt-4">
-				{{message}}
-			</div>
+                            {% for message in app.flashes('success') %}
+                                <div class="alert alert-success mt-4">
+                                    {{ message }}
+                                </div>
 
-		{% endfor %}
+                            {% endfor %}
 
-		<table class="table table-hover mt-4">
-			<thead>
-				<tr>
-					<th scope="col">ID</th>
-					<th scope="col">Nom</th>
-					<th scope="col">Prenom</th>
-					<th scope="col">Telephone</th>
-					<th scope="col">Sexe</th>
-					<th scope="col">Niveau d'étude</th>
-					<th scope="col">Adresse mail</th>
-                    <th scope="col">Edition</th>
-                    <th scope="col">Suppression</th>
-				</tr>
-			</thead>
-			<tbody>
+                            <table class="table table-hover mt-4">
+                                <thead>
+                                <tr>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Nom</th>
+                                    <th scope="col">Prenom</th>
+                                    <th scope="col">Telephone</th>
+                                    <th scope="col">Sexe</th>
+                                    <th scope="col">Niveau d'étude</th>
+                                    <th scope="col">Adresse mail</th>
+                                    <th scope="col">Edition</th>
+                                    <th scope="col">Suppression</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for eleve in eleves %}
+                                    <tr class="table-light mt-4">
+                                        <th scope="row">{{ eleve.id }}</th>
+                                        <td>{{ eleve.nom }}</td>
+                                        <td>{{ eleve.prenom }}</td>
+                                        <td>{{ eleve.telephone }}</td>
+                                        <td>{{ eleve.sexe }}</td>
+                                        <td>{{ eleve.niveauetude }}</td>
+                                        <td>{{ eleve.email }}</td>
+                                        <td><a href="{{ path('edit_eleve', {id: eleve.id}) }}" class="btn btn-info">Modifier</a>
+                                        </td>
+                                        <td><a href="{{ path('delete_eleve', {id: eleve.id}) }}"
+                                               class="btn btn-warning">Supprimer</a></td>
+                                    </tr>
 
+                                {% endfor %}
 
-				{% for eleve in eleves %}
-					<tr class="table-light mt-4">
-						<th scope="row">{{eleve.id}}</th>
-						<td>{{eleve.nom}}</td>
-						<td>{{eleve.prenom}}</td>
-						<td>{{eleve.telephone}}</td>
-						<td>{{eleve.sexe}}</td>
-						<td>{{eleve.niveauetude}}</td>
-						<td>{{eleve.email}}</td>
-                        <td><a href="{{path('edit_eleve', {id: eleve.id})}}" class="btn btn-info">Modifier</a></td>
-                        <td><a href="{{path('delete_eleve', {id: eleve.id})}}" class="btn btn-warning">Supprimer</a></td>
-					</tr>
-
-				{% endfor %}
-
-			</tbody>
-		</table>
-										<div class="navigation">
-											{{ knp_pagination_render(eleves) }}
-										</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+                                </tbody>
+                            </table>
+                            <div class="navigation">
+                                {{ knp_pagination_render(eleves) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

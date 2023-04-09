@@ -59,7 +59,10 @@ class CourType extends AbstractType
         'class' => Users::class,
         'choice_label' => 'nom',
                 "attr" => [
-                    'class' => 'form-control']
+                    'class' => 'form-control'],
+                'label' => $options['isAdmin'] ? 'Role (admin only)' : 'Formateurs',
+                'required' => $options['isAdmin'],
+                'disabled' => !$options['isAdmin'],
     ])
             ->add('submit', SubmitType::class,[
             "attr"=>[
@@ -73,6 +76,7 @@ class CourType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Cours::class,
+            'isAdmin'=>false
         ]);
     }
 }

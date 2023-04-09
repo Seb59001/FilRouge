@@ -3,37 +3,36 @@
 {% block title %}Presence{% endblock %}
 
 {% block body %}
-<div class="container">
-    <div class="mcw">
-    <h1>Presence</h1>
+    <div class="container">
+        <div class="mcw">
+            <h1>Presence</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ presence.id }}</td>
-            </tr>
-            <tr>
-                <th>Date_presence</th>
-                <td>{{ presence.datePresence ? presence.datePresence|date('Y-m-d') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Present</th>
-                <td>{{ presence.present ? 'Yes' : 'No' }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ presence.description }}</td>
-            </tr>
-        </tbody>
-    </table>
-        <button type="button" class="btn btn-light"><a href="{{ path('app_presence') }}">back to list</a></button>
-        <button type="button" class="btn btn-light"><a href="{{ path('app_presence_edit', {'id': presence.id}) }}">edit</a></button>
+            <table class="table">
+                <tbody>
+                <tr>
+                    <th>Id</th>
+                    <td>{{ presence.id }}</td>
+                </tr>
+                <tr>
+                    <th>Date_presence</th>
+                    <td>{{ presence.datePresence ? presence.datePresence|date('Y-m-d') : '' }}</td>
+                </tr>
+                <tr>
+                    <th>Present</th>
+                    <td>{{ presence.present ? 'Yes' : 'No' }}</td>
+                </tr>
+                <tr>
+                    <th>Description</th>
+                    <td>{{ presence.description }}</td>
+                </tr>
+                </tbody>
+            </table>
+            <button type="button" class="btn btn-light"><a href="{{ path('app_presence') }}">back to list</a></button>
+            <button type="button" class="btn btn-light"><a href="{{ path('app_presence_edit', {'id': presence.id}) }}">edit</a>
+            </button>
 
 
-
-
-    {{ include('presence/_delete_form.html.twig') }}
+            {{ include('presence/_delete_form.html.twig') }}
+        </div>
     </div>
-</div>
 {% endblock %}
