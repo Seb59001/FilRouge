@@ -19,7 +19,7 @@ class CourType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('libelee_cour',TextType::class, [
+            ->add('libelee_cour', TextType::class, [
                 'required' => true,
                 "attr" => [
                     'class' => 'form-control',
@@ -55,28 +55,28 @@ class CourType extends AbstractType
                     'class' => 'form-label mt-4'
                 ]
             ])
-            ->add('usersCours',EntityType::class, [
-        'class' => Users::class,
-        'choice_label' => 'nom',
+            ->add('usersCours', EntityType::class, [
+                'class' => Users::class,
+                'choice_label' => 'nom',
                 "attr" => [
                     'class' => 'form-control'],
                 'label' => $options['isAdmin'] ? 'Role (admin only)' : 'Formateurs',
                 'required' => $options['isAdmin'],
                 'disabled' => !$options['isAdmin'],
-    ])
-            ->add('submit', SubmitType::class,[
-            "attr"=>[
-                      'class' => 'btn btn-primary mt-4'
-        ]
+            ])
+            ->add('submit', SubmitType::class, [
+                "attr" => [
+                    'class' => 'btn btn-primary mt-4'
+                ]
 
-    ]);
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => Cours::class,
-            'isAdmin'=>false
+            'isAdmin' => false
         ]);
     }
 }
