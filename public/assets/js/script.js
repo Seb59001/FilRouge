@@ -37,3 +37,20 @@ $('#check-button').on('change', function() {
         data: {id: id}
     });
 });
+
+$(document).ready(function() {
+    // activer la fonctionnalité d'affichage du mot de passe en clair
+    $('[data-toggle="password"]').each(function() {
+        var input = $(this);
+        var eye = $('<i class="fa fa-eye toggle-password"></i>');
+        eye.insertAfter(input);
+        eye.on('click', function() {
+            var type = input.attr('type');
+            if (type === 'password') {
+                input.attr('type', 'text');
+            } else {
+                input.attr('type', 'password');
+            }
+        });
+    });
+});

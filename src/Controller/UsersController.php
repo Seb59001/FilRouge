@@ -128,32 +128,47 @@ class UsersController extends AbstractController
         return $this->redirectToRoute('app_users');
     }
 
-    #[Route('/profil/modificationMdp/{id}', 'user.edit.password', methods: ['GET', 'POST'])]
-    public function editPassword(Users $user, Request $request, UserPasswordHasherInterface $hasher, EntityManagerInterface $manager): Response
+    #[Route('/profil/modificationMdp', 'user.edit.password', methods: ['GET', 'POST'])]
+    public function editPassword(Request $request, UserPasswordHasherInterface $hasher, EntityManagerInterface $manager): Response
     {
-        $form = $this->createForm(UpdatePasswordType::class);
+
+        $notification = null;
+        $user = $this->getUser();
+        $form = $this->createForm(UpdatePasswordType::class, $user);
 
         $form->handleRequest($request);
-        if ($form->isSubmitted()) {
-            if ($hasher->isPasswordValid($user, $form->getData()->getPlainPassword())) {
-                $user->setPlainPassword(
-                $form->getData()->getNewPassword());
-                
+
+        $user = $form->getData();
+
+        if($form->isSubmitted() && $form->isValid()) {
+            $old_pwd = $form->get('old_password')->getData();
+            if($hasher->isPasswordValid($user, $old_pwd)) {
+                $new_pwd = $form->get('new_password')->getData();
+                $password = $hasher->hashPassword($user, $new_pwd);
+
+                $user->setPassword($password);
+                $manager->persist($user);
+                $manager->flush();
                 $this->addFlash(
                     'success',
                     'Le mot de passe a été modifié.'
                 );
-                $manager->persist($user);
-                $manager->flush();
-                return $this->redirectToRoute('user.edit.password');
             } else {
                 $this->addFlash(
                     'warning',
                     'Le mot de passe renseigné est incorrect.'
                 );
-            } 
+            }
         }
-        return $this->render('profil/UpdatePassword.html.twig', ['form' => $form->createView()]);
+
+        return $this->render('profil/UpdatePassword.html.twig', [
+            'form' => $form->createView(),
+            'notification' => $notification
+        ]);
+            
+
+
+        }
+
     }
 
-}
