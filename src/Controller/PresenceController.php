@@ -59,7 +59,7 @@ class PresenceController extends AbstractController
         $form = $this->createForm(PresenceType::class, $presence);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted()) {
             $presence= $form->getData();
             $manager->persist($presence);
             $manager->flush();

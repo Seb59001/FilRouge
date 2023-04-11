@@ -33,7 +33,6 @@ class UsersType extends AbstractType
                 'constraints' => [
                     new Assert\Length(['min' => 2, 'max' => 180]),
                     new Assert\NotBlank(),
-               
                 ]
             ])
 
