@@ -57,12 +57,4 @@ class UpdatePasswordType extends AbstractType
                 ],
                 'label' => 'Valider'
             ]);
-    }
-
-    public function configureOptions(OptionsResolver $resolver): void
-    {
-        $resolver->setDefaults([
-            'data_class' => Users::class,
-        ]);
-    }
-}
+    }}

@@ -10,6 +10,7 @@ use App\Repository\UsersRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Scheb\TwoFactorBundle\Security\TwoFactor\Provider\Google\GoogleAuthenticatorInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -128,6 +129,7 @@ class UsersController extends AbstractController
         return $this->redirectToRoute('app_users');
     }
 
+    #[Security("is_granted('ROLE_USER')")]
     #[Route('/profil/modificationMdp', 'user.edit.password', methods: ['GET', 'POST'])]
     public function editPassword(Request $request, UserPasswordHasherInterface $hasher, EntityManagerInterface $manager): Response
     {
@@ -149,26 +151,63 @@ class UsersController extends AbstractController
                 $user->setPassword($password);
                 $manager->persist($user);
                 $manager->flush();
-                $this->addFlash(
-                    'success',
-                    'Le mot de passe a été modifié.'
-                );
-            } else {
-                $this->addFlash(
-                    'warning',
-                    'Le mot de passe renseigné est incorrect.'
-                );
-            }
-        }
 
-        return $this->render('profil/UpdatePassword.html.twig', [
-            'form' => $form->createView(),
-            'notification' => $notification
-        ]);
+           }
+       }
+       return $this->render('profil/UpdatePassword.html.twig', ['form' => $form->createView()]);
+   }
+
+    // #[Security("is_granted('ROLE_USER') and user === choosenUser")]
+    // #[Route('/profil/modificationMdp/{id}', 'user.edit.password', methods: ['GET', 'POST'])]
+    // public function editPassword(
+    //     Users $choosenUser,
+    //     Request $request,
+    //     EntityManagerInterface $manager,
+    //     UserPasswordHasherInterface $hasher
+    // ): Response {
+    //     $form = $this->createForm(UpdatePasswordType::class);
+
+    //     $form->handleRequest($request);
+    //     if ($form->isSubmitted() && $form->isValid()) {
+    //         if ($hasher->isPasswordValid($choosenUser, $form->getData()['plainPassword'])) {
+    //             $choosenUser->setPlainPassword(
+    //                 $form->getData()['newPassword']
+    //             );
+
+
+    //             $this->addFlash(
+    //                 'success',
+    //                 'Le mot de passe a été modifié.'
+    //             );
+
+
+    //             $manager->persist($choosenUser);
+    //             $manager->flush();
+
+    //             return $this->redirectToRoute('app_users');
+
+    //         } else {
+    //             $this->addFlash(
+    //                 'warning',
+    //                 'Le mot de passe renseigné est incorrect.'
+    //             );
+    //         }
+    //     }
+
+
+    //     return $this->render('profil/UpdatePassword.html.twig', [
+    //         'form' => $form->createView(),
+    //         'notification' => $notification
+    //     ]);
             
 
 
-        }
+    //     }
+
+
+    //     return $this->render('profil/UpdatePassword.html.twig', [
+    //         'form' => $form->createView()
+    //     ]);
 
     }
 
