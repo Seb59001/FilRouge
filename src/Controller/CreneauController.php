@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Cours;
 use App\Entity\Creneau;
 use App\Form\CreneauType;
 use App\Repository\CoursRepository;
@@ -28,17 +29,16 @@ class CreneauController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_USER') or is_granted('ROLE_ADMIN')")]
     #[Route('/creneau', name: 'app_creneau', methods: ['GET'])]
     public function index(CreneauRepository $repository, PaginatorInterface $paginator, Request $request): Response
     {
 
-        $creneaux = $paginator->paginate(
-            $repository->findBy(['appartient_cours' => $this->getUser()]),
-            $request->query->getInt('page', 1),
-            10
-        );
-
+            $creneaux = $paginator->paginate(
+                $repository->getCreneauxByUser($this->getUser()),
+                $request->query->getInt('page', 1),
+                10
+            );
         return $this->render('creneau/index.html.twig', [
             'controller_name' => 'CreneauController',
             'creneaux' => $creneaux

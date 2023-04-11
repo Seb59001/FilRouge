@@ -63,4 +63,12 @@ class CreneauRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+    public function getCreneauxByUser($user_cours_id)
+    {
+        return $this->createQueryBuilder('c')
+            ->join('c.appartient_cours', 'cr')
+            ->where('cr.user_cours = :user_cours_id')
+            ->setParameter('user_cours_id', $user_cours_id);
+    }
 }
