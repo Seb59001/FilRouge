@@ -9,6 +9,7 @@ use App\Repository\UsersRepository;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
+use Scheb\TwoFactorBundle\Security\TwoFactor\Provider\Google\GoogleAuthenticatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -52,7 +53,7 @@ class UsersController extends AbstractController
      * @return Response
      */
     #[Route('/users/new', 'user.new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $manager, UserPasswordHasherInterface $hasher): Response
+    public function new(Request $request, EntityManagerInterface $manager, UserPasswordHasherInterface $hasher,  GoogleAuthenticatorInterface $authenticator): Response
     {
         $user = new Users();
         $form = $this->createForm(UsersType::class, $user);
@@ -67,6 +68,9 @@ class UsersController extends AbstractController
                 )
             );
 
+            $secret =$authenticator->generateSecret();
+
+            $user->setGoogleAuthenticatorSecret($secret);
 
             $user = $form->getData();
             $manager->persist($user);
@@ -75,7 +79,7 @@ class UsersController extends AbstractController
                 'success',
                 'Votre inscription est validée'
             );
-            return $this->redirectToRoute('app_users');
+            return $this->redirectToRoute('home');
         }
         return $this->render('users/new.html.twig', [
             'form' => $form->createView()
