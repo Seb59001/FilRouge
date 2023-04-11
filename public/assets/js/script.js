@@ -43,10 +43,10 @@ $(document).ready(function() {
     $('[data-toggle="password"]').each(function() {
         var input = $(this);
         var eye = $('<i class="fa fa-eye toggle-password"></i>');
-        eye.insertAfter(input);
+        eye.insertBefore(input);
         eye.on('click', function() {
             var type = input.attr('type');
-            if (type === 'password') {
+            if (type === 'password') {  
                 input.attr('type', 'text');
             } else {
                 input.attr('type', 'password');

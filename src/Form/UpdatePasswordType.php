@@ -17,12 +17,14 @@ class UpdatePasswordType extends AbstractType
     {
         $builder
         ->add('old_password', PasswordType::class, [
-            'label' => 'Mon mot de passe actuel', 
-            'label_attr' => ['class' => 'form-label mt-4'],
+            'label' => 'Mon mot de passe actuel ', 
+            'label_attr' => [
+                'class' => 'form-label mt-4'],
+
             'mapped' => false,
             'attr' => [
                 'data-toggle' => 'password',
-                'placeholder' => "Veuillez saisir votre mot de passe actuel",
+                'placeholder' => "Veuillez saisir votre mot de passe actuel ",
                 'class' => 'form-control',
                 
             ]            
@@ -31,10 +33,10 @@ class UpdatePasswordType extends AbstractType
                 'type' => PasswordType::class,
                 'mapped' => false,
                 'invalid_message' => 'Le mot de passe et la confirmation doivent être identiques',
-                'label' => 'Mon nouveau mot de passe', 
+                'label' => 'Mon nouveau mot de passe ', 
                 'label_attr' => ['class' => 'form-label mt-4'],
                 'required' => true,
-                'first_options' => [ 'label' => 'Mon nouveau mot de passe',
+                'first_options' => [ 'label' => 'Mon nouveau mot de passe ',
                 'attr' => [
                     'data-toggle' => 'password',
                     'placeholder' => "Merci de saisir votre nouveau mot de passe",
@@ -42,7 +44,7 @@ class UpdatePasswordType extends AbstractType
                 ]
             ],
                 'second_options' => [ 
-                    'label' => 'Confirmez votre nouveau mot de passe',
+                    'label' => 'Confirmez votre nouveau mot de passe ',
                     'label_attr' => ['class' => 'form-label mt-4'],
                 'attr' => [
                     'data-toggle' => 'password',
