@@ -29,11 +29,14 @@ class PresenceType extends AbstractType
                     'class' => 'form-label mt-4'
                 ]
             ])
-            ->add('presenceEleve', EntityType::class,[
-                'class'=>Eleve::class,
-                'choice_label' => 'nom',
-                "attr" => [
-                    'class' => 'form-control']
+            ->add('presenceEleve', EntityType::class, [
+                'class' => Eleve::class,
+                'choice_label' => function (Eleve $eleve) {
+                    return $eleve->getNom() . ' ' . $eleve->getPrenom();
+                },
+                'attr' => [
+                    'class' => 'form-control',
+                ],
             ])
             ->add('present',ChoiceType::class, [
         'choices' => [
@@ -58,6 +61,7 @@ class PresenceType extends AbstractType
                     'class' => 'form-control']
             ])
             ->add('submit', SubmitType::class,[
+                'label'=>'Valider',
                 "attr"=>[
                     'class' => 'btn btn-primary mt-4'
                 ]

@@ -27,12 +27,14 @@
             </div>
 
             <div class="form-group">
-                {{ form_label(form.usersCours) }}
+                {{ form_label(form.usersCours)}}
+                <code>{{ app.user.nom }} <i style="color: #39464e">(par défaut)</i> </code>
                 {{ form_widget(form.usersCours) }}
                 <div class="form-error">
                     {{ form_errors(form.usersCours) }}
                 </div>
             </div>
+
             <div class="form-group">
                 {{ form_row(form.submit) }}
             </div>

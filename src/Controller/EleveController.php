@@ -14,6 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class EleveController extends AbstractController
 {
+
     #[Route('/eleve', name: 'app_eleve', methods: ['GET'])]
     public function index(EleveRepository $repository, PaginatorInterface $paginator, Request $request): Response
     {

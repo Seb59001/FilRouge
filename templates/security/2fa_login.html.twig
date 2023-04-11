@@ -1,26 +1,27 @@
 {% extends "base.html.twig" %}
 
 {% block body %}
+    <div class="container">
+        <div class="mcw">
+            <img src={{ qrCode }} alt='".$string."'>
+            <p class="label"><label for="_auth_code">Authentification double facteur</label></p>
 
-<div class="mcw">
-"<img src={{qrCode}} alt='".$string."'>";
-<p class="label"><label for="_auth_code">Authentification double facteur</label></p>
-
-<form class="form" action="/2fa_check" method="post">
-    <p class="widget">
-        <input
-            id="_auth_code"
-            type="text"
-            name="_auth_code"
-            autocomplete="one-time-code"
-            autofocus
+            <form class="form" action="/2fa_check" method="post">
+                <p class="widget">
+                    <input
+                            id="_auth_code"
+                            type="text"
+                            name="_auth_code"
+                            autocomplete="one-time-code"
+                            autofocus
                     />
-    </p>
+                </p>
 
-            <p class="submit"><input type="submit" value="Se connecter" /></p>
-</form>
+                <p class="submit"><input type="submit" value="Se connecter"/></p>
+            </form>
 
-<p class="cancel"><a href="/logout">Annuler</a></p>
-</div>
+            <p class="cancel"><a href="/logout">Annuler</a></p>
+        </div>
+    </div>
 
 {% endblock %}
