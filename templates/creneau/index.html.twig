@@ -47,10 +47,10 @@
                             <td>Cours non attribué</td>
 
                         {% endif %}
-                        <td><a href="{{ path('edit_creneau', {id: creneau.id}) }}" class="btn btn-info">Modifier</a>
+                        <td><a href="{{ path('edit_creneau', {id: creneau.id}) }}" class="btn btn-warning">Modifier</a>
                         </td>
                         <td><a href="{{ path('delete_creneau', {id: creneau.id}) }}"
-                               class="btn btn-warning">Supprimer</a></td>
+                               class="btn btn-danger">Supprimer</a></td>
                     </tr>
 
                 {% endfor %}

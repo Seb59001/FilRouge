@@ -7,6 +7,7 @@ use App\Form\EleveType;
 use App\Repository\EleveRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,21 +16,22 @@ use Symfony\Component\Routing\Annotation\Route;
 class EleveController extends AbstractController
 {
 
+    #[Security("is_granted('ROLE_USER')")]
     #[Route('/eleve', name: 'app_eleve', methods: ['GET'])]
     public function index(EleveRepository $repository, PaginatorInterface $paginator, Request $request): Response
     {
         $eleves = $paginator->paginate( 
-            $repository->findAll(),
+            $repository->getEleveByUser($this->getUser()),
             $request->query->getInt('page', 1),
             10
         );
-
         return $this->render('eleve/index.html.twig', [
             'controller_name' => 'EleveController',
             'eleves' => $eleves
         ]);
     }
 
+    #[Security("is_granted('ROLE_ADMIN') ")]
     #[Route('/eleve/nouveau',name: 'new_eleve', methods : ['GET' , 'POST'])]
     public function new(Request $request, EntityManagerInterface $manager) : Response
     {
@@ -59,6 +61,7 @@ class EleveController extends AbstractController
         ]);
     }
 
+    #[Security("is_granted('ROLE_ADMIN')")]
     #[Route('/eleve/edition/{id}', name: 'edit_eleve', methods: ['GET', 'POST'])]
     public function edit(Eleve $eleve, EntityManagerInterface $manager, Request $request) : Response
     {
@@ -84,6 +87,7 @@ class EleveController extends AbstractController
             'form' => $form
         ]);
     }
+    #[Security("is_granted('ROLE_ADMIN')")]
     #[Route('/eleve/suppression/{id}', name: 'delete_eleve', methods: ['GET', 'POST'])]
     public function delete(EntityManagerInterface $manager, Eleve $eleve) : Response
     {

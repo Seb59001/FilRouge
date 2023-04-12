@@ -63,4 +63,12 @@ class EleveRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+    public function getEleveByUser($user_cours_id)
+    {
+        return $this->createQueryBuilder('e')
+            ->join('e.cours', 'cr')
+            ->where('cr.user_cours = :user_cours_id')
+            ->setParameter('user_cours_id', $user_cours_id);
+    }
 }

@@ -68,8 +68,10 @@
                     <li class="active"><a href="#"><i class="fa fa-regular fa-user"></i> Mon profil</a></li>
                     <li><a href="{{ path('app_eleve') }}"><i class="fa fa-graduation-cap"></i> Gestion des élèves</a>
                     </li>
-                    <li><a href="{{ path('app_users') }}"><i class="fa fa-solid fa-users"></i> Gestion des
-                            professeurs</a></li>
+                    {% if app.user.roles == 'ROLE_ADMIN' or app.user.emploi == 'SECRETAIRE' %}
+                        <li><a href="{{ path('app_users') }}"><i class="fa fa-solid fa-users"></i> Gestion des
+                                professeurs</a></li>
+                    {% endif %}
 
                     <!-- Dropdown-->
                     <li class="panel panel-default" id="dropdown">
@@ -81,9 +83,7 @@
                         <div id="dropdown-lvl1" class="panel-collapse collapse">
                             <div class="panel-body">
                                 <ul class="nav navbar-nav">
-
                                     <li><a href="{{ path('app_presence') }}">Tableau de présence</a></li>
-                                    {#                                    <li><a href="">Tableau de cours</a></li> #}
                                     <!-- Dropdown level 2 -->
                                     <li class="panel panel-default" id="dropdown">
                                         <a data-toggle="collapse" href="#dropdown-lvl2">

@@ -30,10 +30,6 @@
                             <div class="inbox-bx container-fluid">
                                 <div class="row">
                                     <div id="btn">
-                                        {% if is_granted('ROLE_ADMIN') %}
-                                        <a id="abtn" href="{{ path('app_cour_new') }}" class="btn btn-info"
-                                           type="button">Ajouter</a>
-                                        {% endif %}
                                         <a id="abtn" href="{{ path('app_cour_add') }}" class="btn btn-info"
                                            type="button">Ajouter</a>
                                     </div>
@@ -63,7 +59,9 @@
                                                 {% else %}
                                                     <td>Non Attribuer</td>
                                                 {% endif %}
-                                                <td><a id="edit-button"
+                                                <td>
+
+                                                    <a id="edit-button"
                                                        href="{{ path('app_cour_edit', {'id': cour.id }) }}"
                                                        class="btn btn-warning" type="button">Modifier</a></td>
                                                 <td><a id="delete-button myModal"

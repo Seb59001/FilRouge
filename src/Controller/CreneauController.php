@@ -96,7 +96,7 @@ class CreneauController extends AbstractController
      * @return Response
      */
 
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_USER') or is_granted('ROLE_ADMIN')")]
     #[Route('/creneau/edition/{id}', name: 'edit_creneau', methods: ['GET', 'POST'])]
     public function edit(Creneau $creneau, EntityManagerInterface $manager, Request $request): Response
     {
@@ -136,6 +136,7 @@ class CreneauController extends AbstractController
      *
      */
 
+    #[IsGranted('ROLE_USER')]
     #[Route('/creneau/suppression/{id}', name: 'delete_creneau', methods: ['GET', 'POST'])]
     public function delete(EntityManagerInterface $manager, Creneau $creneau): Response
     {

@@ -41,9 +41,13 @@ class UsersType extends AbstractType
                 'attr' => [
                     'class' => 'form-control',
                     'minlength' => '2',
-                    'maxlength' => '255'
+                    'maxlength' => '255',
+                     'style' => $options['ROLE_ADMIN']? 'visibility : hidden' : 'visibility : visibil'
                 ],
-                'label' => 'Mot de passe',
+                'label' => $options['ROLE_ADMIN'] ? 'Mot de Passe (admin only)': 'Mot de Passe (admin only) ',
+                'required' => $options['ROLE_ADMIN'],
+                'disabled' => !$options['ROLE_ADMIN'],
+
                 'label_attr' => [
                     'class' => 'form-label mt-4'
                 ],
@@ -134,7 +138,9 @@ class UsersType extends AbstractType
                     'minlength' => '2',
                     'maxlength' => '50'
                 ],
-                'label' => 'Emploi',
+                'label' => $options['ROLE_ADMIN'] ? 'Emploi (admin only)': 'Emploi (admin only) ',
+                'required' => $options['ROLE_ADMIN'],
+                'disabled' => !$options['ROLE_ADMIN'],
                 'label_attr' => [
                     'class' => 'form-label mt-4'
                 ],
@@ -154,10 +160,12 @@ class UsersType extends AbstractType
                     'attr' => [
                         'class' => 'form-control mt-4'
                     ],
-                    'label' => 'Roles',
+                    'label' => $options['ROLE_ADMIN'] ? 'Roles (admin only)': 'Roles (admin only) ',
+                    'required' => $options['ROLE_ADMIN'],
+                    'disabled' => !$options['ROLE_ADMIN'],
                     'label_attr' => [
                         'class' => 'form-label mt-4'
-                    ],
+                    ]
                 ],
                 'constraints' => [
                     new Assert\Length(['min' => 2, 'max' => 50]),
@@ -179,6 +187,7 @@ class UsersType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Users::class,
+            'ROLE_ADMIN' => false
         ]);
     }
 }

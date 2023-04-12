@@ -29,7 +29,7 @@ class CourController extends AbstractController
      * @return Response
      */
 
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_USER') or is_granted('ROLE_ADMIN')")]
     #[Route('/cour', name: 'app_cour', methods: ['GET', 'POST'])]
     public function index(CoursRepository $repository, PaginatorInterface $paginator, Request $request): Response
     {

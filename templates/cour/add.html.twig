@@ -28,7 +28,7 @@
 
             <div class="form-group">
                 {{ form_label(form.usersCours)}}
-                <code>{{ app.user.nom }} <i style="color: #39464e">(par défaut)</i> </code>
+                <code><i style="color: #39464e">Formateur :</i> {{ app.user.nom }} <i style="color: #39464e">(par défaut)</i> </code>
                 {{ form_widget(form.usersCours) }}
                 <div class="form-error">
                     {{ form_errors(form.usersCours) }}

@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 
 class UsersController extends AbstractController
@@ -28,6 +29,8 @@ class UsersController extends AbstractController
      * @param Request $request
      * @return Response
      */
+
+    #[IsGranted('ROLE_ADMIN')]
     #[Route('/users', name: 'app_users', methods: ['GET'])]
     public function index(UsersRepository $repository, PaginatorInterface $paginator, Request $request): Response
     {
@@ -53,6 +56,7 @@ class UsersController extends AbstractController
      * @param EntityManagerInterface $manager
      * @return Response
      */
+    #[IsGranted('ROLE_ADMIN')]
     #[Route('/users/new', 'user.new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $manager, UserPasswordHasherInterface $hasher,  GoogleAuthenticatorInterface $authenticator): Response
     {
@@ -86,7 +90,7 @@ class UsersController extends AbstractController
             'form' => $form->createView()
         ]);
     }
-
+    #[IsGranted('IS_AUTHENTICATED')]
     #[Route('/users/edition/{id}', 'users.edit', methods: ['GET', 'POST'])]
     public function edit(Users $user, Request $request, EntityManagerInterface $manager, UserPasswordHasherInterface $hasher): Response
     {
@@ -109,6 +113,7 @@ class UsersController extends AbstractController
             'form' => $form->createView()
         ]);
     }
+    #[IsGranted('ROLE_ADMIN')]
 
     #[Route('/users/suppression/{id}', 'users.delete', methods: ['GET'])]
     public function delete(EntityManagerInterface $manager, Users $user): Response

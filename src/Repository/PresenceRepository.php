@@ -63,4 +63,14 @@ class PresenceRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+    public function getPresenceyUser($user_cours_id)
+    {
+        return $this->createQueryBuilder('p')
+            ->join('p.presence_cours', 'cr')
+            ->where('cr.user_cours = :user_cours_id')
+            ->setParameter('user_cours_id', $user_cours_id);
+    }
+
+
 }
