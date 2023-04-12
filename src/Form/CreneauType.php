@@ -33,13 +33,15 @@ class CreneauType extends AbstractType
                 ],
                 'label' => 'Jour'
             ])
-            ->add('heure_debut', TimeType::class, [
+            ->add('heure_debut', DateTimeType::class, [
+                'date_widget' => 'single_text',
                 'attr' => [
                     'class' => 'b-form-timepicker'
                 ],
                 'label' => 'heure de début'
             ])
-            ->add('heure_fin', TimeType::class, [
+            ->add('heure_fin', DateTimeType::class, [
+                'date_widget' => 'single_text',
                 'attr' => [
                     'class' => 'b-form-timepicker'
                 ],

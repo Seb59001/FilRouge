@@ -17,10 +17,10 @@ class Creneau
     #[ORM\Column(length: 255)]
     private ?string $libelle_jour = null;
 
-    #[ORM\Column(type: Types::TIME_MUTABLE)]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $heure_debut = null;
 
-    #[ORM\Column(type: Types::TIME_MUTABLE)]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $heure_fin = null;
 
     #[ORM\Column]
