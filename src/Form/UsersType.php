@@ -129,23 +129,21 @@ class UsersType extends AbstractType
 
             ->add('emploi', ChoiceType::class, [
                 'choices' => [
-                    'Secretaire' => 'SECRETAIRE',
-                    'Professeur' => 'PROFESSEUR',
-                    'Autre' => 'AUTRE',
+                    'Secretaire' => 'Secretaire',
+                    'Professeur' => 'Professeur',
+                    'Autre' => 'Autre',
                 ],
                 'attr' => [
-                    'class' => 'form-control',
+                    'class' => 'form-control  mt-4',
                     'minlength' => '2',
                     'maxlength' => '50'
                 ],
-                'label' => !$options['ROLE_ADMIN'] ? 'Emploi (admin only)': 'Emploi',
-                'required' => !$options['ROLE_ADMIN'],
-                'disabled' => $options['ROLE_ADMIN'],
+                'label' => 'Emploi',
                 'label_attr' => [
                     'class' => 'form-label mt-4'
                 ],
                 'constraints' => [
-                    new Assert\Length(['min' => 2, 'max' => 50 ]),
+                    new Assert\Length(['min' => 2, 'max' => 50]),
                     new Assert\NotBlank()
                 ]
             ])
