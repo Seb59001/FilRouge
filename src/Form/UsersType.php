@@ -44,9 +44,9 @@ class UsersType extends AbstractType
                     'maxlength' => '255',
                      'style' => $options['ROLE_ADMIN']? 'visibility : hidden' : 'visibility : visibil'
                 ],
-                'label' => $options['ROLE_ADMIN'] ? 'Mot de Passe (admin only)': 'Mot de Passe (admin only) ',
-                'required' => $options['ROLE_ADMIN'],
-                'disabled' => !$options['ROLE_ADMIN'],
+                'label' => !$options['ROLE_ADMIN'] ? 'Mot de Passe': 'Mot de Passe (admin only) ',
+                'required' => !$options['ROLE_ADMIN'],
+                'disabled' => $options['ROLE_ADMIN'],
 
                 'label_attr' => [
                     'class' => 'form-label mt-4'
@@ -138,9 +138,9 @@ class UsersType extends AbstractType
                     'minlength' => '2',
                     'maxlength' => '50'
                 ],
-                'label' => $options['ROLE_ADMIN'] ? 'Emploi (admin only)': 'Emploi (admin only) ',
-                'required' => $options['ROLE_ADMIN'],
-                'disabled' => !$options['ROLE_ADMIN'],
+                'label' => !$options['ROLE_ADMIN'] ? 'Emploi (admin only)': 'Emploi',
+                'required' => !$options['ROLE_ADMIN'],
+                'disabled' => $options['ROLE_ADMIN'],
                 'label_attr' => [
                     'class' => 'form-label mt-4'
                 ],
@@ -160,9 +160,9 @@ class UsersType extends AbstractType
                     'attr' => [
                         'class' => 'form-control mt-4'
                     ],
-                    'label' => $options['ROLE_ADMIN'] ? 'Roles (admin only)': 'Roles (admin only) ',
-                    'required' => $options['ROLE_ADMIN'],
-                    'disabled' => !$options['ROLE_ADMIN'],
+                    'label' => !$options['ROLE_ADMIN'] ? 'Roles (admin only)': 'Roles',
+                    'required' => !$options['ROLE_ADMIN'],
+                    'disabled' => $options['ROLE_ADMIN'],
                     'label_attr' => [
                         'class' => 'form-label mt-4'
                     ]
