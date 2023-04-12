@@ -129,9 +129,9 @@ class UsersType extends AbstractType
 
             ->add('emploi', ChoiceType::class, [
                 'choices' => [
-                    'Secretaire' => 'Secretaire',
-                    'Professeur' => 'Professeur',
-                    'Autre' => 'Autre',
+                    'Secretaire' => 'SECRETAIRE',
+                    'Professeur' => 'PROFESSEUR',
+                    'Autre' => 'AUTRE',
                 ],
                 'attr' => [
                     'class' => 'form-control',
