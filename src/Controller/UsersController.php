@@ -154,11 +154,23 @@ class UsersController extends AbstractController
                 $password = $hasher->hashPassword($user, $new_pwd);
 
                 $user->setPassword($password);
+
+                                $this->addFlash(
+                    'success',
+                    'Le mot de passe a été modifié.'
+                );
                 $manager->persist($user);
                 $manager->flush();
 
+            } else {
+                            $this->addFlash(
+                                'warning',
+                                'Le mot de passe renseigné est incorrect.'
+                            );
+                        }
+                    
+
            }
-       }
        return $this->render('profil/UpdatePassword.html.twig', ['form' => $form->createView()]);
    }
 
