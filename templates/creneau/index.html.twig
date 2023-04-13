@@ -35,7 +35,7 @@
                 {% for creneau in creneaux %}
                     <tr class="table-light mt-4">
                         <th scope="row">{{ creneau.id }}</th>
-                        <td>{{ creneau.libellejour }}</td>
+                        <td>{{ creneau.heuredebut|date('l j F')}}
                         <td>{{ creneau.heuredebut|date('H:i:s') }}</td>
                         <td>{{ creneau.heurefin|date('H:i:s') }}</td>
                         <td>{{ creneau.numerosemaine }}</td>

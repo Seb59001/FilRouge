@@ -71,4 +71,13 @@ class CreneauRepository extends ServiceEntityRepository
             ->where('cr.user_cours = :user_cours_id')
             ->setParameter('user_cours_id', $user_cours_id);
     }
+
+    public function getAppartientCoursByUser($appartient_cours_id)
+    {
+        return $this->createQueryBuilder('c')
+            ->join('c.user_cours_id', 'cr')
+            ->where('cr.appartient_cours = :appartient_cours_id')
+            ->setParameter('appartient_cours_id', $appartient_cours_id);
+    }
+
 }
