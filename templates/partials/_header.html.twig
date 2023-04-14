@@ -1,133 +1,183 @@
 <nav class="mnb navbar navbar-default navbar-fixed-top">
-    <div class="container-fluid">
+	<div class="container-fluid">
 
-        {% if app.user %}
-            <div class="navbar-header">
+		{% if app.user %}
+			<div class="navbar-header">
 
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
-                        aria-expanded="false" aria-controls="navbar">
-                    <span class="sr-only">Toggle navigation</span>
-                    <i class="ic fa fa-bars"></i>
-                </button>
-                <div style="padding: 15px 0;">
-                    <a href="#" id="msbo"><i class="ic fa fa-bars"></i></a>
-                </div>
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+					<span class="sr-only">Toggle navigation</span>
+					<i class="ic fa fa-bars"></i>
+				</button>
+				<div style="padding: 15px 0;">
+					<a href="#" id="msbo">
+						<i class="ic fa fa-bars"></i>
+					</a>
+				</div>
 
-            </div>
-        {% endif %}
-        <div id="navbar" class="navbar-collapse collapse">
-            <ul class="nav navbar-nav navbar-right">
-                <li class="dropdown">
-                    {% if app.user %}
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                           aria-expanded="false">{{ app.user.nom }} {{ app.user.prenom }}<span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="{{ path('users.edit',{id: app.user.id}) }}"><i
-                                            class="glyphicon glyphicon-user"></i> Edit profile</a></li>
-                            <li><a href="{{ path('user.edit.password',{id: app.user.id}) }}"><i
-                                            class="glyphicon glyphicon-pencil"></i> Edit mot de Passe </a></li>
-                            <li role="separator" class="divider"></li>
+			</div>
+		{% endif %}
+		<div id="navbar" class="navbar-collapse collapse">
+			<ul class="nav navbar-nav navbar-right">
+				<li class="dropdown">
+					{% if app.user %}
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ app.user.nom }}
+							{{ app.user.prenom }}<span class="caret"></span>
+						</a>
+						<ul class="dropdown-menu">
+							<li>
+								<a href="{{ path('users.edit',{id: app.user.id}) }}">
+									<i class="glyphicon glyphicon-user"></i>
+									Edit profile</a>
+							</li>
+							<li>
+								<a href="{{ path('user.edit.password',{id: app.user.id}) }}">
+									<i class="glyphicon glyphicon-pencil"></i>
+									Edit mot de Passe
+								</a>
+							</li>
+							<li role="separator" class="divider"></li>
 
-                            <li><a href="{{ path('app_logout') }}"><i class="glyphicon glyphicon-off"></i> Se
-                                    déconnecter</a></li>
-                        </ul>
-                    {% endif %}
-                </li>
-                <li><a href="#"><i class="fa fa-bell-o"></i></a></li>
-            </ul>
+							<li>
+								<a href="{{ path('app_logout') }}">
+									<i class="glyphicon glyphicon-off"></i>
+									Se
+									                                    déconnecter</a>
+							</li>
+						</ul>
+					{% endif %}
+				</li>
+				<li>
+					<a href="#">
+						<i class="fa fa-bell-o"></i>
+					</a>
+				</li>
+			</ul>
 
-            <form class="navbar-form navbar-right">
-                <input type="text" class="form-control" placeholder="Rechercher...">
-            </form>
-        </div>
-    </div>
+			<form class="navbar-form navbar-right">
+				<input type="text" class="form-control" placeholder="Rechercher...">
+			</form>
+		</div>
+	</div>
 </nav>
 {% if app.user %}
-    <!--msb: main sidebar-->
-    <div class="msb" id="msb">
-        <nav class="navbar navbar-default" role="navigation">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-                <div class="brand-wrapper">
-                    <!-- Brand -->
-                    <div class="brand-name-wrapper">
-                        <a class="navbar-brand" href="{{ path('app_home') }}">
-                            CLASSROOM
-                        </a>
-                    </div>
+	<!--msb: main sidebar-->
+	<div class="msb" id="msb">
+		<nav
+			class="navbar navbar-default" role="navigation">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header">
+				<div
+					class="brand-wrapper">
+					<!-- Brand -->
+					<div class="brand-name-wrapper">
+						<a class="navbar-brand" href="{{ path('app_home') }}">
+							CLASSROOM
+						</a>
+					</div>
 
-                </div>
+				</div>
 
-            </div>
+			</div>
 
-            <!-- Main Menu -->
-            <div class="side-menu-container">
-                <ul class="nav navbar-nav">
+			<!-- Main Menu -->
+			<div class="side-menu-container">
+				<ul class="nav navbar-nav">
 
-                    <li><a href="{{ path('app_home') }}"><i class="fa fa-dashboard"></i> Tableau de bord</a></li>
-                    <li class="active"><a href="#"><i class="fa fa-regular fa-user"></i> Mon profil</a></li>
-                    <li><a href="{{ path('app_eleve') }}"><i class="fa fa-graduation-cap"></i> Gestion des élèves</a>
-                    </li>
-                    {% if app.user.roles == 'ROLE_ADMIN' or app.user.emploi == 'SECRETAIRE' %}
-                        <li><a href="{{ path('admin') }}"><i class="fa fa-lock" aria-hidden="true"></i>Administrateur</a></li>
-                        <li><a href="{{ path('app_users') }}"><i class="fa fa-solid fa-users"></i> Gestion des
-                                professeurs</a></li>
-                    {% endif %}
+					<li>
+						<a href="{{ path('app_home') }}">
+							<i class="fa fa-dashboard"></i>
+							Tableau de bord</a>
+					</li>
+					<li class="active">
+						<a href="#">
+							<i class="fa fa-regular fa-user"></i>
+							Mon profil</a>
+					</li>
+					<li>
+						<a href="{{ path('app_eleve') }}">
+							<i class="fa fa-graduation-cap"></i>
+							Gestion des élèves</a>
+					</li>
+					<li>
+						<a href="{{ path('app_stat') }}">
+							<i class="fa fa-graduation-cap"></i>
+							Statistiques</a>
+					</li>
+					{% if app.user.roles == 'ROLE_ADMIN' or app.user.emploi == 'SECRETAIRE' %}
+						<li>
+							<a href="{{ path('admin') }}">
+								<i class="fa fa-lock" aria-hidden="true"></i>Administrateur</a>
+						</li>
+						<li>
+							<a href="{{ path('app_users') }}">
+								<i class="fa fa-solid fa-users"></i>
+								Gestion des
+								                                professeurs</a>
+						</li>
+					{% endif %}
 
-                    <!-- Dropdown-->
-                    <li class="panel panel-default" id="dropdown">
-                        <a data-toggle="collapse" href="#dropdown-lvl1">
-                            <i class="fa fa-table"></i> Tableaux
-                            <span class="caret"></span>
-                        </a>
-                        <!-- Dropdown level 1 -->
-                        <div id="dropdown-lvl1" class="panel-collapse collapse">
-                            <div class="panel-body">
-                                <ul class="nav navbar-nav">
-                                    <li><a href="{{ path('app_presence') }}">Tableau de présence</a></li>
-                                    <!-- Dropdown level 2 -->
-                                    <li class="panel panel-default" id="dropdown">
-                                        <a data-toggle="collapse" href="#dropdown-lvl2">
-                                            <i class="glyphicon glyphicon-book"></i> Cours <span class="caret">
-                                            </span>
-                                        </a>
-                                        <div id="dropdown-lvl2" class="panel-collapse collapse">
-                                            <div class="panel-body">
-                                                <ul class="nav navbar-nav">
-                                                    <li><a href="{{ path('app_cour') }}">Gestion Cours</a></li>
-                                                    <li><a href="{{ path('app_creneau') }}">Gestion Creneaux</a></li>
-                                                </ul>
+					<!-- Dropdown-->
+					<li class="panel panel-default" id="dropdown">
+						<a data-toggle="collapse" href="#dropdown-lvl1">
+							<i class="fa fa-table"></i>
+							Tableaux
+							<span class="caret"></span>
+						</a>
+						<!-- Dropdown level 1 -->
+						<div id="dropdown-lvl1" class="panel-collapse collapse">
+							<div class="panel-body">
+								<ul class="nav navbar-nav">
+									<li>
+										<a href="{{ path('app_presence') }}">Tableau de présence</a>
+									</li>
+									<!-- Dropdown level 2 -->
+									<li class="panel panel-default" id="dropdown">
+										<a data-toggle="collapse" href="#dropdown-lvl2">
+											<i class="glyphicon glyphicon-book"></i>
+											Cours
+											<span class="caret"></span>
+										</a>
+										<div id="dropdown-lvl2" class="panel-collapse collapse">
+											<div class="panel-body">
+												<ul class="nav navbar-nav">
+													<li>
+														<a href="{{ path('app_cour') }}">Gestion Cours</a>
+													</li>
+													<li>
+														<a href="{{ path('app_creneau') }}">Gestion Creneaux</a>
+													</li>
+												</ul>
 
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </li>
-                    <li><a href="{{ path('app_calendar') }}"><span class="fa fa-regular fa-calendar"></span> Emploi du temps</a></li>
-                </ul>
-            </div><!-- /.navbar-collapse -->
+											</div>
+										</div>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</li>
+					<li>
+						<a href="{{ path('app_calendar') }}">
+							<span class="fa fa-regular fa-calendar"></span>
+							Emploi du temps</a>
+					</li>
+				</ul>
+			</div>
+			<!-- /.navbar-collapse -->
 
-        </nav>
-    </div>
+		</nav>
+	</div>
 {% endif %}
 <!--main content wrapper-->
 <div class="mcw">
-    <!--navigation here-->
-    <!--main content view-->
-    <div class="cv">
-        <div>
-            <div class="inbox">
-                <div class="inbox-sb">
-
-                </div>
-                <div class="inbox-bx container-fluid">
-                    <div class="row">
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+	<!--navigation here-->
+	<!--main content view-->
+		<div class="cv"> <div>
+			<div class="inbox">
+				<div class="inbox-sb"></div>
+				<div class="inbox-bx container-fluid">
+					<div class="row"></div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
