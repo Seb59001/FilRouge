@@ -12,13 +12,6 @@
 
             {% endfor %}
             {{ form_start(form) }}
-            <div class="form-group">
-                {{ form_label(form.libelle_jour) }}
-                {{ form_widget(form.libelle_jour) }}
-                <div class="form-error">
-                    {{ form_errors(form.libelle_jour) }}
-                </div>
-            </div>
 
             <div class="form-group">
                 {{ form_label(form.heure_debut) }}
@@ -36,13 +29,6 @@
                 </div>
             </div>
 
-            <div class="form-group">
-                {{ form_label(form.numero_semaine) }}
-                {{ form_widget(form.numero_semaine) }}
-                <div class="form-error">
-                    {{ form_errors(form.numero_semaine) }}
-                </div>
-            </div>
 
             <div class="form-group">
                 {{ form_label(form.appartientcours) }}
