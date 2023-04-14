@@ -76,6 +76,8 @@ class PresenceController extends AbstractController
         ]);
     }
 
+
+
     #[Route('/{id}', name: 'app_presence_delete', methods: ['POST'])]
     public function delete(EntityManagerInterface $manager, Presence $presence): Response
     {
@@ -93,4 +95,5 @@ class PresenceController extends AbstractController
 
         return $this->redirectToRoute('app_presence', [], Response::HTTP_SEE_OTHER);
     }
+
 }

@@ -42,6 +42,7 @@ class UpdatePasswordType extends AbstractType
             ->add('newPassword', PasswordType::class, [
                 'attr' => ['class' => 'form-control'],
                 'label' => 'Nouveau mot de passe',
+                'mapped' => false,
                 'label_attr' => ['class' => 'form-label mt-4'],
                 'constraints' => [new Assert\NotBlank()]
             ])
@@ -54,10 +55,10 @@ class UpdatePasswordType extends AbstractType
             ]);
     }
 
-    public function configureOptions(OptionsResolver $resolver): void
-    {
-        $resolver->setDefaults([
-            'data_class' => Users::class,
-        ]);
-    }
+    // public function configureOptions(OptionsResolver $resolver): void
+    // {
+    //     $resolver->setDefaults([
+    //         'data_class' => Users::class,
+    //     ]);
+    // }
 }

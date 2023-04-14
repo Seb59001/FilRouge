@@ -134,11 +134,11 @@ class UsersController extends AbstractController
         $form = $this->createForm(UpdatePasswordType::class);
 
         $form->handleRequest($request);
-        if ($form->isSubmitted()) {
-            if ($hasher->isPasswordValid($user, $form->getData()->getPlainPassword())) {
-                $user->setPlainPassword(
-                $form->getData()->getNewPassword());
-                
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($hasher->isPasswordValid($user, $form->getData()['plainPassword'])) {
+                $user->setPassword(
+                $form->getData()['newPassword']);
+
                 $this->addFlash(
                     'success',
                     'Le mot de passe a été modifié.'

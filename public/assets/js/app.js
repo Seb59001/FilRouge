@@ -1,6 +1,6 @@
 (function($){
 
-    $('.btn-warning').on('click', function(e) {
+    $('.btn-danger').on('click', function(e) {
         e.preventDefault();
         var $a = $(this);
         var url = $a.attr('href');
