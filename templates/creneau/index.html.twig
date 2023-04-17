@@ -35,10 +35,9 @@
                 {% for creneau in creneaux %}
                     <tr class="table-light mt-4">
                         <th scope="row">{{ creneau.id }}</th>
-                        <td>{{ creneau.libellejour }}</td>
+                        <td>{{ creneau.heuredebut|date('l j F')}}
                         <td>{{ creneau.heuredebut|date('H:i:s') }}</td>
                         <td>{{ creneau.heurefin|date('H:i:s') }}</td>
-                        <td>{{ creneau.numerosemaine }}</td>
                         {% if creneau.appartientcours is not null %}
 
                             <td>{{ creneau.appartientcours.libeleecour }}</td>
@@ -47,10 +46,10 @@
                             <td>Cours non attribué</td>
 
                         {% endif %}
-                        <td><a href="{{ path('edit_creneau', {id: creneau.id}) }}" class="btn btn-info">Modifier</a>
+                        <td><a href="{{ path('edit_creneau', {id: creneau.id}) }}" class="btn btn-warning">Modifier</a>
                         </td>
                         <td><a href="{{ path('delete_creneau', {id: creneau.id}) }}"
-                               class="btn btn-warning">Supprimer</a></td>
+                               class="btn btn-danger">Supprimer</a></td>
                     </tr>
 
                 {% endfor %}

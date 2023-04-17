@@ -1,20 +1,77 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello StatController!{% endblock %}
+{% block stylesheet %}
+	<link rel="stylesheet" href="{{asset ('assets/css/style2.css') }}">
+{% endblock %}
+
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+	<div class="cercle">
+		<pie-chart data="{{absents}};{{presents}}" gap="0.01" labels="Absence; Présence"></pie-chart>
+	</div>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/Users/lefeb/Desktop/DWWM/FilRouge/src/Controller/StatController.php'|file_link(0) }}">src/Controller/StatController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/Users/lefeb/Desktop/DWWM/FilRouge/templates/stat/index.html.twig'|file_link(0) }}">templates/stat/index.html.twig</a></code></li>
-    </ul>
-</div>
+	<div
+		class="container">
+		<!--main content wrapper-->
+		<div
+			class="mcw">
+			<!--main content view-->
+
+			<div
+				class="container">
+				<!-- Content here -->
+
+				<div class="cv">
+					<div>
+						<div class="inbox">
+							<div class="inbox-sb"></div>
+							<div class="inbox-bx container-fluid">
+								<div class="row">
+
+									<div class="col-md-10">
+										<table class="table table-stripped">
+											<tbody>
+												<tr>
+													<th><input class="class-checkboxes" type="checkbox" id="select-all" name="select-all"/></th>
+													<th>Libelee de Cour</th>
+													<th>Date de debut</th>
+													<th>Date de FIn</th>
+													<th>Formateur</th>
+												</tr>
+												{% for cour in courListe %}
+													<tr>
+														<td><input id="check-button" class="class-checkboxes" type="checkbox" name="id" value="{{ cour.id }}"/></td>
+														<td id="gh">
+															{{ cour.libeleeCour }}</td>
+														<td>
+															{{ cour.dateDebut|date('j F/ Y') }}</td>
+														<td>
+															{{ cour.dateFin|date('j F/ Y') }}</td>
+														{% if cour.usersCours is not null %}
+															<td>{{ cour.usersCours.nom }},
+																{{ cour.usersCours.prenom }}
+															</td>
+														{% else %}
+															<td>Non Attribuer</td>
+														{% endif %}
+													{% endfor %}
+												</tr>
+											</tbody>
+										</table>
+										<div class="navigation">
+											{{ knp_pagination_render(courListe) }}
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+
 {% endblock %}

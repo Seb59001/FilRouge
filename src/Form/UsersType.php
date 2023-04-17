@@ -41,9 +41,13 @@ class UsersType extends AbstractType
                 'attr' => [
                     'class' => 'form-control',
                     'minlength' => '2',
-                    'maxlength' => '255'
+                    'maxlength' => '255',
+                     'style' => $options['ROLE_ADMIN']? 'visibility : hidden' : 'visibility : visibil'
                 ],
-                'label' => 'Mot de passe',
+                'label' => !$options['ROLE_ADMIN'] ? 'Mot de Passe': 'Mot de Passe (admin only) ',
+                'required' => !$options['ROLE_ADMIN'],
+                'disabled' => $options['ROLE_ADMIN'],
+
                 'label_attr' => [
                     'class' => 'form-label mt-4'
                 ],
@@ -130,7 +134,7 @@ class UsersType extends AbstractType
                     'Autre' => 'Autre',
                 ],
                 'attr' => [
-                    'class' => 'form-control',
+                    'class' => 'form-control  mt-4',
                     'minlength' => '2',
                     'maxlength' => '50'
                 ],
@@ -139,7 +143,7 @@ class UsersType extends AbstractType
                     'class' => 'form-label mt-4'
                 ],
                 'constraints' => [
-                    new Assert\Length(['min' => 2, 'max' => 50 ]),
+                    new Assert\Length(['min' => 2, 'max' => 50]),
                     new Assert\NotBlank()
                 ]
             ])
@@ -154,10 +158,12 @@ class UsersType extends AbstractType
                     'attr' => [
                         'class' => 'form-control mt-4'
                     ],
-                    'label' => 'Roles',
+                    'label' => !$options['ROLE_ADMIN'] ? 'Roles (admin only)': 'Roles',
+                    'required' => !$options['ROLE_ADMIN'],
+                    'disabled' => $options['ROLE_ADMIN'],
                     'label_attr' => [
                         'class' => 'form-label mt-4'
-                    ],
+                    ]
                 ],
                 'constraints' => [
                     new Assert\Length(['min' => 2, 'max' => 50]),
@@ -179,6 +185,7 @@ class UsersType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Users::class,
+            'ROLE_ADMIN' => false
         ]);
     }
 }

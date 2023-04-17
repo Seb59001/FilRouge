@@ -21,10 +21,12 @@
                         <div class="inbox-sb"></div>
                         <div class="inbox-bx container-fluid">
                             <div class="row">
-                                <div id="btn">
-                                    <a id="abtn" href="{{ path('app_presence_new') }}" class="btn btn-info"
-                                       type="button">Ajouter</a>
-                                </div>
+                                {% if app.user.roles == 'ROLE_ADMIN' %}
+                                    <div id="btn">
+                                        <a id="abtn" href="{{ path('app_presence_new') }}" class="btn btn-info"
+                                           type="button">Ajouter</a>
+                                    </div>
+                                {% endif %}
                                 <div class="col-md-10">
                                     <table class="table table-stripped">
                                         <thead>
@@ -34,8 +36,9 @@
                                             <th> Cour</th>
                                             <th>Date_presence</th>
                                             <th>Present</th>
-                                            <th>Description</th>
-                                            <th>Modifier</th>
+                                            {% if app.user.roles == 'ROLE_ADMIN' %}
+                                                <th>Modifier</th>
+                                            {% endif %}
                                             <th>actions</th>
                                         </tr>
                                         </thead>
@@ -50,10 +53,11 @@
                                                 {% endif %}
                                                 <td>{{ presence.datePresence ? presence.datePresence|date('d-m-Y') : '' }}</td>
                                                 <td>{{ presence.present ? 'Yes' : 'No' }}</td>
-                                                <td>{{ presence.description }}</td>
+                                                {% if app.user.roles == 'ROLE_ADMIN' %}
                                                 <td><a id="edit-button"
                                                        href="{{ path('app_presence_edit', {'id': presence.id}) }}"
                                                        class="btn btn-warning" type="button">Modifier</a></td>
+                                                {% endif %}
                                                 <td>
                                                     <a href="{{ path('app_presence_show', {'id': presence.id}) }}"><i
                                                                 class="glyphicon glyphicon-eye-open"></i></a>

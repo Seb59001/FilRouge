@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Cours;
 use App\Entity\Presence;
+use App\Entity\Users;
 use App\Form\PresenceType;
 use App\Repository\PresenceRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -12,19 +13,27 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
+#[IsGranted('ROLE_USER')]
 #[Route('/presence')]
 class PresenceController extends AbstractController
 {
     #[Route('/', name: 'app_presence', methods: ['GET'])]
-    public function index(PresenceRepository $presenceRepository, PaginatorInterface $paginator, Request $request): Response
+    public function index(
+                          PresenceRepository $presenceRepository,
+                          PaginatorInterface $paginator,
+                          Request $request
+                          ): Response
     {
 
         return $this->render('presence/index.html.twig', [
-            'presences' => $presenceRepository=$paginator->paginate($presenceRepository->findAll(), $request->query->getInt('page',1)),10
+            'presences' => $presenceRepository = $paginator->paginate($presenceRepository->getPresenceyUser($this->getUser()), $request->query->getInt('page', 1)), 10
         ]);
     }
 
+    #[IsGranted('ROLE_ADMIN')]
     #[Route('/new', name: 'app_presence_new', methods: ['GET', 'POST'])]
     public function new(Request $request, PresenceRepository $presenceRepository): Response
     {
@@ -53,6 +62,9 @@ class PresenceController extends AbstractController
         ]);
     }
 
+
+    #[IsGranted('ROLE_ADMIN')]
+
     #[Route('/{id}/edit', name: 'app_presence_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Presence $presence, PresenceRepository $presenceRepository, EntityManagerInterface $manager): Response
     {
@@ -60,7 +72,7 @@ class PresenceController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
-            $presence= $form->getData();
+            $presence = $form->getData();
             $manager->persist($presence);
             $manager->flush();
             $this->addFlash(
@@ -78,11 +90,11 @@ class PresenceController extends AbstractController
 
 
 
+    #[IsGranted('ROLE_ADMIN')]
     #[Route('/{id}', name: 'app_presence_delete', methods: ['POST'])]
     public function delete(EntityManagerInterface $manager, Presence $presence): Response
     {
-        if(!$presence)
-        {
+        if (!$presence) {
             $this->addFlash(
                 'success',
                 'présence  n\'existe pas !'

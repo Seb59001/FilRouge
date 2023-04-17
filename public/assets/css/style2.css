@@ -1,0 +1,21 @@
+pie-chart {
+    width: 500px;
+    height: 500px;
+}
+
+.cercle {
+
+    margin-top: 2%;
+    display: flex;
+    justify-content:center;
+    margin-bottom: 2%;
+   
+}
+
+.playfaire {
+    font-family: 'Playfair Display', serif;
+}
+
+.container{
+    margin-bottom: 2%;
+}

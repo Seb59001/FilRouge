@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20230407142722 extends AbstractMigration
+final class Version20230413211420 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -22,7 +22,7 @@ final class Version20230407142722 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('CREATE TABLE cours (id INT AUTO_INCREMENT NOT NULL, user_cours_id INT NOT NULL, libelee_cour VARCHAR(100) NOT NULL, date_debut DATE NOT NULL, date_fin DATE NOT NULL, INDEX IDX_FDCA8C9C9E429CB0 (user_cours_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE cours_eleve (cours_id INT NOT NULL, eleve_id INT NOT NULL, INDEX IDX_DCC78C217ECF78B0 (cours_id), INDEX IDX_DCC78C21A6CC7B2 (eleve_id), PRIMARY KEY(cours_id, eleve_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE creneau (id INT AUTO_INCREMENT NOT NULL, appartient_cours_id INT DEFAULT NULL, libelle_jour VARCHAR(255) NOT NULL, heure_debut TIME NOT NULL, heure_fin TIME NOT NULL, numero_semaine INT NOT NULL, INDEX IDX_F9668B5F731BB849 (appartient_cours_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE creneau (id INT AUTO_INCREMENT NOT NULL, appartient_cours_id INT DEFAULT NULL, libelle_jour VARCHAR(255) NOT NULL, heure_debut DATETIME NOT NULL, heure_fin DATETIME NOT NULL, numero_semaine INT NOT NULL, INDEX IDX_F9668B5F731BB849 (appartient_cours_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE eleve (id INT AUTO_INCREMENT NOT NULL, nom VARCHAR(255) NOT NULL, prenom VARCHAR(255) NOT NULL, telephone VARCHAR(255) NOT NULL, sexe VARCHAR(255) NOT NULL, niveau_etude VARCHAR(255) NOT NULL, email VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE presence (id INT AUTO_INCREMENT NOT NULL, presence_eleve_id INT NOT NULL, presence_cours_id INT NOT NULL, date_presence DATE NOT NULL, present TINYINT(1) NOT NULL, description LONGTEXT DEFAULT NULL, INDEX IDX_6977C7A5FCC8BB68 (presence_eleve_id), INDEX IDX_6977C7A5886B046A (presence_cours_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE users (id INT AUTO_INCREMENT NOT NULL, email VARCHAR(180) NOT NULL, roles LONGTEXT NOT NULL COMMENT \'(DC2Type:json)\', password VARCHAR(255) NOT NULL, google_authenticator_secret VARCHAR(255) DEFAULT NULL, is_verified TINYINT(1) NOT NULL, nom VARCHAR(50) NOT NULL, prenom VARCHAR(50) NOT NULL, sexe VARCHAR(50) NOT NULL, telephone VARCHAR(50) NOT NULL, emploi VARCHAR(50) NOT NULL, UNIQUE INDEX UNIQ_1483A5E9E7927C74 (email), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
