@@ -42,14 +42,15 @@ class UsersType extends AbstractType
                     'class' => 'form-control',
                     'minlength' => '2',
                     'maxlength' => '255',
-                     'style' => $options['ROLE_ADMIN']? 'visibility : hidden' : 'visibility : visibil'
+                     'style' => !$options['ROLE_ADMIN']? 'visibility : hidden' : 'visibility : visibil'
                 ],
-                'label' => !$options['ROLE_ADMIN'] ? 'Mot de Passe': 'Mot de Passe (admin only) ',
-                'required' => !$options['ROLE_ADMIN'],
-                'disabled' => $options['ROLE_ADMIN'],
+                'label' => $options['ROLE_ADMIN'] ? 'Mot de Passe': 'Mot de Passe (admin only) ',
+                'required' => $options['ROLE_ADMIN'],
+                'disabled' => !$options['ROLE_ADMIN'],
 
                 'label_attr' => [
-                    'class' => 'form-label mt-4'
+                    'class' => 'form-label mt-4',
+                    'style' => !$options['ROLE_ADMIN']? 'visibility : hidden' : 'visibility : visibil'
                 ],
                 'constraints' => [
                     new Assert\Length(['min' => 2, 'max' => 255]),
@@ -135,12 +136,16 @@ class UsersType extends AbstractType
                 ],
                 'attr' => [
                     'class' => 'form-control  mt-4',
+                    'style' =>!$options['ROLE_ADMIN'] ? 'visibility : hidden' : 'visibility : visible',
                     'minlength' => '2',
                     'maxlength' => '50'
                 ],
-                'label' => 'Emploi',
+                'label' => !$options['ROLE_ADMIN'] ? 'Emploi (admin only)': 'Emploi',
+                'required' => $options['ROLE_ADMIN'],
+                'disabled' => !$options['ROLE_ADMIN'],
                 'label_attr' => [
-                    'class' => 'form-label mt-4'
+                    'class' => 'form-label mt-4',
+                    'style' =>!$options['ROLE_ADMIN'] ? 'visibility : hidden' : 'visibility : visible'
                 ],
                 'constraints' => [
                     new Assert\Length(['min' => 2, 'max' => 50]),
@@ -156,14 +161,14 @@ class UsersType extends AbstractType
                         'User' => 'ROLE_USER',
                     ],
                     'attr' => [
-                        'class' => 'form-control mt-4'
+                        'class' => 'form-control mt-4',
                     ],
                     'label' => !$options['ROLE_ADMIN'] ? 'Roles (admin only)': 'Roles',
-                    'required' => !$options['ROLE_ADMIN'],
-                    'disabled' => $options['ROLE_ADMIN'],
+                    'required' => $options['ROLE_ADMIN'],
+                    'disabled' => !$options['ROLE_ADMIN'],
                     'label_attr' => [
-                        'class' => 'form-label mt-4'
-                    ]
+                        'class' => 'form-label mt-4',
+                    ],
                 ],
                 'constraints' => [
                     new Assert\Length(['min' => 2, 'max' => 50]),

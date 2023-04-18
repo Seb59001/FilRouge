@@ -44,6 +44,7 @@
                     {{ form_errors(form.telephone) }}
                 </div>
             </div>
+            {% if app.user.roles == 'ROLE_ADMIN' %}
                 <div class="form-group" >
                     {{ form_label(form.emploi) }}
                     {{ form_widget(form.emploi) }}
@@ -58,6 +59,7 @@
                         {{ form_errors(form.plainPassword) }}
                     </div>
                 </div>
+            {% endif %}
                 <div class="form-group">
                     {#                    {{form_label(form.roles)}} #}
                     {{ form_widget(form.roles) }}

@@ -60,28 +60,43 @@ document.addEventListener('DOMContentLoaded', function() {
         weekNumbers: true,
         navLinks: true, // can click day/week names to navigate views
         editable: true,
-        events: {{ data|raw}}
-    });
+        events: {{ data|raw}},
+    })
+    calendar.on('eventChange', (e) => {
+        let url = '/api/${e.event.id}/edit'
+        let donnees = {
+            "id": e.event.id,
+            "title": e.event.title, 
+            "start": e.event.start,
+            "end": e.event.end, 
+        }
+
+
+        var xhr = new XMLHttpRequest();
+
+        xhr.open("PUT", url)
+        xhr.send(JSON.stringify(donnees))
+    })
 
     calendar.render();
 
     // build the locale selector's options
-    calendar.getAvailableLocaleCodes().forEach(function(localeCode) {
-        var optionEl = document.createElement('option');
-        optionEl.value = localeCode;
-        optionEl.selected = localeCode === initialLocaleCode;
-        optionEl.innerText = localeCode;
-        localeSelectorEl.appendChild(optionEl);
-    });
+    // calendar.getAvailableLocaleCodes().forEach(function(localeCode) {
+    //     var optionEl = document.createElement('option');
+    //     optionEl.value = localeCode;
+    //     optionEl.selected = localeCode === initialLocaleCode;
+    //     optionEl.innerText = localeCode;
+    //     localeSelectorEl.appendChild(optionEl);
+    // });
 
     // when the selected option changes, dynamically change the calendar option
-    localeSelectorEl.addEventListener('change', function() {
-        if (this.value) {
-            calendar.setOption('local', 'fr');
-        }
+    // localeSelectorEl.addEventListener('change', function() {
+    //     if (this.value) {
+    //         calendar.setOption('local', 'fr');
+    //     }
     });
 
-});
+
 </script>
 
 {% endblock %}
