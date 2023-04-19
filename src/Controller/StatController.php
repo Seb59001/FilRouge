@@ -35,9 +35,7 @@ $absents =count( $presenceRepository->findBy([
             10
         );
 
-        return $this->render('stat/stat.html.twig', [
-            'controller_name' => 'StatController',
-            'controller_name' => 'Cours',
+        return $this->render('stat/stat.html.twig', [          
             'courListe' => $listeCour,
             'presents' => $presents,
             'absents' => $absents
