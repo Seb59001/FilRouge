@@ -63,7 +63,9 @@ document.addEventListener('DOMContentLoaded', function() {
         navLinks: true, // can click day/week names to navigate views
         editable: true,
         timeZone: 'Europe/Paris',
-        events: {{data|raw}}
+        events: 
+        {{data|raw}}
+
     });
     calendar.on('eventChange', (e) => {
         let url = `/api/${e.event.id}/edit`
@@ -71,7 +73,7 @@ document.addEventListener('DOMContentLoaded', function() {
             "id": e.event.id,
             "title": e.event.title, 
             "start": e.event.start.toUTCString(),
-            "end": e.event.end.toUTCString(), 
+            "end": e.event.end.toUTCString(),
         }
         console.log(donnees)
 
