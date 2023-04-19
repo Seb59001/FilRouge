@@ -53,7 +53,7 @@
                                                 {% endif %}
                                                 <td>{{ presence.datePresence ? presence.datePresence|date('d-m-Y') : '' }}</td>
                                                 <td>{{ presence.present ? 'Yes' : 'No' }}</td>
-                                                {% if app.user.roles == 'ROLE_ADMIN' %}
+                                                {% if app.user.roles == 'ROLE_ADMIN' and app.user.emploi == 'SECRETAIRE' %}
                                                 <td><a id="edit-button"
                                                        href="{{ path('app_presence_edit', {'id': presence.id}) }}"
                                                        class="btn btn-warning" type="button">Modifier</a></td>

@@ -27,7 +27,12 @@ class CreneauType extends AbstractType
         $user = $options['user'];
 
         $builder
-
+            ->add('libelle_jour', TextType::class, [
+                'attr' => [
+                    'class' => 'form-control'
+                ],
+                'label' => 'Jour'
+            ])
             ->add('heure_debut', DateTimeType::class, [
                 'date_widget' => 'single_text',
                 'attr' => [
@@ -41,6 +46,12 @@ class CreneauType extends AbstractType
                     'class' => 'b-form-timepicker'
                 ],
                 'label' => 'heure de fin'
+            ])
+            ->add('numero_semaine', NumberType::class, [
+                'attr' => [
+                    'class' => 'form-control'
+                ],
+                'label' => 'semaine'
             ])
             ->add('appartientcours', EntityType::class, [
                 'class' => Cours::class,

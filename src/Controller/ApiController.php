@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Creneau;
 use DateTime;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry as PersistenceManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -38,10 +39,9 @@ class ApiController extends AbstractController
 
                 $code = 201;
             }
-
+            $calendar->getId();
             $calendar->getAppartientCours()->setLibeleeCour($donnees->title);
             $calendar->setHeureDebut(new DateTime($donnees->start));
-            
             $calendar->setHeureFin(new DateTime($donnees->end));
 
             $em = $doctrine->getManager();

@@ -19,7 +19,6 @@ class CalendarController extends AbstractController
     #[Route('/calendar', name: 'app_calendar')]
     public function index(CreneauRepository $calendar, EntityManagerInterface $entityManager, CoursRepository $cours, UsersRepository $users): Response
     {
-
         $cour = $cours->findBy(['user_cours' => $this->getUser()]);
         $events  = $calendar->findBy(['appartient_cours' => $cour]);
         $creneaux = [] ;

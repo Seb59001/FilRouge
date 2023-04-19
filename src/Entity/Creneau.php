@@ -31,17 +31,7 @@ class Creneau
         return $this->id;
     }
 
-    public function getLibelleJour(): ?string
-    {
-        return $this->libelle_jour;
-    }
 
-    public function setLibelleJour(string $libelle_jour): self
-    {
-        $this->libelle_jour = $libelle_jour;
-
-        return $this;
-    }
 
     public function getHeureDebut(): ?\DateTimeInterface
     {
@@ -67,17 +57,6 @@ class Creneau
         return $this;
     }
 
-    public function getNumeroSemaine(): ?int
-    {
-        return $this->numero_semaine;
-    }
-
-    public function setNumeroSemaine(int $numero_semaine): self
-    {
-        $this->numero_semaine = $numero_semaine;
-
-        return $this;
-    }
 
     public function getAppartientCours(): ?Cours
     {

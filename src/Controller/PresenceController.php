@@ -24,8 +24,7 @@ class PresenceController extends AbstractController
     public function index(
                           PresenceRepository $presenceRepository,
                           PaginatorInterface $paginator,
-                          Request $request
-                          ): Response
+                          Request $request): Response
     {
 
         return $this->render('presence/index.html.twig', [

@@ -1,4 +1,4 @@
-(function ($) {
+(function($){
 
     $('.btn-danger').on('click', function(e) {
         e.preventDefault();
@@ -6,13 +6,13 @@
         var url = $a.attr('href');
         // $a.text('Chargement');
         $.ajax(url, {
-            success: function () {
+            success: function() {
                 var res = confirm("Êtes-vous sûr de vouloir supprimer?");
-                if (res) {
+                if(res){
                     $a.parents('tr').fadeOut();
                 }
             },
-            error: function (jqxhr) {
+            error: function(jqxhr){
                 $a.text('supprimer')
                 alert(jqxhr.responseText);
             }
@@ -77,6 +77,7 @@
 //             calendar.setOption('local', 'fr');
 //         }
 //     });
+
 
 // });
 
@@ -247,6 +248,5 @@ class PieChart extends HTMLElement {
         label.style.setProperty('left', `${(point.x * 0.60 * 0.50 + 0.50) * 100}%`)
     }
 }
-
 
 customElements.define('pie-chart', PieChart)
