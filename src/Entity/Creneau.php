@@ -14,8 +14,6 @@ class Creneau
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $libelle_jour = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $heure_debut = null;
@@ -23,8 +21,6 @@ class Creneau
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $heure_fin = null;
 
-    #[ORM\Column]
-    private ?int $numero_semaine = null;
 
 
     #[ORM\ManyToOne(inversedBy: 'creneau_cours')]
