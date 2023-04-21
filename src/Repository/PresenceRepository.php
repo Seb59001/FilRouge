@@ -17,6 +17,7 @@ use Doctrine\Persistence\ManagerRegistry;
 class PresenceRepository extends ServiceEntityRepository
 {
     public function recupererPresent($IdCours){
+        
         $qb = $this->createQueryBuilder('a');
         $qb->select('a.present');
         $qb->where('a.presence_cours = :IdCours and a.present = 1');
