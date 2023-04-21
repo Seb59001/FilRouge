@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\classe\Search;
+use App\Form\SearchType;
 use App\Repository\CoursRepository;
 use App\Repository\PresenceRepository;
 use Knp\Component\Pager\PaginatorInterface;
@@ -14,18 +16,16 @@ class StatController extends AbstractController
 {
 
     #[Route('/stat', name: 'app_stat')]
-    public function index(PresenceRepository $presenceRepository,CoursRepository $CoursRepository, PaginatorInterface $paginator, Request $request): Response
+    public function index(PresenceRepository $presenceRepository, CoursRepository $CoursRepository, PaginatorInterface $paginator, Request $request): Response
     {
-        //POUR LE CERCLE 
+        $search = new Search();
+        $form = $this->createForm( SearchType::class, $search);
 
-$presents =count( $presenceRepository->findBy([
-    'present' => "1"
-]));
+    
+        // récupération des absents et présence dans un cours
+        $present = count($presenceRepository->recupererPresent(821));
 
-$absents =count( $presenceRepository->findBy([
-    'present' => "0"
-]));
-
+        $absent = count($presenceRepository->recupererAbsent(821));
 
 
         //POUR LE TABLEAU 
@@ -35,10 +35,11 @@ $absents =count( $presenceRepository->findBy([
             10
         );
 
-        return $this->render('stat/stat.html.twig', [          
+        return $this->render('stat/stat.html.twig', [
             'courListe' => $listeCour,
-            'presents' => $presents,
-            'absents' => $absents
+            'presents' => $present,
+            'absents' => $absent,
+            'form' => $form->createView()
         ]);
     }
 }
