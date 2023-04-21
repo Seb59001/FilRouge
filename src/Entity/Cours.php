@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use PHPUnit\Framework\MockObject\Stub\ReturnCallback;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CoursRepository::class)]
@@ -189,4 +190,9 @@ class Cours
 
         return $this;
     }
+
+    public function __toString(){
+     return ' Cours de '.  $this->libelee_cour . ' numéro : ' . $this->id . '. ' ;
+      
+        }
 }
