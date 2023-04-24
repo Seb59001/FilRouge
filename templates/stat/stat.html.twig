@@ -1,14 +1,13 @@
 {% extends 'base.html.twig' %}
 {% block body %}
-<div class="container">
+	<div class="container">
 
 
+		<div class="cercle">
+			<pie-chart data="{{absents}};{{presents}}" gap="0.01" labels="Absence; Présence"></pie-chart>
+		</div>
 
-	<div class="cercle">
-		<pie-chart data="{{absents}};{{presents}}" gap="0.01" labels="Absence; Présence"></pie-chart>
-	</div>
+		{{form(form)}}
 
-{{form(form)}}
-
-</div>
-{% endblock %}
+		</div>
+	{% endblock %}
