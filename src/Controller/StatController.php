@@ -16,6 +16,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class StatController extends AbstractController
 {
 
+    #[Security ("is_granted('ROLE_USER')")]
     #[Route('/stat', name: 'app_stat')]
     public function index(PresenceRepository $presenceRepository, CoursRepository $CoursRepository, PaginatorInterface $paginator, Request $request): Response
     {
@@ -59,12 +60,13 @@ class StatController extends AbstractController
 
 
 
+
         // Affichage de la vue 'stat.html.twig' avec les variables nécessaires
         return $this->render('stat/stat.html.twig', [
             
             'presents' => $present,
             'absents' => $absent,
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ]);
     }
 }

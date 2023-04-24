@@ -192,7 +192,7 @@ class Cours
     }
 
     public function __toString(){
-     return ' Cours de '.  $this->libelee_cour . ' numéro : ' . $this->id . '. ' ;
+     return ' Cours de '.  $this->libelee_cour . ' numéro : ' . $this->id . '|   date : '.date_format($this->getDateDebut(), date('d/m/Y')).'.' ;
       
         }
 }
