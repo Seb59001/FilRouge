@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Constraints\Time;
 
 class ApiController extends AbstractController
 {
@@ -30,7 +31,8 @@ class ApiController extends AbstractController
             isset($donnees->id) && !empty($donnees->id) &&
             isset($donnees->start) && !empty($donnees->start) &&
             isset($donnees->end) && !empty($donnees->end) &&
-            isset($donnees->title) && !empty($donnees->title)
+            isset($donnees->title) && !empty($donnees->title) 
+
         ){
             $code = 200;
 
@@ -41,8 +43,12 @@ class ApiController extends AbstractController
             }
             $calendar->getId();
             $calendar->getAppartientCours()->setLibeleeCour($donnees->title);
-            $calendar->setHeureDebut(new DateTime($donnees->start));
-            $calendar->setHeureFin(new DateTime($donnees->end));
+            $calendar->setDateDebutCours(new DateTime($donnees->start));
+            $calendar->setDateFinCours(new DateTime($donnees->end));
+            $calendar->setAllDay($donnees->allDay);
+
+
+            
 
             $em = $doctrine->getManager();
             $em->persist($calendar);

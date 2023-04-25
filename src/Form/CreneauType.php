@@ -10,8 +10,10 @@ use App\Repository\CreneauRepository;
 use App\Repository\UsersRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -28,21 +30,18 @@ class CreneauType extends AbstractType
 
         $builder
             
-            ->add('heure_debut', DateTimeType::class, [
+            ->add('date_debut_cours', DateTimeType::class, [
                 'date_widget' => 'single_text',
-                'attr' => [
-                    'class' => 'b-form-timepicker'
-                ],
-                'label' => 'heure de début'
-            ])
-            ->add('heure_fin', DateTimeType::class, [
+                'label' => 'date de début du cours'
+             ])
+            ->add('date_fin_cours', DateTimeType::class, [
                 'date_widget' => 'single_text',
-                'attr' => [
-                    'class' => 'b-form-timepicker'
-                ],
-                'label' => 'heure de fin'
+                'label' => 'date de fin du cours'
             ])
-            
+            ->add('all_day', CheckboxType::class, [
+                'required' => false,
+                'label' => 'Toute la journée',
+            ])
             ->add('appartientcours', EntityType::class, [
                 'class' => Cours::class,
                 'query_builder' => function (CoursRepository $cr) use ($user) {

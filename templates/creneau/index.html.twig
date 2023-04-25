@@ -16,6 +16,13 @@
 
             {% endfor %}
 
+                        {% for message in app.flashes('error') %}
+                <div class="alert alert-success mt-4">
+                    {{ message }}
+                </div>
+
+            {% endfor %}
+
             <table class="table table-hover mt-4">
                 <thead>
                 <tr>
@@ -34,9 +41,9 @@
                 {% for creneau in creneaux %}
                     <tr class="table-light mt-4">
                         <th scope="row">{{ creneau.id }}</th>
-                        <td>{{ creneau.heuredebut|date('l j F')}}
-                        <td>{{ creneau.heuredebut|date('H:i:s') }}</td>
-                        <td>{{ creneau.heurefin|date('H:i:s') }}</td>
+                        <td>{{ creneau.datedebutcours|date('l j F')}}
+                        <td>{{ creneau.datedebutcours|date('H:i:s') }}</td>
+                        <td>{{ creneau.datefincours|date('H:i:s') }}</td>
                         {% if creneau.appartientcours is not null %}
 
                             <td>{{ creneau.appartientcours.libeleecour }}</td>

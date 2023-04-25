@@ -25,14 +25,17 @@ class CalendarController extends AbstractController
         foreach($events as $event) {
             $creneaux[] = [
                 'id' => $event->getId(),
-                'start' => $event->getHeureDebut()->format('Y-m-d H:i:s'),
-                'end' => $event->getHeureFin()->format('Y-m-d H:i:s'),
+                'start' => $event->getDateDebutCours()->format('Y-m-d H:i:s'),
+                'end' => $event->getDateFinCours()->format('Y-m-d H:i:s'),
                 'title' => $event->getAppartientCours()->getLibeleeCour(),
+                'allDay' => false,
+
             ];
         }
+        
+
 
         $data = json_encode($creneaux);
-
         return $this->render('calendar/index.html.twig', compact('data'));
             
     }
