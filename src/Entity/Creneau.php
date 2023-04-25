@@ -15,47 +15,28 @@ class Creneau
     private ?int $id = null;
 
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $heure_debut = null;
-
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $heure_fin = null;
 
 
 
     #[ORM\ManyToOne(inversedBy: 'creneau_cours')]
     private ?Cours $appartient_cours = null;
 
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $date_debut_cours = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $date_fin_cours = null;
+
+
+    #[ORM\Column]
+    private ?bool $all_day = null;
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
-
-
-    public function getHeureDebut(): ?\DateTimeInterface
-    {
-        return $this->heure_debut;
-    }
-
-    public function setHeureDebut(\DateTimeInterface $heure_debut): self
-    {
-        $this->heure_debut = $heure_debut;
-
-        return $this;
-    }
-
-    public function getHeureFin(): ?\DateTimeInterface
-    {
-        return $this->heure_fin;
-    }
-
-    public function setHeureFin(\DateTimeInterface $heure_fin): self
-    {
-        $this->heure_fin = $heure_fin;
-
-        return $this;
-    }
 
 
     public function getAppartientCours(): ?Cours
@@ -69,4 +50,41 @@ class Creneau
 
         return $this;
     }
+
+    public function getDateDebutCours(): ?\DateTimeInterface
+    {
+        return $this->date_debut_cours;
+    }
+
+    public function setDateDebutCours(\DateTimeInterface $date_debut_cours): self
+    {
+        $this->date_debut_cours = $date_debut_cours;
+
+        return $this;
+    }
+
+    public function getDateFinCours(): ?\DateTimeInterface
+    {
+        return $this->date_fin_cours;
+    }
+
+    public function setDateFinCours(\DateTimeInterface $date_fin_cours): self
+    {
+        $this->date_fin_cours = $date_fin_cours;
+
+        return $this;
+    }
+
+    public function isAllDay(): ?bool
+    {
+        return $this->all_day;
+    }
+
+    public function setAllDay(bool $all_day): self
+    {
+        $this->all_day = $all_day;
+
+        return $this;
+    }
+
 }

@@ -7,6 +7,8 @@ use App\Entity\Creneau;
 use App\Form\CreneauType;
 use App\Repository\CoursRepository;
 use App\Repository\CreneauRepository;
+use DateInterval;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -34,11 +36,11 @@ class CreneauController extends AbstractController
     public function index(CreneauRepository $repository, PaginatorInterface $paginator, Request $request): Response
     {
 
-            $creneaux = $paginator->paginate(
-                $repository->getCreneauxByUser($this->getUser()),
-                $request->query->getInt('page', 1),
-                10
-            );
+        $creneaux = $paginator->paginate(
+            $repository->getCreneauxByUser($this->getUser()),
+            $request->query->getInt('page', 1),
+            10
+        );
         return $this->render('creneau/index.html.twig', [
             'controller_name' => 'CreneauController',
             'creneaux' => $creneaux
@@ -66,25 +68,136 @@ class CreneauController extends AbstractController
             'user' => $user,
         ]);
 
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
 
+        $form->handleRequest($request);
+
+
+        if ($form->isSubmitted() && $form->isValid()) {
             $creneau = $form->getData();
+            // $debutPeriode = $creneau->getAppartientCours()->getDateDebut()->format('Y-m-d H:i:s');
+            $debut = $creneau->getDateDebutCours()->format('Y-m-d H:i:s');  
+            $fin = $creneau->getDateFinCours()->format('Y-m-d H:i:s');
+            $debutPeriode = $creneau->getAppartientCours()->getDateDebut();
+            $debutPeriode->setTime((int) $debut[11] . $debut[12], (int) $debut[14] . $debut[15], (int) $debut[17] . $debut[18]);
+            $debutPeriode = $debutPeriode->format('Y-m-d H:i:s');
+            $finPeriode = $creneau->getAppartientCours()->getDateFin();
+            $finPeriode->setTime((int) $fin[11] . $fin[12], (int) $fin[14] . $fin[15], (int) $fin[17] . $fin[18]);
+            $finPeriode = $finPeriode->format('Y-m-d H:i:s');
+
+
+            $finPeriode = $creneau->getAppartientCours()->getDateFin()->format('Y-m-d H:i:s');
+            // Vérifier si la date de début du créneau est antérieure à la date de début du cours
+            $debut = $creneau->getDateDebutCours()->format('Y-m-d H:i:s');
+            if ($debut < $debutPeriode) {
+                // Ajouter un message d'erreur à la session flash
+                $dateDebut = DateTime::createFromFormat('Y-m-d H:i:s', $debutPeriode);
+                $this->addFlash(
+                    'error',
+                    "La date du créneau de cours ne peut pas être antérieure à la date de début du cours. Le cours commence le {$debutPeriode}"
+                );
+
+
+                // Rediriger l'utilisateur vers la page du formulaire
+                return $this->redirectToRoute('new_creneau');
+            }
+            $fin = $creneau->getDateFinCours()->format('Y-m-d H:i:s');
+            if ($fin > $finPeriode) {
+                DateTime::createFromFormat('Y-m-d H:i:s', $finPeriode);
+                // Ajouter un message d'erreur à la session flash
+                $this->addFlash(
+                    'error',
+                    "La date du créneau de cours ne peut pas être ultérieure à la date de fin du cours. Le cours se termine le {$finPeriode}"
+                );
+
+
+                // Rediriger l'utilisateur vers la page du formulaire
+                return $this->redirectToRoute('new_creneau');
+            }
 
             $manager->persist($creneau);
             $manager->flush();
 
+            // Calculer le nombre de semaines entre la date de début et la date de fin
+            $dateDebut = DateTime::createFromFormat('Y-m-d H:i:s', $debutPeriode);
+            $dateFin = DateTime::createFromFormat('Y-m-d H:i:s', $finPeriode);
+            $diff = $dateDebut->diff($dateFin);
+
+
+
+            $nbSemaines = intval($diff->format('%a') / 7);
+            for ($i = 0; $i < $nbSemaines; $i++) {
+                // Obtenir les données du formulaire
+                $creneau = $form->getData();
+                $idCours = $creneau->getAppartientCours();
+                $debut = $creneau->getDateDebutCours();
+                $fin = $creneau->getDateFinCours();
+
+
+
+
+                // Créer un nouveau Creneau avec les dates modifiées
+                $user = $this->getUser();
+                $newCreneau = new Creneau();
+                $newCreneau->setAllDay(false);
+                $newCreneau->setAppartientCours($idCours);
+                $newCreneau->setDateDebutCours($debut);
+                $newCreneau->setDateFinCours($fin);
+
+
+
+                // Ajouter une semaine à la date de début et fin
+                $debut = $debut->modify("+7 day");
+                $fin = $fin->modify("+7 day");
+
+
+                $newData = [
+                    'date_debut_cours' => $debut,
+                    'date_fin_cours' => $fin,
+                    'all_day' => false,
+                    'appartientcours' => $idCours,
+                ];
+
+
+                $newForm = $this->createForm(CreneauType::class, $newCreneau, [
+                    'user' => $user,
+                ]);
+
+
+
+                $newRequest = Request::create('', 'POST', [
+                    'creneau' => $newData,
+                ]);
+
+                // Traite le nouveau formulaire avec la nouvelle instance de Request
+                $newForm->handleRequest($newRequest);
+
+
+
+                // Si le formulaire est soumis et valide, persiste le nouveau créneau
+                if ($newForm->isSubmitted()) {
+                    $newCreneau = $newForm->getData();
+                    $manager->persist($newCreneau);
+                    $manager->flush();
+                }
+            }
+
+
+            // Ajouter un message de succès à la session flash
             $this->addFlash(
                 'success',
-                'Le créneau a été inséré avec succès ! '
+                "Les " . ($nbSemaines + 1) . " créneaux ont été insérés avec succès !"
             );
 
-            return $this->redirectToroute('app_creneau');
+            // Rediriger l'utilisateur vers la page des créneaux
+            return $this->redirectToRoute('app_creneau');
         }
+
+
         return $this->render('creneau/new.html.twig', [
-            'form' => $form
+            'form' => $form->createView()
         ]);
     }
+
 
     /**
      *
@@ -158,7 +271,5 @@ class CreneauController extends AbstractController
         );
 
         return $this->redirectToroute('app_creneau');
-
-
     }
 }

@@ -14,24 +14,39 @@
             {{ form_start(form) }}
 
 
-
             <div class="form-group">
-                {{ form_label(form.heure_debut) }}
-                {{ form_widget(form.heure_debut) }}
+                {{ form_label(form.date_debut_cours) }}
+                {{ form_widget(form.date_debut_cours) }}
                 <div class="form-error">
-                    {{ form_errors(form.heure_debut) }}
+                    {{ form_errors(form.date_debut_cours) }}
                 </div>
             </div>
 
             <div class="form-group">
-                {{ form_label(form.heure_fin) }}
-                {{ form_widget(form.heure_fin) }}
+                {{ form_label(form.date_fin_cours) }}
+                {{ form_widget(form.date_fin_cours) }}
                 <div class="form-error">
-                    {{ form_errors(form.heure_fin) }}
+                    {{ form_errors(form.date_fin_cours) }}
                 </div>
             </div>
 
+            
 
+            {# <div class="form-group">
+                {{ form_label(form.debut_periode_cours) }}
+                {{ form_widget(form.debut_periode_cours) }}
+                <div class="form-error">
+                    {{ form_errors(form.debut_periode_cours) }}
+                </div>
+            </div>
+
+            <div class="form-group">
+                {{ form_label(form.fin_periode_cours) }}
+                {{ form_widget(form.fin_periode_cours) }}
+                <div class="form-error">
+                    {{ form_errors(form.fin_periode_cours) }}
+                </div>
+            </div> #}
 
             <div class="form-group">
                 {{ form_label(form.appartientcours) }}
@@ -42,8 +57,17 @@
             </div>
 
             <div class="form-group">
+                {{ form_label(form.all_day) }}
+                {{ form_widget(form.all_day) }}
+                <div class="form-error">
+                    {{ form_errors(form.all_day) }}
+                </div>
+            </div>
+
+            <div class="form-group">
                 {{ form_row(form.submit) }}
             </div>
+            
 
             {{ form_end(form) }}
         </div>
