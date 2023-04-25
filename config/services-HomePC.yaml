@@ -28,3 +28,4 @@ services:
     # please note that last definitions always *replace* previous ones
     acme.my_auth_code_mailer:
         class: Acme\Demo\Mailer\MyAuthCodeMailer
+

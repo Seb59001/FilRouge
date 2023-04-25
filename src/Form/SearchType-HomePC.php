@@ -22,7 +22,11 @@ class SearchType extends AbstractType
                 'class' => Cours::class,
                 'multiple' => true,
                 'expanded' => true,
-              ]);
+              ])
+              ->add( 'submit', SubmitType::class, [
+              'label' => 'Ok',
+              ])
+              ;
     }
 
 

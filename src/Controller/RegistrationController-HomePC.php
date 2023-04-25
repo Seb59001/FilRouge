@@ -16,7 +16,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class RegistrationController extends AbstractController
 {
     #[Route('/register', name: 'app_register', methods: ['GET', 'POST'])]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
+    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, GoogleAuthenticatorInterface $authenticator): Response
     {
         $user = new Users();
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -31,6 +31,9 @@ class RegistrationController extends AbstractController
                 )
             );
 
+            $secret =$authenticator->generateSecret();
+
+            $user->setGoogleAuthenticatorSecret($secret);
 
             $entityManager->persist($user);
             $entityManager->flush();
