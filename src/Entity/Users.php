@@ -44,10 +44,6 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface, TwoFac
     #[Assert\NotBlank()]
     private ?string $password = null;
 
-    #[ORM\Column(type: "string", nullable:true)]
-
-    private ?string $googleAuthenticatorSecret;
-
     #[ORM\Column(type: 'boolean')]
     private $isVerified = false;
 
