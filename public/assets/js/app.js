@@ -1,18 +1,18 @@
-(function($){
+(function ($) {
 
-    $('.btn-danger').on('click', function(e) {
+    $('.btn-danger').on('click', function (e) {
         e.preventDefault();
         var $a = $(this);
         var url = $a.attr('href');
         // $a.text('Chargement');
         $.ajax(url, {
-            success: function() {
+            success: function () {
                 var res = confirm("Êtes-vous sûr de vouloir supprimer?");
-                if(res){
+                if (res) {
                     $a.parents('tr').fadeOut();
                 }
             },
-            error: function(jqxhr){
+            error: function (jqxhr) {
                 $a.text('supprimer')
                 alert(jqxhr.responseText);
             }
@@ -258,3 +258,20 @@ class PieChart extends HTMLElement {
 }
 
 customElements.define('pie-chart', PieChart)
+
+
+
+
+//CALL AJAX
+
+// window.onload = () => {
+//     const FiltersForm = document.querySelector("#selectCours");
+    
+//     document.querySelectorAll('#selectCours input').foreach(input => {
+//         input.addEventListener("change", () => {
+//             console.log("clic");
+//         });
+//     });
+// }
+
+

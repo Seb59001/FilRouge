@@ -22,6 +22,9 @@ class SearchType extends AbstractType
                 'class' => Cours::class,
                 'multiple' => true,
                 'expanded' => true,
+                'attr' => [ 
+                   'id' => 'selectCours'
+                ]
               ])
               ->add( 'submit', SubmitType::class, [
               'label' => 'Ok',
