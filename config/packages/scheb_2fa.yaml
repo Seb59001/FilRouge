@@ -2,6 +2,10 @@
 scheb_two_factor:
     security_tokens:
         #-  Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken
-        - Symfony\Component\Security\Http\Authenticator\Token\PostAuthenticationToken
-    google:
+         - Symfony\Component\Security\Http\Authenticator\Token\PostAuthenticationToken
+    email:
         enabled: true
+        mailer: acme.my_auth_code_mailer
+        sender_email: no-reply@classroom.com
+        sender_name: CLASSE-ROOM
+        digits: 6

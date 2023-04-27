@@ -3,7 +3,7 @@
 {% block body %}
     <div class="container">
         <div class="mcw">
-            <img src={{ qrCode }} alt='".$string."'>
+{#            <img src={{ qrCode }} alt='".$string."'>#}
             <p class="label"><label for="_auth_code">Authentification double facteur</label></p>
 
             <form class="form" action="/2fa_check" method="post">
