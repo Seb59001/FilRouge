@@ -41,11 +41,13 @@
 
 <a href="{{ url('app_reset_password', {token: resetToken.token}) }}">{{ url('app_reset_password', {token: resetToken.token}) }}</a>
 
-<p>Ce lien expirera dans {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.</p>
+<p>Ce lien expirera
+    dans {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.</p>
 
 <p>Cordialement !</p>
 
-<img src="https://i.pinimg.com/originals/3a/a9/d4/3aa9d4af96e37eba12979f40832a2a06.gif" alt="Image de l'entreprise" class="image">
+<img src="https://i.pinimg.com/originals/3a/a9/d4/3aa9d4af96e37eba12979f40832a2a06.gif" alt="Image de l'entreprise"
+     class="image">
 <code>Cet email est envoyé automatiquement. Veuillez ne pas répondre.</code>
 
 </body>
