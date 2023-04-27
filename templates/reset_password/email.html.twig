@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Réinitialisation du mot de passe</title>
+    <style>
+        h1 {
+            color: blue;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        p {
+            color: black;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+
+        a {
+            color: red;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .image {
+            display: block;
+            margin: 20px 0;
+            max-width: 200px;
+            float: left;
+        }
+
+        .closing {
+            clear: both;
+        }
+    </style>
+</head>
+<body>
+<h1>Bonjour !</h1>
+
+<p>Pour réinitialiser votre mot de passe, veuillez cliquer sur le lien suivant :</p>
+
+<a href="{{ url('app_reset_password', {token: resetToken.token}) }}">{{ url('app_reset_password', {token: resetToken.token}) }}</a>
+
+<p>Ce lien expirera dans {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.</p>
+
+<p>Cordialement !</p>
+
+<img src="https://i.pinimg.com/originals/3a/a9/d4/3aa9d4af96e37eba12979f40832a2a06.gif" alt="Image de l'entreprise" class="image">
+<code>Cet email est envoyé automatiquement. Veuillez ne pas répondre.</code>
+
+</body>
+</html>
+

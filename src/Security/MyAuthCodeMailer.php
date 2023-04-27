@@ -2,8 +2,7 @@
 
 namespace Acme\Demo\Mailer;
 
-use App\Entity\User;
-use App\Entity\Users;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Mailer\MailerInterface;
 use Scheb\TwoFactorBundle\Mailer\AuthCodeMailerInterface;
@@ -13,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Mime\Address;
 
 
-class MyAuthCodeMailer implements AuthCodeMailerInterface
+class MyAuthCodeMailer extends AbstractController  implements AuthCodeMailerInterface
 {
 
     private MailerInterface $mailer;
@@ -21,6 +20,7 @@ class MyAuthCodeMailer implements AuthCodeMailerInterface
     public function __construct(MailerInterface $mailer)
     {
         $this->mailer = $mailer;
+
     }
 
     #[Route('/mail', name: 'custom_mailer_service')]
@@ -28,18 +28,17 @@ class MyAuthCodeMailer implements AuthCodeMailerInterface
     {
         // Récupération du code d'authentification à partir de l'utilisateur
         $authCode = $user->getEmailAuthCode();
-        $choosenUser = new Users();
+        $choosenUser = $this->getUser() ;
 
         // Personnalisation de l'e-mail
         $email = (new TemplatedEmail())
             ->from(new Address('no-reply@classroom.net', 'Class ROOM'))
             ->to($user->getEmailAuthRecipient())
             ->subject('Code d\'authentification')
-            ->htmlTemplate('mails/authMail.html')
+            ->htmlTemplate('mails/authMail.html.twig')
             ->context([
                 'userNom'=> $choosenUser->getNom(),
                 'userPrenom'=> $choosenUser->getPrenom(),
-                'emploi'=> $choosenUser->getEmploi(),
                 'code'=> $authCode
             ]);
 

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Authentification</title>
+    <style type="text/css">
+        .container {
+            background-color: white;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            color: #39464e;
+            margin-top: 0;
+        }
+
+        p {
+            font-size: large;
+            color: #0f172a;
+            margin-top: 0;
+        }
+
+        .image {
+            display: block;
+            margin: 20px 0;
+            max-width: 200px;
+            float: left;
+        }
+
+        .closing {
+            clear: both;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Authentification</h1>
+    <p>Bonjour {{userPrenom}}, {{userNom}},</p>
+    <p>Pour vous connecter à votre compte, veuillez utiliser ce code:</p>
+    <p>Code d'authentification : {{code}}</p>
+    <div class="closing">
+        <p>Cordialement,</p>
+        <p>L'équipe de CLASS-ROOM</p>
+    </div>
+    <img src="https://i.pinimg.com/originals/3a/a9/d4/3aa9d4af96e37eba12979f40832a2a06.gif" alt="Image de l'entreprise" class="image">
+    <code>Cet email est envoyé automatiquement. Veuillez ne pas répondre.</code>
+</div>
+</body>
+</html>
