@@ -59,11 +59,10 @@ class AppFixtures extends Fixture
             for ($j=1 ; $j<5; $j++)
             {
                 $creneau = new Creneau();
-                $creneau->setHeureFin($this->faker->dateTime())
-                    ->setHeureDebut($this->faker->dateTime())
+                $creneau->setDateDebutCours($this->faker->dateTime())
+                    ->setDateFinCours($this->faker->dateTime())
                     ->setAppartientCours($cours [mt_rand(0,count($cours)-1)])
-                    ->setLibelleJour($this->faker->dayOfWeek)
-                    ->setNumeroSemaine($this->faker->numberBetween(1,52));
+                     ->setAllDay(false);
 
                 $date = $cour->getDateDebut();
                 $cour->setDateFin($date->modify('+' . (($i + 12) - $i) . 'months'))

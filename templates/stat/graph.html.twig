@@ -1,10 +1,37 @@
 {% extends 'base.html.twig' %}
+
+
 {% block body %}
+	<pre>
+
+</pre>
+	<div class="container">
+	<div id="content">
+		<canvas id="graphique"></canvas>
+    </div>
+
+		<form id="filters">
+
+			<table class="table table-stripped">
+				<thead>
+					<tr>
+						<th>checkbox</th>
+						<th>Cours</th>
+					</tr>
+
+					{% for cours in cours %}
+						<tr>
+							<td><input type="checkbox" name="cours[]" id="cours{{cours.id}}" value="{{ cours.id }}" class="checkbox-cours"></td>
+							<td>{{ cours.libeleecour }}</td>
+							<td>{{ cours.datedebut|date('j F Y') }}</td>
+						</tr>
+					{% endfor %}
+				</thead>
+			</tr>
+		</thead>
 
 
-<canvas id="graphique"></canvas>
+	</table>
 
+</form></div></div>{% endblock %}{% block javascripts %}<script src="https://cdn.jsdelivr.net/npm/chart.js@4.3.0/dist/chart.umd.min.js"></script><script src="{{asset ('assets/js/graph.js') }}"></script>{% endblock %}
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.2.1/chart.min.js" integrity="sha512-v3ygConQmvH0QehvQa6gSvTE2VdBZ6wkLOlmK7Mcy2mZ0ZF9saNbbk19QeaoTHdWIEiTlWmrwAL4hS8ElnGFbA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="{{asset ('assets/js/graph.js') }}"></script>
-{% endblock %}
