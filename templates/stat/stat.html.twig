@@ -1,5 +1,7 @@
 {% extends 'base.html.twig' %}
+
 {% block body %}
+<<<<<<< HEAD
 	<div class="container">
 
 
@@ -49,3 +51,42 @@
 
 	</div>
 {% endblock %}
+=======
+    <div class="container">
+        <div class="cercle">
+            {% if absents != 0 and presents !=0 %}
+                <pie-chart id="monGraphique" data="{{absents}};{{presents}}" gap="0.01" labels="Absence : {{ absents }}; Présence : {{ presents }}"></pie-chart>
+            {% else %}
+                <code>Veuillez sélectionner un cours contenant des présences</code>
+            {% endif %}
+        </div>
+
+        <div class="container">
+            <div class="mcw">
+                <div class="container">
+                    {{ form_start(form, {'attr': {'id': 'form-id'}}) }}
+                    <table class="table table-stripped">
+                        <thead>
+                            <tr>
+                                <th>Cours</th>
+                                <th>Sélection</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for cours in form.cours %}
+                                <tr class="cours-row">
+                                    <td>{{ cours.vars.label }}</td>
+                                    <td>{{ form_widget(cours) }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {{ form_widget(form.submit) }}
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+>>>>>>> SLE_Copy

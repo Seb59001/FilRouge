@@ -37,7 +37,7 @@
             </ul>
 
             <form class="navbar-form navbar-right">
-                <input type="text" class="form-control" placeholder="Rechercher...">
+                <input type="text" id="search" class="form-control" placeholder="Rechercher...">
             </form>
         </div>
     </div>
@@ -64,7 +64,7 @@
             <div class="side-menu-container">
                 <ul class="nav navbar-nav">
 
-                    <li><a href="{{ path('app_home') }}"><i class="fa fa-dashboard"></i> Tableau de bord</a></li>
+                    <li><a href="{{ path('app_stat') }}"><i class="fa fa-dashboard"></i> Tableau de bord</a></li>
                     <li class="active"><a href="#"><i class="fa fa-regular fa-user"></i> Mon profil</a></li>
                     <li><a href="{{ path('app_eleve') }}"><i class="fa fa-graduation-cap"></i> Gestion des élèves</a>
                     </li>
