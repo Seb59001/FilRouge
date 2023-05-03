@@ -6,7 +6,7 @@ use App\Entity\Cours;
 use App\Entity\Creneau;
 use App\Entity\Eleve;
 use App\Entity\Presence;
-use App\Entity\Users;
+use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
@@ -26,14 +26,13 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
-        // $product = new Product();
-        // $manager->persist($product);
         $users = [];
         $cours = [];
-        $creneau = [];
+        $creneaux = [];
         $eleves = [];
+
         for ($i = 1; $i < 20; $i++) {
-            $user = new Users();
+            $user = new User();
             $user->setNom($this->faker->name())
                 ->setPrenom($this->faker->firstName())
                 ->setSexe($this->faker->randomElement(['homme', 'femme', 'binaire']))
@@ -44,31 +43,31 @@ class AppFixtures extends Fixture
                 ->setPlainPassword('password');
 
             if ($user->getEmploi() == 'FORMATEUR') {
-                for ($i = 0; $i < 4; $i++) {
+                for ($j = 0; $j < 4; $j++) {
                     $cour = new Cours();
-                    $cour->setLibeleeCour($this->faker->randomElement(['CSS', 'JAVA', 'Boostrap', 'PHP', 'JS', 'Python', 'Framworks', 'C++', 'Algo', 'Math', 'Anglais', 'Histoire Techno']));
+                    $cour->setLibelleCour($this->faker->randomElement(['CSS', 'JAVA', 'Boostrap', 'PHP', 'JS', 'Python', 'Frameworks', 'C++', 'Algo', 'Math', 'Anglais', 'Histoire Techno']));
 
-                    $cour->setUsersCours($user)
+                    $cour->setUser($user)
                         ->setDateDebut($this->faker->dateTimeThisYear())
                         ->setDateFin($this->faker->dateTimeThisYear('+6 months'));
-                    $cours [] = $cour;
+                    $cours[] = $cour;
+                    $manager->persist($cour);
+
+                    for ($k = 0; $k < 4; $k++) {
+                        $creneau = new Creneau();
+                        $creneau->setDateDebut($this->faker->dateTime())
+                            ->setDateFin($this->faker->dateTime())
+                            ->setCours($cour)
+                            ->setAllDay(false);
+                        $creneaux[] = $creneau;
+                        $manager->persist($creneau);
+                    }
                 }
-                $manager->persist($cour);
             }
             $manager->persist($user);
         }
 
-        foreach ($cours as $index => $cour) {
-            $creneau = new Creneau();
-            $creneau->setDateDebutCours($this->faker->dateTime())
-                ->setDateFinCours($this->faker->dateTime())
-                ->setAppartientCours($cour)
-                ->setAllDay(false);
-            $cour->addCreneauCour($creneau);
-            $manager->persist($creneau);
-        }
-
-        foreach ($cours as $index => $cour) {
+        foreach ($cours as $cour) {
             for ($i = 0; $i < 16; $i++) {
                 $eleve = new Eleve();
 
@@ -78,22 +77,10 @@ class AppFixtures extends Fixture
                     ->setSexe($this->faker->randomElement(['homme', 'femme', 'binaire']))
                     ->setTelephone($this->faker->phoneNumber())
                     ->setNiveauEtude($this->faker->randomElement(['CAP', 'BAC', 'BAC+2']))
-                    ->addCour($cour);
+                    ->addCours($cour);
+                $eleves[] = $eleve;
                 $manager->persist($eleve);
 
                 $presence = new Presence();
 
-                $presence->setDatePresence($this->faker->dateTime())
-                    ->setPresent($this->faker->boolean(65))
-                    ->setDescription($this->faker->randomElement(['RAS', 'justifier', 'non justifier', 'malade', 'occasion Familiale']))
-                    ->setPresenceCours($cour)
-                    ->setPresenceEleve($eleve);
-                $manager->persist($presence);
-
-            }
-
-        }
-
-        $manager->flush();
-    }
-}
+                $presence->setDatePresence($this->faker
