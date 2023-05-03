@@ -35,7 +35,7 @@
                                     </div>
                                     <div class="col-md-10">
                                         <table class="table table-stripped">
-                                            <tbody>
+                                            <thead>
                                             <tr>
                                                 <th><input class="class-checkboxes" type="checkbox" id="select-all"
                                                            name="select-all"/></th>
@@ -43,10 +43,11 @@
                                                 <th>Date de debut</th>
                                                 <th>Date de FIn</th>
                                                 <th>Formateur</th>
-                                                <th> Modifier</th>
+                                                <th>Modifier</th>
                                                 <th>Supprimer</th>
                                             </tr>
-
+                                            </thead>
+                                            <tbody>
                                             {% for cour in courListe %}
                                             <tr>
                                                 <td><input id="check-button" class="class-checkboxes" type="checkbox"
@@ -88,4 +89,8 @@
     </div>
 
 
+{% endblock %}
+
+{% block javascripts %}
+		<script type="text/javascript" src="{{asset ('assets/js/searchCours.js') }}"></script>
 {% endblock %}
