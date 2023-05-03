@@ -31,13 +31,29 @@ class CreneauController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    #[Security("is_granted('ROLE_USER') or is_granted('ROLE_ADMIN')")]
-    #[Route('/creneau', name: 'app_creneau', methods: ['GET'])]
+    #[Security("is_granted('ROLE_USER')")]
+    #[Route('/creneau_user', name: 'app_creneau_user', methods: ['GET'])]
     public function index(CreneauRepository $repository, PaginatorInterface $paginator, Request $request): Response
     {
 
         $creneaux = $paginator->paginate(
             $repository->getCreneauxByUser($this->getUser()),
+            $request->query->getInt('page', 1),
+            10
+        );
+        return $this->render('creneau/index.html.twig', [
+            'controller_name' => 'CreneauController',
+            'creneaux' => $creneaux
+        ]);
+    }
+
+    #[Security("is_granted('ROLE_ADMIN')")]
+    #[Route('/creneau', name: 'app_creneau', methods: ['GET'])]
+    public function indexAdmin(CreneauRepository $repository, PaginatorInterface $paginator, Request $request): Response
+    {
+
+        $creneaux = $paginator->paginate(
+            $repository->findAll(),
             $request->query->getInt('page', 1),
             10
         );
