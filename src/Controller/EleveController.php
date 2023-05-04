@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\Cours;
 use App\Entity\Eleve;
-use App\Form\CourType;
 use App\Form\EleveType;
 use App\Repository\CoursRepository;
 use App\Repository\EleveRepository;
@@ -25,7 +24,7 @@ class EleveController extends AbstractController
     #[Route('/eleve_user', name: 'app_eleve_user', methods: ['GET'])]
     public function index(EleveRepository $repository, PaginatorInterface $paginator, Request $request): Response
     {
-        $eleves = $paginator->paginate( 
+        $eleves = $paginator->paginate(
             $repository->getEleveByUser($this->getUser()),
             $request->query->getInt('page', 1),
             10
@@ -52,8 +51,8 @@ class EleveController extends AbstractController
     }
 
     #[Security("is_granted('ROLE_ADMIN') ")]
-    #[Route('/eleve/nouveau',name: 'new_eleve', methods : ['GET' , 'POST'])]
-    public function new(Request $request, EntityManagerInterface $manager) : Response
+    #[Route('/eleve/nouveau', name: 'new_eleve', methods: ['GET', 'POST'])]
+    public function new(Request $request, EntityManagerInterface $manager): Response
     {
 
         $eleve = new Eleve();
@@ -65,27 +64,27 @@ class EleveController extends AbstractController
             $eleve = $form->getData();
 
             $manager->persist($eleve);
-        $manager->flush();
+            $manager->flush();
 
-        $this->addFlash(
-            'success',
-            'L élève a été inscrit avec succès ! '
-        );
+            $this->addFlash(
+                'success',
+                'L élève a été inscrit avec succès ! '
+            );
 
-        return $this->redirectToroute('app_eleve');
+            return $this->redirectToroute('app_eleve');
         }
 
         return $this->render('eleve/new.html.twig', [
-             
+
             'form' => $form->createView()
         ]);
     }
 
     #[Security("is_granted('ROLE_ADMIN')")]
     #[Route('/eleve/edition/{id}', name: 'edit_eleve', methods: ['GET', 'POST'])]
-    public function edit(Eleve $eleve, EntityManagerInterface $manager, Request $request) : Response
+    public function edit(Eleve $eleve, EntityManagerInterface $manager, Request $request): Response
     {
-        
+
         $form = $this->createForm(EleveType::class, $eleve);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -93,26 +92,27 @@ class EleveController extends AbstractController
             $eleve = $form->getData();
 
             $manager->persist($eleve);
-        $manager->flush();
+            $manager->flush();
 
-        $this->addFlash(
-            'success',
-            'L élève a été modifié avec succès ! '
-        );
+            $this->addFlash(
+                'success',
+                'L élève a été modifié avec succès ! '
+            );
 
-        return $this->redirectToroute('app_eleve');
+            return $this->redirectToroute('app_eleve');
         }
 
         return $this->render('eleve/edit.html.twig', [
             'form' => $form
         ]);
     }
+
     #[Security("is_granted('ROLE_ADMIN')")]
     #[Route('/eleve/suppression/{id}', name: 'delete_eleve', methods: ['GET', 'POST'])]
-    public function delete(EntityManagerInterface $manager, Eleve $eleve) : Response
+    public function delete(EntityManagerInterface $manager, Eleve $eleve): Response
     {
 
-        if(!$eleve) {
+        if (!$eleve) {
             $this->addFlash(
                 'success',
                 "L'élève en question n'a pas été trouvé"
@@ -145,8 +145,8 @@ class EleveController extends AbstractController
                 },
                 'placeholder' => 'Choisir un cours',
                 'label' => 'Cours',
-                'attr'=>[
-                    'class'=> 'form-control mr-2'
+                'attr' => [
+                    'class' => 'form-control mr-2'
                 ]
             ])
             ->getForm();
@@ -161,9 +161,28 @@ class EleveController extends AbstractController
         return $this->render('eleve/affect.html.twig', [
             'form' => $form->createView(),
             'eleve' => $eleve,
-            'cours'=> $eleve->getCours()
+            'cours' => $eleve->getCours()
         ]);
     }
 
+    #[Security("is_granted('ROLE_ADMIN')")]
+    #[Route('/eleve/suppression', name: 'app_remove_cour', methods: ['POST'])]
+    public function deleteCourse(Request $request, EntityManagerInterface $manager, Eleve $eleve, CoursRepository $repCour): JsonResponse
+    {
+        $idcour = $request->get('id'); // récupère les IDs des cours à supprimer depuis la requête AJAX
 
+        $cours = $repCour->findOneBy(['id' => $idcour]);
+
+        if (!$cours) {
+            throw $this->createNotFoundException('Le cours à supprimer n\'existe pas');
+        }
+        $eleve->removeCour($cours);
+        $manager->persist($eleve);
+        $manager->flush();
+
+        return new JsonResponse(['success' => true]);
+
+
+
+    }
 }
