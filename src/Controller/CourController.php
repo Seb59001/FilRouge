@@ -29,12 +29,27 @@ class CourController extends AbstractController
      * @return Response
      */
 
-    #[Security("is_granted('ROLE_USER') or is_granted('ROLE_ADMIN')")]
-    #[Route('/cour', name: 'app_cour', methods: ['GET', 'POST'])]
+    #[Security("is_granted('ROLE_USER')")]
+    #[Route('/cour_user', name: 'app_cour_user', methods: ['GET', 'POST'])]
     public function index(CoursRepository $repository, PaginatorInterface $paginator, Request $request): Response
     {
         $listeCour=$paginator->paginate(
             $repository->findBy(['user_cours'=>$this->getUser()]),
+            $request->query->getInt('page', 1),
+            10
+        );
+        return $this->render('cour/cour.html.twig', [
+            'controller_name' => 'Cours',
+            'courListe'=>$listeCour
+        ]);
+    }
+
+    #[Security("is_granted('ROLE_ADMIN')")]
+    #[Route('/cour', name: 'app_cour', methods: ['GET', 'POST'])]
+    public function Admin(CoursRepository $repository, PaginatorInterface $paginator, Request $request): Response
+    {
+        $listeCour=$paginator->paginate(
+            $repository->findAll(),
             $request->query->getInt('page', 1),
             10
         );
@@ -73,7 +88,7 @@ class CourController extends AbstractController
             return $this->redirectToRoute('app_cour');
         }
 
-        return  $this->render('cour/new.html.twig',[
+        return  $this->render('cour/add.html.twig',[
             'form'=> $form->createView()
         ]);
 
