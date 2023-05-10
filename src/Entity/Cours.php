@@ -6,42 +6,42 @@ use App\Repository\CoursRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping;
 use PHPUnit\Framework\MockObject\Stub\ReturnCallback;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[ORM\Entity(repositoryClass: CoursRepository::class)]
+#[Mapping\Entity(repositoryClass: CoursRepository::class)]
 class Cours
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
+    #[Mapping\Id]
+    #[Mapping\GeneratedValue]
+    #[Mapping\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 100)]
+    #[Mapping\Column(length: 100)]
     #[Assert\NotBlank()]
     #[Assert\Length(min: 2, max: 50)]
     private ?string $libelee_cour = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Mapping\Column(type: Types::DATE_MUTABLE)]
     #[Assert\NotNull()]
     private ?\DateTimeInterface $date_debut = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Mapping\Column(type: Types::DATE_MUTABLE)]
     #[Assert\NotNull()]
     private ?\DateTimeInterface $date_fin = null;
 
-    #[ORM\OneToMany(mappedBy: 'presence_cours', targetEntity: Presence::class)]
+    #[Mapping\OneToMany(mappedBy: 'presence_cours', targetEntity: Presence::class)]
     private Collection $presence_cours;
 
-    #[ORM\OneToMany(mappedBy: 'appartient_cours', targetEntity: Creneau::class)]
+    #[Mapping\OneToMany(mappedBy: 'appartient_cours', targetEntity: Creneau::class)]
     private Collection $creneau_cours;
 
-    #[ORM\ManyToOne(inversedBy: 'cours')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[Mapping\ManyToOne(inversedBy: 'cours')]
+    #[Mapping\JoinColumn(nullable: false)]
     private ?Users $user_cours = null;
 
-    #[ORM\ManyToMany(targetEntity: Eleve::class, inversedBy: 'cours')]
+    #[Mapping\ManyToMany(targetEntity: Eleve::class, inversedBy: 'cours')]
     private Collection $eleve_inscrit;
 
     public function __construct()

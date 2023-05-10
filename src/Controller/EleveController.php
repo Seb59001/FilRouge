@@ -13,6 +13,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -21,34 +22,43 @@ class EleveController extends AbstractController
 {
 
     #[Security("is_granted('ROLE_USER')")]
-    #[Route('/eleve_user', name: 'app_eleve_user', methods: ['GET'])]
+    #[Route('/eleve_user', name: 'app_eleve', methods: ['GET'])]
     public function index(EleveRepository $repository, PaginatorInterface $paginator, Request $request): Response
     {
-        $eleves = $paginator->paginate(
-            $repository->getEleveByUser($this->getUser()),
-            $request->query->getInt('page', 1),
-            10
-        );
+
+        if($this->getUser()->getRoles() !==['ROLE_ADMIN', 'ROLE_USER' ])
+        {
+            $eleves = $paginator->paginate(
+                $repository->getEleveByUser($this->getUser()),
+                $request->query->getInt('page', 1),
+                10
+            );
+
+        }
+        elseif ($this->getUser()->getRoles() === ['ROLE_ADMIN', 'ROLE_USER' ])
+        {
+            $eleves = $paginator->paginate(
+                $repository->findAll(),
+                $request->query->getInt('page', 1),
+                10
+            );
+            $page= $request->query->getInt('page');
+
+        }
+
         return $this->render('eleve/index.html.twig', [
             'controller_name' => 'EleveController',
-            'eleves' => $eleves
+            'eleves' => $eleves,
+            'page'=>$page
         ]);
     }
 
-    #[Security("is_granted('ROLE_ADMIN')")]
-    #[Route('/eleve', name: 'app_eleve', methods: ['GET'])]
-    public function indexAll(EleveRepository $repository, PaginatorInterface $paginator, Request $request): Response
-    {
-        $eleves = $paginator->paginate(
-            $repository->findAll(),
-            $request->query->getInt('page', 1),
-            10
-        );
-        return $this->render('eleve/index.html.twig', [
-            'controller_name' => 'EleveController',
-            'eleves' => $eleves
-        ]);
-    }
+//    #[Security("is_granted('ROLE_ADMIN')")]
+//    #[Route('/eleve', name: 'app_eleve', methods: ['GET'])]
+//    public function indexAll(EleveRepository $repository, PaginatorInterface $paginator, Request $request): Response
+//    {
+//
+//    }
 
     #[Security("is_granted('ROLE_ADMIN') ")]
     #[Route('/eleve/nouveau', name: 'new_eleve', methods: ['GET', 'POST'])]
@@ -132,10 +142,45 @@ class EleveController extends AbstractController
 
     }
 
+    // #[Security("is_granted('ROLE_ADMIN')")]
+    // #[Route('/eleve/affectation/{id}', name: 'app_eleve_affect', methods: ['GET', 'POST'])]
+    // public function affect(Eleve $eleve, EntityManagerInterface $manager, Request $request, CoursRepository $courRep): Response
+    // {
+    //     $cours = $courRep->findAll();
+    //     $form = $this->createFormBuilder()
+    //         ->add('cours', EntityType::class, [
+    //             'class' => Cours::class,
+    //             'choice_label' => function ($cours) {
+    //                 return $cours->getLibeleeCour() . ' - ' . $cours->getUsersCours()->getNom();
+    //             },
+    //             'placeholder' => 'Choisir un cours',
+    //             'label' => 'Cours',
+    //             'attr' => [
+    //                 'class' => 'form-control mr-2'
+    //             ]
+    //         ])
+    //         ->getForm();
+    //     $form->handleRequest($request);
+    //     if ($form->isSubmitted() && $form->isValid()) {
+    //         $cours = $form->get('cours')->getData();
+    //         $eleve->addCour($cours);
+    //         $manager->flush();
+    //         $this->addFlash('success', 'Cours affecté avec succès');
+    //         return $this->redirectToRoute('app_eleve');
+    //     }
+    //     return $this->render('eleve/affect.html.twig', [
+    //         'form' => $form->createView(),
+    //         'eleve' => $eleve,
+    //         'cours' => $eleve->getCours()
+    //     ]);
+    // }
+
     #[Security("is_granted('ROLE_ADMIN')")]
-    #[Route('/eleve/affectation/{id}', name: 'app_eleve_affect', methods: ['GET', 'POST'])]
-    public function affect(Eleve $eleve, EntityManagerInterface $manager, Request $request, CoursRepository $courRep): Response
+    #[Route('/eleve/affectation/{ids}', name: 'app_eleve_affect', methods: ['GET', 'POST'])]
+    public function affect(string $ids, EleveRepository $eleveRepository, PaginatorInterface $paginator, EntityManagerInterface $manager, Request $request, CoursRepository $courRep): Response
     {
+        $idsArray = explode(',', $ids);
+        $eleves = $eleveRepository->findById($idsArray);
         $cours = $courRep->findAll();
         $form = $this->createFormBuilder()
             ->add('cours', EntityType::class, [
@@ -153,29 +198,43 @@ class EleveController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $cours = $form->get('cours')->getData();
-            $eleve->addCour($cours);
+            foreach ($eleves as $key => $eleve) {
+                $eleve->addCour($cours);
+                $manager->persist($eleve);
+            }
+           
             $manager->flush();
             $this->addFlash('success', 'Cours affecté avec succès');
             return $this->redirectToRoute('app_eleve');
         }
         return $this->render('eleve/affect.html.twig', [
             'form' => $form->createView(),
-            'eleve' => $eleve,
-            'cours' => $eleve->getCours()
-        ]);
+            'eleves' => $eleves,
+            'cours' => $cours ]);
     }
 
-    #[Security("is_granted('ROLE_ADMIN')")]
-    #[Route('/eleve/suppression', name: 'app_remove_cour', methods: ['POST'])]
-    public function deleteCourse(Request $request, EntityManagerInterface $manager, Eleve $eleve, CoursRepository $repCour): JsonResponse
-    {
-        $idcour = $request->get('id'); // récupère les IDs des cours à supprimer depuis la requête AJAX
 
+    #[Security("is_granted('ROLE_ADMIN')")]
+    #[Route('/eleve/suppression', name: 'app_eleve_deletecourse')]
+    public function deleteCourse(Request $request, EntityManagerInterface $manager, EleveRepository $eleveRepository, CoursRepository $repCour): JsonResponse
+    {
+        $idcours[] = $request->get('ids'); // récupère les IDs des cours à supprimer depuis la requête AJAX
+        $ideleve = $request->get('eleve_id');
+        $eleve = $eleveRepository->findOneBy(['id'=>$ideleve]);
+        foreach ($idcours as $idcour) {
+            $cours = $repCour->findOneBy(['id' => $idcour]);
+            if (!$cours) {
+                throw $this->createNotFoundException('Le cours à supprimer n\'existe pas');
+            }
+            $eleve->removeCour($cours);
+        }
         $cours = $repCour->findOneBy(['id' => $idcour]);
+        
 
         if (!$cours) {
             throw $this->createNotFoundException('Le cours à supprimer n\'existe pas');
         }
+
         $eleve->removeCour($cours);
         $manager->persist($eleve);
         $manager->flush();
