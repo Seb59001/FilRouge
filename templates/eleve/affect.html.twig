@@ -1,108 +1,126 @@
 {% extends "base.html.twig" %}
 {% block title %}Affecter{% endblock %}
 {% block body %}
-    <div class="container">
-        <div class="mcw">
-            <table class="table table-borderless">
+	<div class="container">
+		<div class="mcw">
+			<table class="table table-borderless">
+				<tbody>
+					<tr>
+						<td>
+							<div class="row" style="width: 200%">
+								<div class="col-md-6">
+									<table class="table">
+										<thead>
+											<tr>
+												<th>nom</th>
+												<th>prénom</th>
+												<th>Cours inscrits<code>=></code>Date de fin</th>
+												<th>Formateur</th>
+												<th>Action</th>
+											</tr>
+										</thead>
+										<tbody>
 
-                <tbody>
-                <tr>
-                    <td>
-                        <div class="row" style="width: 200%">
-                            <div class="col-md-6">
-                                <table class="table">
-                                    <thead>
-                                    <tr>
+											{% for eleve in eleves %}
+												<tr value="{{ eleve.id }}" >
+													<td>{{ eleve.nom }}</td>
+													<td>{{ eleve.prenom }}</td>
+													<td >
+														<ul>
+															{% for cour in eleve.cours %}
+																<ol>
+																	<input id="check-cours" class="eleve-checkboxes" type="checkbox" name="idCour" value="{{ cour.id }}"/>
+																	{{ cour.libeleeCour }}<code>=></code>Date de fin:
+																	{{ cour.dateFin|date('d/m/y') }}
+																</ol>
+															{% endfor %}
+														</ul>
+													</td>
+													<td>
+														<ul>
+															{% for cour in eleve.cours %}
+																<li>
+																	{{ cour.usersCours.nom }}
+																</li>
+															{% endfor %}
+														</ul>
+													</td>
+													<td>
+														<a href="">
+															<i class="glyphicon glyphicon-trash" style="color: red"></i>
+														</a>
+													</td>
+												</tr>
 
-                                        <th> nom</th>
-                                        <th> prénom</th>
-                                        <th> Cours inscrits <code> => </code> Date de fin</th>
-                                        <th> Formateur</th>
-                                        <th> Action</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                        <td>{{ eleve.nom }}</td>
-                                        <td>{{ eleve.prenom }}</td>
-                                        <td>
-
-                                            <ul>
-                                                {% for cour in cours %}
-                                                    <ol>
-                                                        <input id="check-button" class="class-checkboxes"
-                                                               type="checkbox"
-                                                               name="id" value="{{ cour.id }}"/>
-                                                        {{ cour.libeleeCour }} <code>=></code> Date de fin
-                                                        : {{ cour.dateFin|date('d/m/y') }}
-                                                    </ol>
-                                                {% endfor %}
-                                            </ul>
-                                        </td>
-                                        <td>
-                                            <ul>
-                                                {% for cour in cours %}
-                                                    <li>
-                                                        {{ cour.usersCours.nom }}
-                                                    </li>
-                                                {% endfor %}
-
-                                            </ul>
-
-                                        </td>
-                                        <td>
-                                            <a href=""><i class="glyphicon glyphicon-trash" style="color: red"></i></a>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-            {{ form_start(form) }}
-
-            <div class="form-group mt-md-2">
-                {{ form_row(form.cours, {'attr': {'class': 'form-control mr-2'}}) }}
-            </div>
-
-            <div class="btn-group mt-md-2">
-                <button type="submit" class="btn btn-primary">valider</button>
-                <button type="button" class="btn btn-light"><a href="{{ path('app_eleve') }}">Annuler</a></button>
-            </div>
-
-            {{ form_end(form) }}
+											{% endfor %}
 
 
-        </div>
-    </div>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			{{ form_start(form) }}
+
+			<div class="form-group mt-md-2">
+				{{ form_row(form.cours, {'attr': {'class': 'form-control mr-2'}}) }}
+			</div>
+
+			<div class="btn-group mt-md-2">
+				<button type="submit" class="btn btn-primary">valider</button>
+				<button type="button" class="btn btn-light">
+					<a href="{{ path('app_eleve') }}">Annuler</a>
+				</button>
+			</div>
+
+			{{ form_end(form) }}
+
+
+		</div>
+        
+	</div>
 
 {% endblock %}
 
 {% block javascripts %}
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            // fonction appelée lorsque l'utilisateur clique sur l'icône de suppression
-            $('.glyphicon-trash').on('click', function () {
-                var id = $(this).closest('tr').find('.class-checkboxes:checked').val(); // récupère l'ID du cours associé
-                console.log(id);
-                if (confirm('Êtes-vous sûr de vouloir supprimer ce cours ?')) {
-                    $.ajax({
-                        url: '{{ path('app_remove_cour') }}', // URL de la route Symfony pour supprimer le cours
-                        type: 'POST',
-                        data: {id: id},
-                        success: function (response) {
-                            alert('Le cours a été supprimé avec succès !'+response);
-                        },
-                        error: function () {
-                            alert("Une erreur s'est produite lors de la suppression du cours.");
-                            console.log(response)
-                        }
-                    });
-                }})
-            });
-    </script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="{{ asset('assets/js/app.js') }}"></script>
+<script>
+
+    $(document).ready(function () 
+        {
+        // fonction appelée lorsque l'utilisateur clique sur l'icône de suppression
+         $('.glyphicon-trash').on('click', function () {
+            var idEleve = $(this).closest('tr').attr('value'); // récupère l'ID du cours associé
+            console.log(idEleve);
+            var idCoursArray = []; // tableau pour stocker les IDs des cours sélectionnés
+           $(this).closest('tr').find('.eleve-checkboxes:checked').each(function() {
+                idCoursArray.push($(this).val()); // ajoute l'ID du cours sélectionné au tableau
+                });
+                console.log(idCoursArray);
+                var obj = $(this); // Stocker l'objet supprimé dans une variable
+            if (confirm('Êtes-vous sûr de vouloir supprimer ce cours ?')) {   
+                $.ajax({
+                    url: '/eleve/suppression', // URL de la route Symfony pour supprimer le cours
+                    type: 'POST',
+                    data: {
+                        ids: idCoursArray,
+                        eleve_id: idEleve
+                    },
+                    success: function (response) {
+                        alert('Le cours a été supprimé avec succès !');
+                        console.log(response)
+                    },
+                    error: function () {
+                       alert("Une erreur s'est produite lors de la suppression du cours.");
+                       console.log(response)
+                    }
+                });
+            }
+        })
+    });
+</script>
 {% endblock %}
