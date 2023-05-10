@@ -2,12 +2,17 @@
 
 {% block title %}Creneaux{% endblock %}
 
+{% block stylesheets %}
+
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
+{% endblock %}
+
 {% block body %}
 	<div class="container">
 		<div class="mcw">
 			<h1>Les créneaux de cours</h1>
 
-			<a href="{{ path('new_creneau') }}" id="abtn" class="btn btn-primary">Insérer un nouveau créneau</a>
+			<a href="{{ path('new_creneau') }}" id="abtn" class="btn btn-primary mb-4">Insérer un nouveau créneau</a>
 
 			{% for message in app.flashes('success') %}
 				<div class="alert alert-success mt-4">{{ message }}</div>
@@ -18,10 +23,9 @@
 			{% endfor %}
 
 			<div id="creneaux">
-				<table class="table table-hover mt-4">
+				<table id="myTable"class="table table-hover mt-4">
 					<thead>
 						<tr>
-							<th scope="col">ID</th>
 							<th scope="col">Jour</th>
 							<th scope="col">Heure de début du cours</th>
 							<th scope="col">Heure de fin du cours</th>
@@ -31,10 +35,9 @@
 						</tr>
 					</thead>
 					<tbody id="creneaux-container" data-index="0">
-						{% for creneau in creneaux[:20] %}
+						{% for creneau in creneaux%}
 							<tr class="table-light mt-4">
-								<th scope="row">{{ creneau.id }}</th>
-								<td>{{ creneau.datedebutcours|date('l j F')}}</td>
+								<td>{{ creneau.datedebutcours|format_date(locale='fr',pattern="EEEE dd MMMM YYYY")}}
 								<td>{{ creneau.datedebutcours|date('H:i:s') }}</td>
 								<td>{{ creneau.datefincours|date('H:i:s') }}</td>
 								{% if creneau.appartientcours is not null %}
@@ -54,60 +57,30 @@
 				</table>
 			</div>
 
-			{% if creneaux|length > 20 %}
-				<button id="load-more" class="btn btn-primary mt-4">Load More</button>
-			{% endif %}
-
 		</div>
 	</div>
 
+
+
 {% endblock %}
 
-{% block javascripts %}
-	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-	<script type="text/javascript" src="{{asset ('assets/js/searchCreneau.js') }}"></script>
-<script>
-	$(document).ready(function() {
-    // Événement "click" sur le bouton "load-more"
-    $('#load-more').on('click', function() {
-        var $container = $('#creneaux-container');
-        var index = parseInt($container.attr('data-index'));
-        var nextIndex = index + 20;
-        $container.attr('data-index', nextIndex);
-
-        // Vérifie si les créneaux ont déjà été générés
-        if (nextIndex <= {{ creneaux|length }}) {
-            // Ajout des créneaux suivants
-            {% for creneau in creneaux[20:] %}
-                var rowHtml = '<tr class="table-light mt-4">' +
-                    '<th scope="row">{{ creneau.id }}</th>' +
-                    '<td>{{ creneau.datedebutcours|date('l j F') }}</td>' +
-                    '<td>{{ creneau.datedebutcours|date('H:i:s') }}</td>' +
-                    '<td>{{ creneau.datefincours|date('H:i:s') }}</td>';
-
-                {% if creneau.appartientcours is not null %}
-                    rowHtml += '<td>{{ creneau.appartientcours.libeleecour }}</td>';
-                {% else %}
-                    rowHtml += '<td>Cours non attribué</td>';
-                {% endif %}
-
-                rowHtml += '<td>' +
-                    '<a href="{{ path('edit_creneau', {id: creneau.id}) }}" class="btn btn-warning">Modifier</a>' +
-                    '</td>' +
-                    '<td>' +
-                    '<a href="{{ path('delete_creneau', {id: creneau.id}) }}" class="btn btn-danger">Supprimer</a>' +
-                    '</td>' +
-                    '</tr>';
-                $container.append(rowHtml);
-            {% endfor %}
-
-            // Masquage du bouton "load-more" si tous les créneaux ont été chargés
-            if (nextIndex >= {{ creneaux|length }}) {
-                $('#load-more').hide();
-            }
-        }
-    });
+{% block javascripts
+ %}
+ <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+ <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+ <script rel="stylesheet" type="text/javascript" src="{{asset ('assets/js/script.js') }}"></script>
+ 
+ 	<script>
+var table = new DataTable('#myTable', {
+	"sDom": '<"top"f>rt<"bottom"pli>',
+    language: {
+        url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/fr-FR.json',
+		search: '', searchPlaceholder: "Rechercher..",
+    },
+	
 });
 </script>
+ {% endblock %}
 
-{% endblock %}
+
