@@ -34,7 +34,7 @@
                                            type="button">Ajouter</a>
                                     </div>
                                     <div class="col-md-10">
-                                        <table class="table table-stripped">
+                                        <table id="myTable" class="table table-stripped">
                                             <thead>
                                             <tr>
                                                 <th><input class="class-checkboxes" type="checkbox" id="select-all"
@@ -53,8 +53,8 @@
                                                 <td><input id="check-button" class="class-checkboxes" type="checkbox"
                                                            name="id" value="{{ cour.id }}"/></td>
                                                 <td id="gh"> {{ cour.libeleeCour }}</td>
-                                                <td> {{ cour.dateDebut|date('j F/ Y') }}</td>
-                                                <td> {{ cour.dateFin|date('j F/ Y') }}</td>
+                                                <td> {{ cour.dateDebut|format_date(locale='fr',pattern="dd MMMM YYYY")}}</td>
+                                                <td> {{ cour.dateFin|format_date(locale='fr',pattern="dd MMMM YYYY")}} </td>
                                                 {% if cour.usersCours is not null %}
                                                     <td>{{ cour.usersCours.nom }}, {{ cour.usersCours.prenom }} </td>
                                                 {% else %}
@@ -91,6 +91,21 @@
 
 {% endblock %}
 
-{% block javascripts %}
-		<script type="text/javascript" src="{{asset ('assets/js/searchCours.js') }}"></script>
-{% endblock %}
+{% block javascripts
+ %}
+ <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+ <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+ <script rel="stylesheet" type="text/javascript" src="{{asset ('assets/js/script.js') }}"></script>
+ 
+ 	<script>
+var table = new DataTable('#myTable', {
+	"sDom": '<"top"f>rt<"bottom"pli>',
+    language: {
+        url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/fr-FR.json',
+		search: '', searchPlaceholder: "Rechercher..",
+    },
+	
+});
+</script>
+ {% endblock %}
