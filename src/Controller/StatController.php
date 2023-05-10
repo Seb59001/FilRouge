@@ -63,7 +63,7 @@ class StatController extends AbstractController
 
 
         // Affichage de la vue 'stat.html.twig' avec les variables nécessaires
-        return $this->render('stat/.html.twig', [
+        return $this->render('stat/graph.html.twig', [
 
             'presents' => $present,
             'absents' => $absent,

@@ -3,8 +3,6 @@ $(document).ready(function() {
     // Lorsque la case à cocher "Tout sélectionner" est cochée
     $('#select-all').change(function (e) { 
         e.preventDefault();
-        
-    });(function() {
         // Si elle est cochée
         if ($(this).is(':checked')) {
             // Cocher toutes les cases à cocher des élèves
@@ -29,7 +27,7 @@ $(document).ready(function() {
     });
 
     $('#affect-btn').click(function(){
-        if(selectedIds.length == 0) {
+        if(selectedIds.length === 0) {
             alert("Veuillez sélectionner au moins un élève avant de continuer.");
         } else {
           // Mettre à jour le lien du bouton "Inscription cour" avec les IDs des élèves sélectionnés
