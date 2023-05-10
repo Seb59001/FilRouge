@@ -66,8 +66,13 @@
 
                     <li><a href="{{ path('app_stat') }}"><i class="fa fa-dashboard"></i> Tableau de bord</a></li>
                     <li class="active"><a href="#"><i class="fa fa-regular fa-user"></i> Mon profil</a></li>
+                    {% if app.user.roles == 'ROLE_ADMIN' %}
                     <li><a href="{{ path('app_eleve') }}"><i class="fa fa-graduation-cap"></i> Gestion des élèves</a>
                     </li>
+                    {% else %}
+                    <li><a href="{{ path('app_eleve_user') }}"><i class="fa fa-graduation-cap"></i> Gestion des élèves</a>
+                    </li>
+                    {% endif %}
                     {% if app.user.roles == 'ROLE_ADMIN' or app.user.emploi == 'SECRETAIRE' %}
                         <li><a href="{{ path('admin') }}"><i class="fa fa-lock" aria-hidden="true"></i>Administrateur</a></li>
                         <li><a href="{{ path('app_users') }}"><i class="fa fa-solid fa-users"></i> Gestion des
@@ -94,8 +99,13 @@
                                         <div id="dropdown-lvl2" class="panel-collapse collapse">
                                             <div class="panel-body">
                                                 <ul class="nav navbar-nav">
+                                                    {% if app.user.roles == 'ROLE_ADMIN' %}
                                                     <li><a href="{{ path('app_cour') }}">Gestion Cours</a></li>
                                                     <li><a href="{{ path('app_creneau') }}">Gestion Creneaux</a></li>
+                                                    {% else %}
+                                                    <li><a href="{{ path('app_cour_user') }}">Gestion Cours</a></li>
+                                                    <li><a href="{{ path('app_creneau_user') }}">Gestion Creneaux</a></li>
+                                                    {% endif %}
                                                 </ul>
 
                                             </div>

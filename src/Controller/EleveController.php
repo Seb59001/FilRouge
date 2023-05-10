@@ -2,13 +2,18 @@
 
 namespace App\Controller;
 
+use App\Entity\Cours;
 use App\Entity\Eleve;
+use App\Form\CourType;
 use App\Form\EleveType;
+use App\Repository\CoursRepository;
 use App\Repository\EleveRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -17,11 +22,26 @@ class EleveController extends AbstractController
 {
 
     #[Security("is_granted('ROLE_USER')")]
-    #[Route('/eleve', name: 'app_eleve', methods: ['GET'])]
+    #[Route('/eleve_user', name: 'app_eleve_user', methods: ['GET'])]
     public function index(EleveRepository $repository, PaginatorInterface $paginator, Request $request): Response
     {
         $eleves = $paginator->paginate( 
             $repository->getEleveByUser($this->getUser()),
+            $request->query->getInt('page', 1),
+            10
+        );
+        return $this->render('eleve/index.html.twig', [
+            'controller_name' => 'EleveController',
+            'eleves' => $eleves
+        ]);
+    }
+
+    #[Security("is_granted('ROLE_ADMIN')")]
+    #[Route('/eleve', name: 'app_eleve', methods: ['GET'])]
+    public function indexAll(EleveRepository $repository, PaginatorInterface $paginator, Request $request): Response
+    {
+        $eleves = $paginator->paginate(
+            $repository->findAll(),
             $request->query->getInt('page', 1),
             10
         );
@@ -110,6 +130,40 @@ class EleveController extends AbstractController
 
         return $this->redirectToroute('app_eleve');
 
-        
     }
+
+    #[Security("is_granted('ROLE_ADMIN')")]
+    #[Route('/eleve/affectation/{id}', name: 'app_eleve_affect', methods: ['GET', 'POST'])]
+    public function affect(Eleve $eleve, EntityManagerInterface $manager, Request $request, CoursRepository $courRep): Response
+    {
+        $cours = $courRep->findAll();
+        $form = $this->createFormBuilder()
+            ->add('cours', EntityType::class, [
+                'class' => Cours::class,
+                'choice_label' => function ($cours) {
+                    return $cours->getLibeleeCour() . ' - ' . $cours->getUsersCours()->getNom();
+                },
+                'placeholder' => 'Choisir un cours',
+                'label' => 'Cours',
+                'attr'=>[
+                    'class'=> 'form-control mr-2'
+                ]
+            ])
+            ->getForm();
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $cours = $form->get('cours')->getData();
+            $eleve->addCour($cours);
+            $manager->flush();
+            $this->addFlash('success', 'Cours affecté avec succès');
+            return $this->redirectToRoute('app_eleve');
+        }
+        return $this->render('eleve/affect.html.twig', [
+            'form' => $form->createView(),
+            'eleve' => $eleve,
+            'cours'=> $eleve->getCours()
+        ]);
+    }
+
+
 }

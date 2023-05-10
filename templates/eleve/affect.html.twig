@@ -1,0 +1,58 @@
+{% extends "base.html.twig" %}
+{% block title %}Affecter{% endblock %}
+{% block body %}
+    <div class="container">
+        <div class="mcw">
+            <table class="table table-borderless">
+
+                <tbody>
+                <tr>
+                    <td>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th> nom</th>
+                                        <th> prénom</th>
+                                        <th> Cours inscrits</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>{{ eleve.nom }}</td>
+                                        <td>{{ eleve.prenom }}</td>
+                                        <td>
+                                            <ul>
+                                                {% for cour in cours %}
+                                                    <li>{{ cour.libeleeCour }} <code>=></code> Date de fin
+                                                        : {{ cour.dateFin|date('d/m/y') }}</li>
+                                                {% endfor %}
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            {{ form_start(form) }}
+
+            <div class="form-group mt-md-2">
+                {{ form_row(form.cours, {'attr': {'class': 'form-control mr-2'}}) }}
+            </div>
+
+            <div class="btn-group mt-md-2">
+                <button type="submit" class="btn btn-primary">valider</button>
+                <button type="button" class="btn btn-light"><a href="{{ path('app_eleve') }}">Annuler</a></button>
+            </div>
+
+            {{ form_end(form) }}
+
+
+        </div>
+    </div>
+{% endblock %}

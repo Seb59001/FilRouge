@@ -27,12 +27,20 @@
             </div>
 
             <div class="form-group">
-                {{ form_label(form.usersCours)}}
-                <code><i style="color: #39464e">Formateur :</i> {{ app.user.nom }} <i style="color: #39464e">(par défaut)</i> </code>
-                {{ form_widget(form.usersCours) }}
+                {% if app.user.roles == 'USER_ROLE' %}
+
+                    {{ form_label(form.usersCours) }}
+                    <code><i style="color: #39464e">Formateur :</i> {{ app.user.nom }} <i style="color: #39464e">(par
+                            défaut)</i> </code>
+                {% elseif app.user.roles == 'ADMIN_ROLE' %}
+
+                    {{ form_label(form.usersCours) }}
+                    {{ form_widget(form.usersCours) }}
+                {% endif %}
                 <div class="form-error">
                     {{ form_errors(form.usersCours) }}
                 </div>
+
             </div>
 
             <div class="form-group">
